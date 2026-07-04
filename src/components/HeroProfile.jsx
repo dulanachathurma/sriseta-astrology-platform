@@ -31,19 +31,20 @@ function ZodiacRing() {
 
 export default function HeroProfile() {
   return (
-    <section id="home" className="relative pt-36 md:pt-44 pb-24 px-5 overflow-hidden">
+    // pt-20 ලෙස වෙනස් කර ඇත (mobile responsive), touch-pan-y මගින් scroll වේගය වැඩි වේ
+    <section id="home" className="relative pt-20 md:pt-44 pb-10 px-4 overflow-hidden touch-pan-y">
       <div className="absolute inset-0 bg-radial-fade pointer-events-none" />
       <div className="max-w-5xl mx-auto relative">
         <motion.header
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9 }}
-          className="text-center mb-14"
+          className="text-center mb-8"
         >
-          <h1 className="font-sinhala text-3xl sm:text-4xl md:text-5xl font-bold text-[#FACC15] tracking-wide leading-tight md:leading-relaxed">
+          <h1 className="font-sinhala text-3xl sm:text-4xl md:text-5xl font-bold text-[#FACC15] tracking-wide">
             {SITE.titleSi}
           </h1>
-          <p className="font-sinhala text-white text-lg md:text-xl mt-4">
+          <p className="font-sinhala text-white text-lg mt-2">
             {SITE.subtitleSi}
           </p>
         </motion.header>
@@ -53,7 +54,7 @@ export default function HeroProfile() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9 }}
-            className="relative w-[280px] h-[280px] mb-12 flex items-center justify-center"
+            className="relative w-[280px] h-[280px] mb-8 flex items-center justify-center"
           >
             <ZodiacRing />
             <div className="relative w-[240px] h-[240px] rounded-full p-[6px] bg-gradient-to-br from-[#FACC15] via-[#C1793B] to-deep shadow-gold-lg animate-float">
@@ -61,7 +62,7 @@ export default function HeroProfile() {
                 <img
                   src={astrologer.photo}
                   alt={astrologer.nameMain}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
@@ -71,46 +72,37 @@ export default function HeroProfile() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="bg-white/10 backdrop-blur-md border border-white/20 rounded-[2rem] px-8 py-10 md:px-14 md:py-12 max-w-lg w-full text-center shadow-2xl mt-20"
+            className="bg-white/10 backdrop-blur-md border border-white/20 rounded-[2rem] px-6 py-8 w-full max-w-sm text-center shadow-2xl"
           >
-            {/* කාඩ්පත තුළ රූපය එකතු කිරීම */}
+            {/* රූපය නිවැරදිව public ෆෝල්ඩරයෙන් ලබා ගනී */}
             <div className="flex justify-center mb-6">
               <div className="w-24 h-24 rounded-full border-2 border-[#FACC15]/50 overflow-hidden shadow-lg">
-             <img 
-  src="/your-image-name.jpg" // රූපය public ෆෝල්ඩරයේ තිබේ නම් මේ ආකාරයට දමන්න
-  alt="Profile" 
-  className="w-full h-full object-cover" 
-/>
+                <img 
+                  src="/shriyani.jpg" 
+                  alt="Profile" 
+                  className="w-full h-full object-cover" 
+                />
               </div>
             </div>
 
-            <h2 className="font-sinhala text-2xl md:text-3xl text-[#FACC15] font-bold">
+            <h2 className="font-sinhala text-2xl text-[#FACC15] font-bold">
               {astrologer.nameTitle}
             </h2>
-            <h3 className="font-sinhala text-xl md:text-2xl text-white font-semibold mt-1">
+            <h3 className="font-sinhala text-xl text-white font-semibold mt-1">
               {astrologer.nameMain}
             </h3>
 
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="font-sinhala mt-6 inline-flex items-center gap-2 px-7 py-4 rounded-2xl bg-gradient-to-r from-[#FACC15]/20 via-[#FACC15]/30 to-[#FACC15]/20 border border-[#FACC15]/50 shadow-[0_0_20px_rgba(250,204,21,0.3)] cursor-pointer"
-            >
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Award className="w-6 h-6 text-[#FACC15]" />
-              </motion.div>
-              <span className="font-bold text-black text-xl tracking-wide">{astrologer.experience}</span>
-            </motion.div>
+            <div className="font-sinhala mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#FACC15]/20 border border-[#FACC15]/50 cursor-pointer">
+              <Award className="w-5 h-5 text-[#FACC15]" />
+              <span className="font-bold text-white text-lg">{astrologer.experience}</span>
+            </div>
 
             <div className="mt-6 space-y-3">
-              <p className="font-sinhala flex items-center justify-center gap-3 px-5 py-3 rounded-2xl bg-black/40 border border-white/10 text-white hover:bg-black/60 transition-colors">
-                <MapPin className="w-5 h-5 text-[#FACC15]" /> {astrologer.addresses[0]}
+              <p className="font-sinhala flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white text-sm">
+                <MapPin className="w-4 h-4 text-[#FACC15]" /> {astrologer.addresses[0]}
               </p>
-              <p className="font-sinhala flex items-center justify-center gap-3 px-5 py-3 rounded-2xl bg-black/40 border border-white/10 text-white hover:bg-black/60 transition-colors">
-                <HomeIcon className="w-5 h-5 text-[#FACC15]" /> {astrologer.addresses[1]}
+              <p className="font-sinhala flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white text-sm">
+                <HomeIcon className="w-4 h-4 text-[#FACC15]" /> {astrologer.addresses[1]}
               </p>
             </div>
           </motion.div>
