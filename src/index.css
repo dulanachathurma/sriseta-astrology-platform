@@ -7,11 +7,6 @@
 }
 
 /* මූලික සැකසුම් */
-html {
-
-  scroll-padding-top: 80px; /* Header එකට යට නොවීමට */
-  height: 100%;
-}
 
 body, #root {
   min-height: 100vh;
