@@ -2,16 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 1. ස්ථාවර Background සඳහා වෙනම Layer එකක් */
-/* අලුත් Fixed Layer එක - ස්ක්‍රෝල් එක සුමට කිරීමට */
-.bg-fixed-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+:root {
+  color-scheme: dark;
+}
+
+/* මූලික සැකසුම් */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Header එකට යට නොවීමට */
   height: 100%;
-  z-index: -1;
-  background-color: #000;
+}
+
+body, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scrollbar පාලනය */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #10123b;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#d4af37, #10123b);
+  border-radius: 5px;
+}
+
+/* Mobile වලදී Scrollbar සැඟවීමට */
+@media (max-width: 1024px) {
+  html {
+    scrollbar-width: none; /* Firefox */
+  }
+  body {
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+/* Star Background - ඔබගේ පවතින රටාවම භාවිතා කරන්න */
+.bg-stars {
   background-image: 
     radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,0.5), transparent),
     radial-gradient(1.5px 1.5px at 70% 60%, rgba(255,255,255,0.4), transparent),
@@ -20,50 +55,46 @@
     radial-gradient(1px 1px at 10% 70%, rgba(255,255,255,0.3), transparent),
     linear-gradient(rgba(10, 11, 30, 0.3), rgba(10, 11, 30, 0.3)), 
     url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=85');
+  background-repeat: repeat, repeat, repeat, repeat, repeat, no-repeat, no-repeat;
   background-size: 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, auto, cover;
   background-position: center;
-  transform: translateZ(0); /* GPU Acceleration */
+  background-attachment: fixed;
 }
 
-/* 2. මූලික සැකසුම් */
-html {
-  scroll-behavior: smooth;
-  height: 100%;
-  -webkit-overflow-scrolling: touch;
+/* Sections */
+section {
+  scroll-margin-top: 80px;
+  min-height: 80vh;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #000;
-  overflow-x: hidden;
+/* Text Container */
+.text-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 20px;
 }
 
-/* 3. සෙසු classes */
+@media only screen and (max-width: 600px) {
+  .text-container h1, .text-container p {
+    font-size: 1.2rem;
+    word-wrap: break-word;
+  }
+}
+
+/* අනෙකුත් utilities */
 .glass-card {
-  background: rgba(16, 18, 59, 0.7);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(16, 18, 59, 0.85) 0%, rgba(26, 30, 80, 0.75) 100%);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(212, 175, 55, 0.18);
 }
 
-/* --- ඩෙස්ක්ටොප් සඳහා responsive වැඩිදියුණු කිරීම් --- */
-
-@media (min-width: 1024px) {
-  /* කාඩ්පත් වල ප්‍රමාණය ඩෙස්ක්ටොප් එකට ගැලපෙන ලෙස */
-  .hero-card {
-    max-width: 800px !important;
-    padding: 3rem !important;
-  }
-
-  /* මාතෘකා අකුරු විශාල කිරීම (උදාහරණ ලෙස 6xl) */
-  .desktop-title {
-    font-size: 3.75rem; /* 6xl */
-    line-height: 1;
-  }
-
-  /* විස්තර අකුරු විශාල කිරීම (උදාහරණ ලෙස xl) */
-  .desktop-text {
-    font-size: 1.25rem; /* xl */
-    line-height: 1.75rem;
-  }
+.text-gradient-gold {
+  background: linear-gradient(120deg, #f2cb57, #d4af37 45%, #f2cb57);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
