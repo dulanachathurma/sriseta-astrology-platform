@@ -4,6 +4,19 @@ A premium, animated React rebuild of the Sri Seta Astrology site. All original
 Sinhala content is preserved exactly; only the UI, UX, animations, performance
 and code structure were modernized.
 
+<img width="1422" height="750" alt="Screenshot 2026-07-04 at 16 32 07" src="https://github.com/user-attachments/assets/3f11a4dd-7a99-4384-ab24-7bcb159b7f68" />
+
+<img width="1422" height="794" alt="Screenshot 2026-07-04 at 16 35 01" src="https://github.com/user-attachments/assets/e0f0db6c-e883-4b9b-95b5-f78b9e5c4028" />
+
+<img width="1414" height="760" alt="Screenshot 2026-07-04 at 16 44 58" src="https://github.com/user-attachments/assets/3f45a074-bab3-488a-b06e-a96ee63b8c77" />
+
+<img width="1422" height="794" alt="Screenshot 2026-07-04 at 16 32 20" src="https://github.com/user-attachments/assets/38375849-3cd5-4234-8dd2-20b70414aa06" />
+
+<img width="1422" height="794" alt="Screenshot 2026-07-04 at 16 33 14" src="https://github.com/user-attachments/assets/4dae6b70-2f56-4209-aebf-546fd88366b8" />
+
+
+
+
 ## Stack
 
 React 19 · Vite · React Router · Tailwind CSS · Framer Motion · Lucide React ·
