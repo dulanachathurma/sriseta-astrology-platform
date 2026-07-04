@@ -5,7 +5,7 @@ import { Menu, X, Sparkles } from 'lucide-react';
 const NAV_LINKS = [
   { id: 'home', label: 'මුල් පිටුව' },
   { id: 'services', label: 'සේවා' },
-  { id: 'weekly-horoscope', label: 'සතියේ පලාපල' },
+  { id: 'weekly-horoscope', label: 'ග්‍රහ ලොව පෙර දැක්ම' },
   { id: 'developer', label: 'Developer' },
   { id: 'contact', label: 'සම්බන්ධ වන්න' },
 ];
