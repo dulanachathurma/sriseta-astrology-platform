@@ -2,28 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-}
 
+/* ඔබගේ කේතය මෙතැනට එකතු කරන්න */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: contain;
-  height: 100%;
 }
 
-body, #root {
-  min-height: 100vh;
+body {
   margin: 0;
   padding: 0;
-  background-color: #000;
-  overflow-x: hidden;
-  scrollbar-width: none;
+  /* අනෙකුත් මූලික සැකසුම් */
 }
-
-::-webkit-scrollbar {
-  display: none;
+:root {
+  color-scheme: dark;
 }
 
 * {
@@ -31,17 +23,143 @@ body, #root {
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 .bg-stars {
   background-image: 
+    /* තරු රටාවන්... (පෙර පරිදිම තබන්න) */
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 70% 60%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1.5px 1.5px at 85% 15%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 10% 70%, rgba(255,255,255,0.3), transparent),
+    
+    /* ආලෝකය වැඩි කිරීමට මෙහි අගය 0.7 සිට 0.3 හෝ 0.4 දක්වා වෙනස් කරන්න */
     linear-gradient(rgba(10, 11, 30, 0.3), rgba(10, 11, 30, 0.3)), 
-    url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=800&q=75');
-  background-size: cover;
+    
+    url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+
+  background-repeat: repeat, repeat, repeat, repeat, repeat, no-repeat, no-repeat;
+  background-size: 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, auto, cover;
   background-position: center;
-  background-attachment: scroll; /* අනිවාර්යයෙන්ම scroll විය යුතුයි */
+  background-attachment: fixed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.font-sinhala,
+[lang='si'] {
+  font-family: 'Noto Sans Sinhala', 'Inter', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #10123b;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#d4af37, #10123b);
+  border-radius: 5px;
+}
+
+:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .glass-card {
   background: linear-gradient(135deg, rgba(16, 18, 59, 0.85) 0%, rgba(22, 26, 69, 0.75) 100%);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(212, 175, 55, 0.18);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(120deg, #f2cb57, #d4af37 45%, #f2cb57);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* මෙය මගින් ස්ක්‍රෝල් කරන විට Header එකට යට නොවන ලෙස අංශ නතර කරයි */
+}
+
+section {
+  scroll-margin-top: 80px;
+  min-height: 80vh; /* මෙය අනිවාර්යයෙන්ම එකතු කරන්න */
+  display: block;   /* මේකත් එකතු කරන්න */
+}
+/* Mobile සහ Tablet යන දෙකටම අදාළ වන පරිදි 1024px දක්වා */
+@media (max-width: 1024px) {
+  /* Chrome, Safari, Edge, Opera සඳහා */
+  ::-webkit-scrollbar {
+    display: none; 
+  }
+
+  /* Firefox සඳහා */
+  html {
+    scrollbar-width: none;
+  }
+
+  /* පොදු සැකසුම */
+  body {
+    -ms-overflow-style: none; /* IE සඳහා */
+  }
+}
+
+.text-container {
+    text-align: center; /* පෙළ මැදට කිරීමට */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* අන්තර්ගතය මැදට පෙළගැස්වීමට */
+    justify-content: center;
+    width: 100%;
+}
+
+/* මොබයිල් ෆෝන් සඳහා පමණක් වෙනස්කම් කිරීමට media query භාවිතා කරන්න */
+@media only screen and (max-width: 600px) {
+    .text-container {
+        padding: 0 20px; /* දෙපසින් ඉඩක් තබා ගැනීමට */
+    }
+}
+@media only screen and (max-width: 600px) {
+    .text-container {
+        padding: 0 20px;
+    }
+    
+    /* පෙළෙහි පන්තිය (උදාහරණයක් ලෙස .my-text) සඳහා: */
+    .text-container h1, .text-container p {
+        font-size: 1.2rem; /* ඔබේ අවශ්‍යතාවය අනුව මෙය වෙනස් කරන්න */
+        word-wrap: break-word;
+    }
+}
+
+/* globals.css තුළ මෙය එකතු කරන්න */
+html {
+  scroll-behavior: smooth; /* ස්ක්‍රෝල් වීමේ මෘදු බව පාලනය කරයි */
+  -webkit-overflow-scrolling: touch; /* Mobile දුරකථන සඳහා විශේෂිත වේගවත් ස්ක්‍රෝල් සැකසුම */
 }
