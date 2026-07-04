@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* ඔබගේ කේතය මෙතැනට එකතු කරන්න */
+html {
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /* අනෙකුත් මූලික සැකසුම් */
+}
 :root {
   color-scheme: dark;
 }
