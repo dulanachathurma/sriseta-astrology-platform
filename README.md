@@ -11,9 +11,9 @@ and code structure were modernized.
 
 <img width="1414" height="760" alt="Screenshot 2026-07-04 at 16 44 58" src="https://github.com/user-attachments/assets/3f45a074-bab3-488a-b06e-a96ee63b8c77" />
 
-<img width="1422" height="794" alt="Screenshot 2026-07-04 at 16 33 08" src="https://github.com/user-attachments/assets/df35e07c-c708-42c7-9fc4-c2b016135622" />
-
 <img width="1422" height="794" alt="Screenshot 2026-07-04 at 16 32 20" src="https://github.com/user-attachments/assets/38375849-3cd5-4234-8dd2-20b70414aa06" />
+
+<img width="1422" height="794" alt="Screenshot 2026-07-04 at 16 33 08" src="https://github.com/user-attachments/assets/df35e07c-c708-42c7-9fc4-c2b016135622" />
 
 <img width="1422" height="794" alt="Screenshot 2026-07-04 at 16 33 14" src="https://github.com/user-attachments/assets/4dae6b70-2f56-4209-aebf-546fd88366b8" />
 
