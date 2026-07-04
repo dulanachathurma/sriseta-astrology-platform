@@ -10,7 +10,7 @@ export default function WeeklyHoroscope() {
   const [paused, setPaused] = useState(false);
   const timerRef = useRef(null);
 
-  // මෙය නැවත එකතු කරන්න - slide මාරු වීමට අවශ්‍යම කොටස
+  // ස්වයංක්‍රීය මාරුවීම
   useEffect(() => {
     if (paused) return undefined;
     timerRef.current = setInterval(() => {
@@ -18,6 +18,10 @@ export default function WeeklyHoroscope() {
     }, AUTO_SLIDE_MS);
     return () => clearInterval(timerRef.current);
   }, [paused]);
+
+  // අතින් මාරු කිරීමේ Function
+  const prevSlide = () => setCurrent((c) => (c - 1 + lagnaData.length) % lagnaData.length);
+  const nextSlide = () => setCurrent((c) => (c + 1) % lagnaData.length);
 
   return (
     <section id="weekly-horoscope" className="px-5 py-24 relative">
@@ -28,10 +32,10 @@ export default function WeeklyHoroscope() {
 
         <div 
           className="relative touch-pan-y" 
-          onTouchStart={() => setPaused(true)}
-          onTouchEnd={() => setPaused(false)}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setPaused(false)}
         >
           <div className="bg-white/5 border border-white/10 rounded-3xl p-8 min-h-[400px]">
             <AnimatePresence mode="wait">
@@ -40,7 +44,6 @@ export default function WeeklyHoroscope() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                // transition එක වඩාත් සරල කිරීම පැන පැන යාම නවත්වයි
                 transition={{ duration: 0.3 }}
                 style={{ willChange: 'opacity' }}
                 className="flex flex-col md:flex-row items-center gap-8"
@@ -60,6 +63,23 @@ export default function WeeklyHoroscope() {
                 </div>
               </motion.div>
             </AnimatePresence>
+          </div>
+
+          {/* අතින් මාරු කිරීමට අවශ්‍ය බොත්තම් */}
+          <div className="flex items-center justify-between mt-8">
+            <button 
+              onClick={prevSlide} 
+              className="w-12 h-12 rounded-full bg-gold/20 border border-gold/50 text-gold flex items-center justify-center hover:bg-gold hover:text-white transition-all"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <span className="font-bold text-gold">{current + 1} / {lagnaData.length}</span>
+            <button 
+              onClick={nextSlide} 
+              className="w-12 h-12 rounded-full bg-gold/20 border border-gold/50 text-gold flex items-center justify-center hover:bg-gold hover:text-white transition-all"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </div>
