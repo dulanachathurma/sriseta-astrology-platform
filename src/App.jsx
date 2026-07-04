@@ -23,7 +23,7 @@ export default function App() {
           <Route path="*" element={<Home />} />
         </Routes>
         <BackToTop />
-        <AIAssistant />
+      
       </div>
     </>
   );
