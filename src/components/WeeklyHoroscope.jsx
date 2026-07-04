@@ -3,20 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react';
 import { lagnaData } from '../data/lagnaData';
 
-const AUTO_SLIDE_MS = 3500;
-
 export default function WeeklyHoroscope() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
-  const timerRef = useRef(null);
-
-  useEffect(() => {
-    if (paused) return undefined;
-    timerRef.current = setInterval(() => {
-      setCurrent((c) => (c + 1) % lagnaData.length);
-    }, AUTO_SLIDE_MS);
-    return () => clearInterval(timerRef.current);
-  }, [paused]);
 
   return (
     <section id="weekly-horoscope" className="px-5 py-24 relative">
@@ -33,13 +22,12 @@ export default function WeeklyHoroscope() {
           <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
             <AnimatePresence mode="wait">
               <motion.div
-                layout // layout එක ස්ථාවර කරයි
+                layout // මෙය ස්ක්‍රෝල් එකේ පැන පැන යාම වළක්වයි
                 key={lagnaData[current].name}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                style={{ willChange: 'opacity' }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 className="flex flex-col md:flex-row items-center gap-8"
               >
                 <div className="w-48 h-48 rounded-full border-4 border-gold p-1 overflow-hidden shadow-lg">
