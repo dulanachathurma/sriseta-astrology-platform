@@ -16,21 +16,20 @@ export default function SplashScreen({ onFinish, duration = 2600 }) {
     <AnimatePresence>
       {visible && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-void bg-stars"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-void bg-stars px-4"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.6, ease: 'easeInOut' } }}
         >
+          {/* ලාංඡන කොටස - Mobile වලදී තරමක් කුඩා වේ */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center scale-75 sm:scale-100"
           >
-            {/* රවුම් වල ප්‍රමාණය තවත් විශාල කරන ලදී */}
             <span className="absolute inline-block w-96 h-96 rounded-full border border-[#FACC15]/30 animate-orbit-slow" />
             <span className="absolute inline-block w-[28rem] h-[28rem] rounded-full border border-[#FACC15]/15 animate-orbit-reverse" />
             
-            {/* මැද ලාංඡනය - තවත් විශාල කරන ලදී (w-64 h-64) */}
             <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-[0_0_80px_rgba(250,204,21,0.4)] border-2 border-[#FACC15]/60 bg-deep flex items-center justify-center">
               <img
                 src="/logo.png"
@@ -50,15 +49,17 @@ export default function SplashScreen({ onFinish, duration = 2600 }) {
             </div>
           </motion.div>
 
+          {/* පෙළ කොටස - text-center සහ මධ්‍යගත පරතරය සහිතව */}
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="font-sinhala mt-24 text-white text-3xl tracking-wide font-medium"
+            className="font-sinhala mt-12 sm:mt-24 text-white text-2xl sm:text-3xl text-center px-6 leading-relaxed max-w-xs sm:max-w-none"
           >
             Sri seta Astrology Service
           </motion.p>
 
+          {/* පහළ තිත් ලෝඩරය */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
