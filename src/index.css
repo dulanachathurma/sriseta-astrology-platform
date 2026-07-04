@@ -118,3 +118,19 @@ section {
     -ms-overflow-style: none; /* IE සඳහා */
   }
 }
+
+.text-container {
+    text-align: center; /* පෙළ මැදට කිරීමට */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* අන්තර්ගතය මැදට පෙළගැස්වීමට */
+    justify-content: center;
+    width: 100%;
+}
+
+/* මොබයිල් ෆෝන් සඳහා පමණක් වෙනස්කම් කිරීමට media query භාවිතා කරන්න */
+@media only screen and (max-width: 600px) {
+    .text-container {
+        padding: 0 20px; /* දෙපසින් ඉඩක් තබා ගැනීමට */
+    }
+}
