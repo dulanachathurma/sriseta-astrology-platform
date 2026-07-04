@@ -20,15 +20,16 @@ export default function SplashScreen({ onFinish, duration = 2600 }) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.6, ease: 'easeInOut' } }}
         >
-          {/* ලාංඡන කොටස - Mobile වලදී තරමක් කුඩා වේ */}
+          {/* ලාංඡන කොටස */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
             className="relative flex items-center justify-center scale-75 sm:scale-100"
           >
-            <span className="absolute inline-block w-96 h-96 rounded-full border border-[#FACC15]/30 animate-orbit-slow" />
-            <span className="absolute inline-block w-[28rem] h-[28rem] rounded-full border border-[#FACC15]/15 animate-orbit-reverse" />
+            {/* වෘත්තවල ප්‍රමාණය අඩු කරන ලදී */}
+            <span className="absolute inline-block w-72 h-72 rounded-full border border-[#FACC15]/30 animate-orbit-slow" />
+            <span className="absolute inline-block w-[22rem] h-[22rem] rounded-full border border-[#FACC15]/15 animate-orbit-reverse" />
             
             <div className="relative w-64 h-64 rounded-full overflow-hidden shadow-[0_0_80px_rgba(250,204,21,0.4)] border-2 border-[#FACC15]/60 bg-deep flex items-center justify-center">
               <img
@@ -49,12 +50,12 @@ export default function SplashScreen({ onFinish, duration = 2600 }) {
             </div>
           </motion.div>
 
-          {/* පෙළ කොටස - text-center සහ මධ්‍යගත පරතරය සහිතව */}
+          {/* පෙළ කොටස - mt අගය වැඩි කර තව පහළට ගෙන ඇත */}
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="font-sinhala mt-12 sm:mt-24 text-white text-2xl sm:text-3xl text-center px-6 leading-relaxed max-w-xs sm:max-w-none"
+            className="font-sinhala mt-24 sm:mt-32 text-white text-2xl sm:text-3xl text-center px-6 leading-relaxed max-w-xs sm:max-w-none"
           >
             Sri seta Astrology Service
           </motion.p>
