@@ -92,18 +92,21 @@ export default function HeroProfile() {
             </h3>
 
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="font-sinhala mt-6 inline-flex items-center gap-2 px-7 py-4 rounded-2xl bg-gradient-to-r from-[#FACC15]/20 via-[#FACC15]/30 to-[#FACC15]/20 border border-[#FACC15]/50 shadow-[0_0_20px_rgba(250,204,21,0.3)] cursor-pointer"
-            >
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Award className="w-6 h-6 text-[#FACC15]" />
-              </motion.div>
-              <span className="font-bold text-black text-xl tracking-wide">{astrologer.experience}</span>
-            </motion.div>
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="font-sinhala mt-6 inline-flex items-center gap-2 px-7 py-4 rounded-2xl bg-gradient-to-r from-[#FACC15]/20 via-[#FACC15]/30 to-[#FACC15]/20 border border-[#FACC15]/50 shadow-[0_0_20px_rgba(250,204,21,0.3)] cursor-pointer"
+>
+  <motion.div
+    animate={{ scale: [1, 1.2, 1] }}
+    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+  >
+    <Award className="w-6 h-6 text-[#FACC15]" />
+  </motion.div>
+  {/* මෙතැනදී text-white සහ font-bold එකතු කරන ලදී */}
+  <span className="font-bold text-white text-xl tracking-wide">
+    {astrologer.experience}
+  </span>
+</motion.div>
 
             <div className="mt-6 space-y-3">
               <p className="font-sinhala flex items-center justify-center gap-3 px-5 py-3 rounded-2xl bg-black/40 border border-white/10 text-white hover:bg-black/60 transition-colors">
