@@ -45,3 +45,25 @@ body {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(212, 175, 55, 0.18);
 }
+
+/* --- ඩෙස්ක්ටොප් සඳහා responsive වැඩිදියුණු කිරීම් --- */
+
+@media (min-width: 1024px) {
+  /* කාඩ්පත් වල ප්‍රමාණය ඩෙස්ක්ටොප් එකට ගැලපෙන ලෙස */
+  .hero-card {
+    max-width: 800px !important;
+    padding: 3rem !important;
+  }
+
+  /* මාතෘකා අකුරු විශාල කිරීම (උදාහරණ ලෙස 6xl) */
+  .desktop-title {
+    font-size: 3.75rem; /* 6xl */
+    line-height: 1;
+  }
+
+  /* විස්තර අකුරු විශාල කිරීම (උදාහරණ ලෙස xl) */
+  .desktop-text {
+    font-size: 1.25rem; /* xl */
+    line-height: 1.75rem;
+  }
+}
