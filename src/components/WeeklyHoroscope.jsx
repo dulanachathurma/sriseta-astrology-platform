@@ -27,9 +27,9 @@ export default function WeeklyHoroscope() {
       <div className="max-w-4xl lg:max-w-5xl mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-[2.25rem] p-6 lg:p-12 shadow-2xl">
         
         {/* මාතෘකාව: ඩෙස්ක්ටොප් එකේදී 3xl ලෙස විශාල කරයි */}
-        <h5 className="text-center text-2xl lg:text-3xl font-bold text-white mb-8 flex items-center justify-center gap-3">
+        <h4 className="text-center text-2xl lg:text-3xl font-bold text-white mb-8 flex items-center justify-center gap-3">
           <CalendarDays className="w-9 h-9 text-gold" /> ග්‍රහ ලොව පෙර දැක්ම
-        </h5>
+        </h4>
 
         <div 
           className="relative touch-pan-y" 
