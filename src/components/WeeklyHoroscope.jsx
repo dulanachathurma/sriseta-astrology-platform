@@ -26,9 +26,9 @@ export default function WeeklyHoroscope() {
   return (
     <section id="weekly-horoscope" className="px-5 py-24 relative">
       <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-[2.25rem] p-6 md:p-14 shadow-2xl">
-        <h3 className="font-sinhala text-center text-4xl md:text-5xl font-bold text-white mb-8 flex items-center justify-center gap-3">
+        <h5 className="font-sinhala text-center text-4xl md:text-5xl font-bold text-white mb-8 flex items-center justify-center gap-3">
           <CalendarDays className="w-9 h-9 text-gold" /> ග්‍රහ ලොව පෙර දැක්ම
-        </h3>
+        </h5>
 
         <div className="relative" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
           <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12">
