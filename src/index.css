@@ -134,3 +134,14 @@ section {
         padding: 0 20px; /* දෙපසින් ඉඩක් තබා ගැනීමට */
     }
 }
+@media only screen and (max-width: 600px) {
+    .text-container {
+        padding: 0 20px;
+    }
+    
+    /* පෙළෙහි පන්තිය (උදාහරණයක් ලෙස .my-text) සඳහා: */
+    .text-container h1, .text-container p {
+        font-size: 1.2rem; /* ඔබේ අවශ්‍යතාවය අනුව මෙය වෙනස් කරන්න */
+        word-wrap: break-word;
+    }
+}
