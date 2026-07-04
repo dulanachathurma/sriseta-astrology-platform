@@ -76,11 +76,11 @@ export default function HeroProfile() {
             {/* කාඩ්පත තුළ රූපය එකතු කිරීම */}
             <div className="flex justify-center mb-6">
               <div className="w-24 h-24 rounded-full border-2 border-[#FACC15]/50 overflow-hidden shadow-lg">
-                <img 
-                  src="public/new-photo.jpg" 
-                  alt="Profile" 
-                  className="w-full h-full object-cover" 
-                />
+             <img 
+  src="/your-image-name.jpg" // රූපය public ෆෝල්ඩරයේ තිබේ නම් මේ ආකාරයට දමන්න
+  alt="Profile" 
+  className="w-full h-full object-cover" 
+/>
               </div>
             </div>
 
