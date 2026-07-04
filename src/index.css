@@ -19,7 +19,7 @@
     radial-gradient(1.5px 1.5px at 85% 15%, rgba(255,255,255,0.4), transparent),
     radial-gradient(1px 1px at 10% 70%, rgba(255,255,255,0.3), transparent),
     linear-gradient(rgba(10, 11, 30, 0.3), rgba(10, 11, 30, 0.3)), 
-    url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75');
+    url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=85');
   background-size: 400px 400px, 400px 400px, 400px 400px, 400px 400px, 400px 400px, auto, cover;
   background-position: center;
   transform: translateZ(0); /* GPU Acceleration */
