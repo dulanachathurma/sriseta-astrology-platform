@@ -1,4 +1,4 @@
-# ශ්‍රී සෙත ජ්‍යොතිෂ්‍ය සේවය — React + Vite
+# ශ්‍රී සෙත ජ්‍යොතිෂ සේවය — React + Vite
 
 A premium, animated React rebuild of the Sri Seta Astrology site. All original
 Sinhala content is preserved exactly; only the UI, UX, animations, performance
