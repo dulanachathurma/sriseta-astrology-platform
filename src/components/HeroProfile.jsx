@@ -4,10 +4,13 @@ import { astrologer, SITE } from '../utils/constants';
 import { lagnaData } from '../data/lagnaData';
 
 function ZodiacRing() {
-  const radius = 168;
+  // Mobile වලදී radius අගය අඩු කර වෘත්තය කුඩා කරන ලදී
+  const radius = typeof window !== 'undefined' && window.innerWidth < 640 ? 130 : 168;
+
   return (
-    <div className="absolute inset-0 flex items-center justify-center z-0"> 
-      <div className="relative w-[380px] h-[380px] animate-orbit-slow">
+    <div className="absolute inset-0 flex items-center justify-center z-0">
+      {/* Container ප්‍රමාණය Mobile සඳහා කුඩා කරන ලදී */}
+      <div className="relative w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] animate-orbit-slow">
         {lagnaData.map((lagna, i) => {
           const angle = (i / lagnaData.length) * 2 * Math.PI - Math.PI / 2;
           const x = radius * Math.cos(angle);
@@ -15,7 +18,8 @@ function ZodiacRing() {
           return (
             <span
               key={lagna.name}
-              className="absolute font-sinhala text-[11px] text-[#FACC15]/70 -translate-x-1/2 -translate-y-1/2 animate-orbit-reverse"
+              // පෙළෙහි ප්‍රමාණය කුඩා කරන ලදී
+              className="absolute font-sinhala text-[10px] sm:text-[11px] text-[#FACC15]/70 -translate-x-1/2 -translate-y-1/2 animate-orbit-reverse"
               style={{ left: `calc(50% + ${x}px)`, top: `calc(50% + ${y}px)` }}
             >
               {lagna.name}
@@ -23,8 +27,9 @@ function ZodiacRing() {
           );
         })}
       </div>
-      <div className="absolute w-[380px] h-[380px] rounded-full border border-[#FACC15]/15" />
-      <div className="absolute w-[300px] h-[300px] rounded-full border border-[#FACC15]/10 animate-orbit" />
+      {/* වෘත්තවල ප්‍රමාණය Responsive ලෙස සකස් කරන ලදී */}
+      <div className="absolute w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] rounded-full border border-[#FACC15]/15" />
+      <div className="absolute w-[240px] h-[240px] sm:w-[300px] sm:h-[300px] rounded-full border border-[#FACC15]/10 animate-orbit" />
     </div>
   );
 }
@@ -53,7 +58,6 @@ export default function HeroProfile() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9 }}
-            /* ජංගම දුරකථන සඳහා කුඩා වන ලෙස responsive classes යොදන ලදී */
             className="relative w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] mb-12 flex items-center justify-center"
           >
             <ZodiacRing />
@@ -76,11 +80,7 @@ export default function HeroProfile() {
           >
             <div className="flex justify-center mb-6">
               <div className="w-24 h-24 rounded-full border-2 border-[#FACC15]/50 overflow-hidden shadow-lg">
-                <img 
-                  src="/your-image-name.jpg" 
-                  alt="Profile" 
-                  className="w-full h-full object-cover" 
-                />
+                <img src="/your-image-name.jpg" alt="Profile" className="w-full h-full object-cover" />
               </div>
             </div>
 
