@@ -145,3 +145,9 @@ section {
         word-wrap: break-word;
     }
 }
+
+/* globals.css තුළ මෙය එකතු කරන්න */
+html {
+  scroll-behavior: smooth; /* ස්ක්‍රෝල් වීමේ මෘදු බව පාලනය කරයි */
+  -webkit-overflow-scrolling: touch; /* Mobile දුරකථන සඳහා විශේෂිත වේගවත් ස්ක්‍රෝල් සැකසුම */
+}
