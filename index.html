@@ -9,12 +9,18 @@
       html {
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
+        touch-action: manipulation;
       }
       body {
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-        background-color: #000; /* පසුබිම කළු පැහැය සඳහා */
+        background-color: #000;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      body::-webkit-scrollbar {
+        display: none;
       }
     </style>
 
