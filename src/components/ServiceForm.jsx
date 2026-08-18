@@ -22,25 +22,26 @@ export default function ServiceForm({ defaultServiceType = '' }) {
     e.preventDefault();
     const timestamp = new Date().toLocaleString('si-LK');
 
-    const message = `✨ Sri Seta Astrology - සේවා අයදුම්පත ✨
+    const message = `Sri seta Astrology - සේවා අයදුම්පත
 
-📌 සේවා වර්ගය: ${serviceName(form.serviceType)}
+-> සේවා වර්ගය: ${serviceName(form.serviceType)}
 
-👤 නම: ${form.fullName}
-📞 දුරකථන: ${form.phoneNumber}
-🗓️ උපන් විස්තර: ${form.birthDetails}
-📝 අමතර තොරතුරු: ${form.additionalInfo || 'නැත'}
+-> නම: ${form.fullName}
+-> දුරකථන: ${form.phoneNumber}
+-> උපන් විස්තර: ${form.birthDetails}
+-> අමතර තොරතුරු: ${form.additionalInfo}
 
-📅 යොමු කළ දිනය: ${timestamp}
+-> යොමු කළ දිනය: ${timestamp}
 
-----------------------------------------
+-> ඔබගේ අයදුම්පත ලැබී ඇත.
 
-✅ ඔබගේ අයදුම්පත සාර්ථකව ලැබුණි.
-📜 කරුණාකර ඔබගේ ජන්මපත්‍රයේ පැහැදිලි ඡායාරූපයක් (Photo) මේ සමඟ යොමු කරන්න.
+-> මේ සමග ඔබේ ජන්මපත්‍රයේ ජායාරූපයක් අපට එවන්න.
 
-👩‍💼 අපගේ ජ්‍යොතිෂවේදිනී ශ්‍රියාණි සමරවීර මහත්මිය ඉදිරියේදී ඔබ හා සම්බන්ධ වනු ඇත.
+-> අපගේ ජෝතීර්වේදිනී සමරවීර මහත්මිය ඔබට සම්බන්ධ වනු ඇත.
 
-🙏 ස්තුතියි!`;
+-> ඔබට ගුණාත්මක සේවාවක් ලබාදීමට අපි බලාපොරොත්තු වෙමු.
+
+ ස්තුතියි!`;
 
     const url = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
     setWhatsappUrl(url);
@@ -135,7 +136,7 @@ export default function ServiceForm({ defaultServiceType = '' }) {
         <textarea
           required
           rows={3}
-          placeholder={'උපන් දිනය, උපන් වේලාව, උපන් ස්ථානය, ස්ත්‍රී/පුරුෂ භාවය\nඋදා: 1990-05-15, 08:30 AM, කොළඹ'}
+          placeholder={'උපන් දිනය,උපන් වේලාව,උපන් ස්ථානය,ස්ත්‍රී/පුරුෂ භාවය\nඋදා: 1990-05-15, 08:30 AM, කොළඹ'}
           value={form.birthDetails}
           onChange={update('birthDetails')}
           className="font-sinhala w-full px-5 py-4 rounded-2xl bg-white/5 border-2 border-[#FACC15]/25 text-ivory placeholder:text-slate-soft/60 focus:border-[#FACC15] outline-none transition-colors resize-y"
@@ -168,9 +169,9 @@ export default function ServiceForm({ defaultServiceType = '' }) {
         <p className="font-sinhala text-ivory/80 leading-relaxed">
           ඔබගේ තොරතුරු යොමු කිරීමෙන් පසු WhatsApp පණිවිඩයක් ස්වයංක්‍රීයව යවනු ලැබේ. පණිවිඩයේ ඔබගේ සියලු තොරතුරු ඇතුළත් වනු ඇත.
         </p>
-        <p className="font-sinhala text-ivory/80 mt-2 font-semibold">සැලකිය යුතුයි :</p>
-        <p className="font-sinhala text-ivory/80 leading-relaxed">
-          ජන්ම පත්‍ර පරීක්ෂාව, පොරොන්දම් පරීක්ෂාව, විවාහ මංගල නැකැත් ඇතුලු සියලුම සුබ නැකැත් සෑදීම සදහා ඔබගේ ජන්ම පත්‍ර WhatsApp හරහා යොමු කළ යුතුය.
+        <p className="font-sinhala text-ivory/80 mt-2">සැලකිය යුතුයි :</p>
+        <p className="font-sinhala text-ivory/80">
+          ජන්ම පත්‍ර පරීක්ෂාව ,පොරොන්දම් පරීක්ෂාව ,විවාහ මංගල නැකැත් ඇතුලු සියලුම සුබ නැකැත් සෑදීම සදහා ඔබගේ ජන්ම පත්‍ර Whats App හරහා යොමු කළ යුතුය.
         </p>
       </div>
     </form>
