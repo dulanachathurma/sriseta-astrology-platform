@@ -1,26 +1,23 @@
-import { useState } from 'react';
 import HeroProfile from '../components/HeroProfile';
 import ServicesSection from '../components/ServicesSection';
 import WeeklyHoroscope from '../components/WeeklyHoroscope';
 import DeveloperProfile from '../components/DeveloperProfile';
 import Footer from '../components/Footer';
 
-// ඔබගේ ServiceForm component එක import කිරීම
-import ServiceForm from '../components/ServiceForm'; 
-
-export default function Home({ isBookingOpen, setIsBookingOpen }) {
-  return (
-    <>
-      <HeroProfile />
-      <ServicesSection />
-      <WeeklyHoroscope />
-      <DeveloperProfile />
-      <Footer />
-
-      {/* Nav bar එකෙන් 'සම්බන්ධ වන්න' Click කල විට Form එක Open වේ */}
-      {isBookingOpen && (
-        <ServiceForm onClose={() => setIsBookingOpen(false)} />
-      )}
-    </>
-  );
+// Note: WeeklyHoroscope / DeveloperProfile / Footer used to be React.lazy +
+// Suspense (code-split for a small performance win). That broke the navbar's
+// scroll-spy: the IntersectionObserver sets itself up once on mount, but
+// lazy sections don't exist in the DOM yet at that point, so their ids were
+// never observed and those nav links never highlighted. Plain imports fix
+// that — all sections exist immediately, so every nav link tracks correctly.
+export default function Home() {
+  return (
+    <>
+      <HeroProfile />
+      <ServicesSection />
+      <WeeklyHoroscope />
+      <DeveloperProfile />
+      <Footer />
+    </>
+  );
 }
