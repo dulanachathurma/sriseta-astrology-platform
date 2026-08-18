@@ -7,6 +7,8 @@ import Home from './pages/Home';
 
 export default function App() {
   const [ready, setReady] = useState(false);
+  // Modal එක open/close පාලනය කරන State එක
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   return (
     <>
@@ -20,11 +22,30 @@ export default function App() {
           ready ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <Navbar />
+        {/* Navbar එකට Modal එක Open කරන function එක pass කලා */}
+        <Navbar onOpenBookingModal={() => setIsBookingOpen(true)} />
+
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Home />} />
+          <Route 
+            path="/" 
+            element={
+              <Home 
+                isBookingOpen={isBookingOpen} 
+                setIsBookingOpen={setIsBookingOpen} 
+              />
+            } 
+          />
+          <Route 
+            path="*" 
+            element={
+              <Home 
+                isBookingOpen={isBookingOpen} 
+                setIsBookingOpen={setIsBookingOpen} 
+              />
+            } 
+          />
         </Routes>
+        
         <BackToTop />
       </div>
     </>
