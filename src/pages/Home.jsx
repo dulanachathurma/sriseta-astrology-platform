@@ -5,9 +5,8 @@ import WeeklyHoroscope from '../components/WeeklyHoroscope';
 import DeveloperProfile from '../components/DeveloperProfile';
 import Footer from '../components/Footer';
 
-// IMPORTANT: ඔයාගේ "සේවා වෙන්කරවා ගැනීම" Form Component එක මෙතනට Import කරගන්න.
-// (කරුණාකර Form එක තියෙන file path එක අනුව පහත line එකේ path එක වෙනස් කරගන්න)
-import BookingModal from '../components/BookingModal'; 
+// ඔබගේ ServiceForm component එක import කිරීම
+import ServiceForm from '../components/ServiceForm'; 
 
 export default function Home({ isBookingOpen, setIsBookingOpen }) {
   return (
@@ -18,9 +17,9 @@ export default function Home({ isBookingOpen, setIsBookingOpen }) {
       <DeveloperProfile />
       <Footer />
 
-      {/* Nav bar එකෙන් 'සම්බන්ධ වන්න' Click කල විට Form එක Popup වේ */}
+      {/* Nav bar එකෙන් 'සම්බන්ධ වන්න' Click කල විට Form එක Open වේ */}
       {isBookingOpen && (
-        <BookingModal onClose={() => setIsBookingOpen(false)} />
+        <ServiceForm onClose={() => setIsBookingOpen(false)} />
       )}
     </>
   );
