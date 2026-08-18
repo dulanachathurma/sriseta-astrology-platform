@@ -28,9 +28,10 @@ function ServiceCard({ service, onView, index }) {
       </p>
       <button
         onClick={() => onView(service)}
-        className="font-sinhala relative w-full flex items-center justify-center gap-2 py-3.5 rounded-full bg-[#007bff] text-white font-semibold shadow-lg hover:bg-[#0056b3] transition-all"
+        className="font-sinhala relative w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#007bff] text-white font-semibold shadow-lg hover:bg-[#0056b3] transition-all"
       >
-        <Eye className="w-4 h-4" /> View Template
+        <Eye className="w-4 h-4 shrink-0" />
+        <span>විස්තර බලන්න</span>
       </button>
     </motion.div>
   );
@@ -55,9 +56,10 @@ function ContactCard({ onBook, index }) {
       </p>
       <button
         onClick={onBook}
-        className="font-sinhala w-full flex items-center justify-center gap-2 py-3.5 rounded-full bg-[#007bff] text-white font-semibold shadow-lg hover:bg-[#0056b3] transition-all"
+        className="font-sinhala w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#007bff] text-white font-semibold shadow-lg hover:bg-[#0056b3] transition-all"
       >
-        <LogIn className="w-4 h-4" /> සේවා අයදුම්කරු
+        <LogIn className="w-4 h-4 shrink-0" />
+        <span>සේවා අයදුම්කරු</span>
       </button>
     </motion.div>
   );
@@ -119,15 +121,16 @@ export default function ServicesSection() {
             </div>
             <div className="rounded-2xl bg-white/5 border-l-4 border-[#FACC15] p-6 mb-8">
               <h4 className="font-sinhala flex items-center gap-2 text-[#FACC15] text-lg mb-3">
-                <Info className="w-5 h-5" /> සේවා විස්තර:
+                <Info className="w-5 h-5 shrink-0" /> සේවා විස්තර:
               </h4>
               <p className="font-sinhala text-ivory/85 leading-relaxed">{activeService.detail}</p>
             </div>
             <button
               onClick={() => openBooking(activeService.id)}
-              className="font-sinhala w-full flex items-center justify-center gap-2 py-4 rounded-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-semibold shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all"
+              className="font-sinhala w-full flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-semibold shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all"
             >
-              <LogIn className="w-5 h-5" /> සේවා අයදීම
+              <LogIn className="w-5 h-5 shrink-0" />
+              <span>සේවා අයදීම</span>
             </button>
           </div>
         )}
