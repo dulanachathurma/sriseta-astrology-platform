@@ -61,8 +61,9 @@ export default function Navbar({ onOpenBookingModal }) {
     setOpen(false);
     setActive(id);
 
-    // 'contact' click කළ විට Modal එක Open කරන්න
+    // 'contact' click කළ විට Modal එක Open කර hash එක වෙනස් කරන්න
     if (id === 'contact') {
+      window.location.hash = 'contact';
       if (onOpenBookingModal) {
         onOpenBookingModal();
       }
