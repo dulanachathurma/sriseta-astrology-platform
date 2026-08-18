@@ -1,144 +1,178 @@
-import { useState } from 'react';
+¥import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Handshake, ScrollText, Star, PhoneCall, Eye, LogIn, Info } from 'lucide-react';
-import { services } from '../utils/constants';
-import Modal from './Modal';
-import ServiceForm from './ServiceForm';
+import { Send, CheckCircle2, MessageCircle, Info } from 'lucide-react';
+import { serviceTypeOptions, serviceName, SITE } from '../utils/constants';
 
-const ICONS = { Handshake, ScrollText, Star };
+const initialForm = {
+  serviceType: '',
+  fullName: '',
+  phoneNumber: '',
+  birthDetails: '',
+  additionalInfo: '',
+};
 
-function ServiceCard({ service, onView, index }) {
-  const Icon = ICONS[service.icon] || Star;
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, delay: index * 0.08 }}
-      whileHover={{ y: -12, scale: 1.03 }}
-      className="bg-white/10 backdrop-blur-md border border-white/20 relative overflow-hidden rounded-[1.75rem] p-9 flex flex-col items-center text-center shadow-2xl"
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#FACC15]/[0.03] via-transparent to-copper/[0.05] pointer-events-none" />
-      <div className="relative w-16 h-16 rounded-2xl bg-[#FACC15]/10 border border-[#FACC15]/25 flex items-center justify-center mb-6 text-[#FACC15]">
-        <Icon className="w-8 h-8" />
-      </div>
-      <h3 className="font-sinhala text-2xl font-bold text-[#FACC15] mb-3 relative">{service.title}</h3>
-      <p className="font-sinhala text-white/80 leading-relaxed mb-8 relative flex-1">
-        {service.description}
-      </p>
-      <button
-        onClick={() => onView(service)}
-        className="font-sinhala relative w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#007bff] text-white font-semibold shadow-lg hover:bg-[#0056b3] transition-all"
-      >
-        <Eye className="w-4 h-4 shrink-0" />
-        <span>විස්තර බලන්න</span>
-      </button>
-    </motion.div>
-  );
-}
+export default function ServiceForm({ defaultServiceType = '' }) {
+  const [form, setForm] = useState({ ...initialForm, serviceType: defaultServiceType });
+  const [submitted, setSubmitted] = useState(false);
+  const [whatsappUrl, setWhatsappUrl] = useState('');
 
-function ContactCard({ onBook, index }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, delay: index * 0.08 }}
-      whileHover={{ y: -12, scale: 1.03 }}
-      className="bg-white/10 backdrop-blur-md border border-white/20 relative overflow-hidden rounded-[1.75rem] p-9 flex flex-col items-center text-center shadow-2xl"
-    >
-      <div className="relative w-16 h-16 rounded-2xl bg-[#FACC15]/10 border border-[#FACC15]/25 flex items-center justify-center mb-6 text-[#FACC15]">
-        <PhoneCall className="w-8 h-8" />
-      </div>
-      <h3 className="font-sinhala text-2xl font-bold text-[#FACC15] mb-3">සම්බන්ධ වන්න</h3>
-      <p className="font-sinhala text-white/80 leading-relaxed mb-8 flex-1">
-        සේවා වෙන්කරවා ගැනීම සඳහා
-      </p>
-      <button
-        onClick={onBook}
-        className="font-sinhala w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#007bff] text-white font-semibold shadow-lg hover:bg-[#0056b3] transition-all"
-      >
-        <LogIn className="w-4 h-4 shrink-0" />
-        <span>සේවා අයදුම්කරු</span>
-      </button>
-    </motion.div>
-  );
-}
+  const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
-export default function ServicesSection() {
-  const [activeService, setActiveService] = useState(null);
-  const [bookingOpen, setBookingOpen] = useState(false);
-  const [bookingDefault, setBookingDefault] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const timestamp = new Date().toLocaleString('si-LK');
 
-  const openBooking = (serviceType = '') => {
-    setActiveService(null);
-    setTimeout(() => {
-      setBookingDefault(serviceType);
-      setBookingOpen(true);
-    }, 150);
+    const message = `✨ Sri Seta Astrology - සේවා අයදුම්පත ✨
+
+📌 සේවා වර්ගය: ${serviceName(form.serviceType)}
+
+👤 නම: ${form.fullName}
+📞 දුරකථන: ${form.phoneNumber}
+🗓️ උපන් විස්තර: ${form.birthDetails}
+📝 අමතර තොරතුරු: ${form.additionalInfo || 'නැත'}
+
+📅 යොමු කළ දිනය: ${timestamp}
+
+----------------------------------------
+
+✅ ඔබගේ අයදුම්පත සාර්ථකව ලැබුණි.
+📜 කරුණාකර ඔබගේ ජන්මපත්‍රයේ පැහැදිලි ඡායාරූපයක් (Photo) මේ සමඟ යොමු කරන්න.
+
+👩‍💼 අපගේ ජ්‍යොතිෂවේදිනී ශ්‍රියාණි සමරවීර මහත්මිය ඉදිරියේදී ඔබ හා සම්බන්ධ වනු ඇත.
+
+🙏 ස්තුතියි!`;
+
+    const url = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    setWhatsappUrl(url);
+    setSubmitted(true);
   };
 
-  const handleClose = () => {
-    setActiveService(null);
-    setBookingOpen(false);
-    setTimeout(() => {
-      document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
+  if (submitted) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center py-4"
+      >
+        <CheckCircle2 className="w-16 h-16 text-[#25D366] mx-auto mb-6 animate-pulse" />
+        <h3 className="font-sinhala text-2xl text-[#FACC15] mb-3">සේවා අයදුම්පත යොමු කරන ලදී! ✅</h3>
+        <p className="font-sinhala text-ivory/85 leading-relaxed mb-8">
+          ඔබගේ තොරතුරු සාර්ථකව ගබඩා කරන ලදී. අපගේ ජ්‍යොතිෂවේදිනී ශ්‍රියාණි සමරවීර මහත්මිය ඔබට සම්බන්ධ වනු ඇත.
+        </p>
+
+        <div className="rounded-2xl border border-[#FACC15]/20 bg-white/5 p-6">
+          <h4 className="font-sinhala flex items-center justify-center gap-2 text-[#FACC15] text-lg mb-3">
+            <MessageCircle className="w-5 h-5 shrink-0" /> WhatsApp පණිවිඩය යැවීමට:
+          </h4>
+          <p className="font-sinhala text-slate-soft mb-5">
+            පහත බොත්තම ක්ලික් කර WhatsApp හරහා ස්වයංක්‍රීයව පණිවිඩය යවන්න.
+          </p>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-semibold shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all"
+          >
+            <MessageCircle className="w-5 h-5 shrink-0" />
+            <span className="text-center">WhatsApp පණිවිඩය යවන්න</span>
+          </a>
+          <p className="font-sinhala text-xs text-slate-soft mt-4 flex items-center justify-center gap-1.5">
+            <Info className="w-3.5 h-3.5 shrink-0" /> WhatsApp විවෘත කිරීමට බොත්තම ක්ලික් කරන්න
+          </p>
+        </div>
+
+        <p className="font-sinhala text-sm text-slate-soft mt-6">{SITE.hours} ({SITE.everyDay})</p>
+      </motion.div>
+    );
+  }
 
   return (
-    <section id="services" className="px-5 py-24 relative">
-      <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="font-sinhala text-center text-4xl md:text-5xl font-bold text-[#FACC15] mb-16 relative inline-block left-1/2 -translate-x-1/2"
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label className="font-sinhala block mb-2 text-[#FACC15] font-semibold">සේවා වර්ගය</label>
+        <select
+          required
+          value={form.serviceType}
+          onChange={update('serviceType')}
+          className="font-sinhala w-full px-5 py-4 rounded-2xl bg-white/5 border-2 border-[#FACC15]/25 text-ivory focus:border-[#FACC15] outline-none transition-colors"
         >
-          <span className="text-[#FACC15]/60">☾&nbsp; </span>සේවා<span className="text-[#FACC15]/60"> &nbsp;☾</span>
-        </motion.h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, i) => (
-            <ServiceCard key={service.id} service={service} onView={setActiveService} index={i} />
+          {serviceTypeOptions.map((opt) => (
+            <option key={opt.value} value={opt.value} className="bg-deep">
+              {opt.label}
+            </option>
           ))}
-          <ContactCard onBook={() => openBooking('')} index={services.length} />
+        </select>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label className="font-sinhala block mb-2 text-[#FACC15] font-semibold">සම්පූර්ණ නම</label>
+          <input
+            required
+            type="text"
+            placeholder="ඔබේ සම්පූර්ණ නම"
+            value={form.fullName}
+            onChange={update('fullName')}
+            className="font-sinhala w-full px-5 py-4 rounded-2xl bg-white/5 border-2 border-[#FACC15]/25 text-ivory placeholder:text-slate-soft/60 focus:border-[#FACC15] outline-none transition-colors"
+          />
+        </div>
+        <div>
+          <label className="font-sinhala block mb-2 text-[#FACC15] font-semibold">දුරකථන අංකය</label>
+          <input
+            required
+            type="tel"
+            pattern="[0-9]{10}"
+            placeholder="07X XXX XXXX"
+            value={form.phoneNumber}
+            onChange={update('phoneNumber')}
+            className="font-sinhala w-full px-5 py-4 rounded-2xl bg-white/5 border-2 border-[#FACC15]/25 text-ivory placeholder:text-slate-soft/60 focus:border-[#FACC15] outline-none transition-colors"
+          />
         </div>
       </div>
 
-      <Modal open={!!activeService} title={activeService?.title || ''} onClose={handleClose}>
-        {activeService && (
-          <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
-              {activeService.images.map((src, i) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={`${activeService.title} ${i + 1}`}
-                  className="w-full h-48 object-cover rounded-2xl border-2 border-[#FACC15]/20 shadow-lg"
-                />
-              ))}
-            </div>
-            <div className="rounded-2xl bg-white/5 border-l-4 border-[#FACC15] p-6 mb-8">
-              <h4 className="font-sinhala flex items-center gap-2 text-[#FACC15] text-lg mb-3">
-                <Info className="w-5 h-5 shrink-0" /> සේවා විස්තර:
-              </h4>
-              <p className="font-sinhala text-ivory/85 leading-relaxed">{activeService.detail}</p>
-            </div>
-            <button
-              onClick={() => openBooking(activeService.id)}
-              className="font-sinhala w-full flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-semibold shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all"
-            >
-              <LogIn className="w-5 h-5 shrink-0" />
-              <span>සේවා අයදීම</span>
-            </button>
-          </div>
-        )}
-      </Modal>
+      <div>
+        <label className="font-sinhala block mb-2 text-[#FACC15] font-semibold">උපන් විස්තර</label>
+        <textarea
+          required
+          rows={3}
+          placeholder={'උපන් දිනය, උපන් වේලාව, උපන් ස්ථානය, ස්ත්‍රී/පුරුෂ භාවය\nඋදා: 1990-05-15, 08:30 AM, කොළඹ'}
+          value={form.birthDetails}
+          onChange={update('birthDetails')}
+          className="font-sinhala w-full px-5 py-4 rounded-2xl bg-white/5 border-2 border-[#FACC15]/25 text-ivory placeholder:text-slate-soft/60 focus:border-[#FACC15] outline-none transition-colors resize-y"
+        />
+      </div>
 
-      <Modal open={bookingOpen} title="සේවා වෙන්කරවා ගැනීම" onClose={handleClose}>
-        <ServiceForm defaultServiceType={bookingDefault} />
-      </Modal>
-    </section>
+      <div>
+        <label className="font-sinhala block mb-2 text-[#FACC15] font-semibold">අමතර තොරතුරු</label>
+        <textarea
+          rows={3}
+          placeholder="අවශ්‍ය අමතර තොරතුරු හෝ විශේෂ අවශ්‍යතා"
+          value={form.additionalInfo}
+          onChange={update('additionalInfo')}
+          className="font-sinhala w-full px-5 py-4 rounded-2xl bg-white/5 border-2 border-[#FACC15]/25 text-ivory placeholder:text-slate-soft/60 focus:border-[#FACC15] outline-none transition-colors resize-y"
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="font-sinhala w-full flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-semibold tracking-wide shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all"
+      >
+        <Send className="w-5 h-5 shrink-0" />
+        <span className="text-center">Submit &amp; WhatsApp පණිවිඩය යවන්න</span>
+      </button>
+
+      <div className="rounded-2xl bg-white/5 border-l-4 border-[#FACC15] p-5 text-sm">
+        <h4 className="font-sinhala flex items-center gap-2 text-[#FACC15] mb-2">
+          <MessageCircle className="w-4 h-4 shrink-0" /> WhatsApp පණිවිඩය:
+        </h4>
+        <p className="font-sinhala text-ivory/80 leading-relaxed">
+          ඔබගේ තොරතුරු යොමු කිරීමෙන් පසු WhatsApp පණිවිඩයක් ස්වයංක්‍රීයව යවනු ලැබේ. පණිවිඩයේ ඔබගේ සියලු තොරතුරු ඇතුළත් වනු ඇත.
+        </p>
+        <p className="font-sinhala text-ivory/80 mt-2 font-semibold">සැලකිය යුතුයි :</p>
+        <p className="font-sinhala text-ivory/80 leading-relaxed">
+          ජන්ම පත්‍ර පරීක්ෂාව, පොරොන්දම් පරීක්ෂාව, විවාහ මංගල නැකැත් ඇතුලු සියලුම සුබ නැකැත් සෑදීම සදහා ඔබගේ ජන්ම පත්‍ර WhatsApp හරහා යොමු කළ යුතුය.
+        </p>
+      </div>
+    </form>
   );
 }
