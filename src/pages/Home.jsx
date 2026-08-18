@@ -1,16 +1,15 @@
+import { useState } from 'react';
 import HeroProfile from '../components/HeroProfile';
 import ServicesSection from '../components/ServicesSection';
 import WeeklyHoroscope from '../components/WeeklyHoroscope';
 import DeveloperProfile from '../components/DeveloperProfile';
 import Footer from '../components/Footer';
 
-// Note: WeeklyHoroscope / DeveloperProfile / Footer used to be React.lazy +
-// Suspense (code-split for a small performance win). That broke the navbar's
-// scroll-spy: the IntersectionObserver sets itself up once on mount, but
-// lazy sections don't exist in the DOM yet at that point, so their ids were
-// never observed and those nav links never highlighted. Plain imports fix
-// that — all sections exist immediately, so every nav link tracks correctly.
-export default function Home() {
+// IMPORTANT: ඔයාගේ "සේවා වෙන්කරවා ගැනීම" Form Component එක මෙතනට Import කරගන්න.
+// (කරුණාකර Form එක තියෙන file path එක අනුව පහත line එකේ path එක වෙනස් කරගන්න)
+import BookingModal from '../components/BookingModal'; 
+
+export default function Home({ isBookingOpen, setIsBookingOpen }) {
   return (
     <>
       <HeroProfile />
@@ -18,6 +17,11 @@ export default function Home() {
       <WeeklyHoroscope />
       <DeveloperProfile />
       <Footer />
+
+      {/* Nav bar එකෙන් 'සම්බන්ධ වන්න' Click කල විට Form එක Popup වේ */}
+      {isBookingOpen && (
+        <BookingModal onClose={() => setIsBookingOpen(false)} />
+      )}
     </>
   );
 }
