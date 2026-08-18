@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, CheckCircle2, MessageCircle, Info } from 'lucide-react';
-import { serviceTypeOptions, serviceName, SITE } from '../utils/constants';
+import{ useState }from 'react';
+import{ motion }from 'framer-motion';
+import{ Send, CheckCircle2, MessageCircle, Info }from 'lucide-react';
+import{ serviceTypeOptions, serviceName, SITE }from '../utils/constants';
 
 const initialForm = {
   serviceType: '',
