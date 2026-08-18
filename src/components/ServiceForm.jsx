@@ -22,26 +22,25 @@ export default function ServiceForm({ defaultServiceType = '' }) {
     e.preventDefault();
     const timestamp = new Date().toLocaleString('si-LK');
 
-    const message = `Sri seta Astrology - සේවා අයදුම්පත
+    const message = `✨ Sri Seta Astrology - සේවා අයදුම්පත ✨
 
--> සේවා වර්ගය: ${serviceName(form.serviceType)}
+📌 සේවා වර්ගය: ${serviceName(form.serviceType)}
 
--> නම: ${form.fullName}
--> දුරකථන: ${form.phoneNumber}
--> උපන් විස්තර: ${form.birthDetails}
--> අමතර තොරතුරු: ${form.additionalInfo}
+👤 නම: ${form.fullName}
+📞 දුරකථන: ${form.phoneNumber}
+🗓️ උපන් විස්තර: ${form.birthDetails}
+📝 අමතර තොරතුරු: ${form.additionalInfo || 'නැත'}
 
--> යොමු කළ දිනය: ${timestamp}
+📅 යොමු කළ දිනය: ${timestamp}
 
--> ඔබගේ අයදුම්පත ලැබී ඇත.
+----------------------------------------
 
--> මේ සමග ඔබේ ජන්මපත්‍රයේ ජායාරූපයක් අපට එවන්න.
+✅ ඔබගේ අයදුම්පත සාර්ථකව ලැබුණි.
+📜 කරුණාකර ඔබගේ ජන්මපත්‍රයේ පැහැදිලි ඡායාරූපයක් (Photo) මේ සමඟ යොමු කරන්න.
 
--> අපගේ ජෝතීර්වේදිනී සමරවීර මහත්මිය ඔබට සම්බන්ධ වනු ඇත.
+👩‍💼 අපගේ ජ්‍යොතිෂවේදිනී ශ්‍රියාණි සමරවීර මහත්මිය ඉදිරියේදී ඔබ හා සම්බන්ධ වනු ඇත.
 
--> ඔබට ගුණාත්මක සේවාවක් ලබාදීමට අපි බලාපොරොත්තු වෙමු.
-
- ස්තුතියි!`;
+🙏 ස්තුතියි!`;
 
     const url = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
     setWhatsappUrl(url);
@@ -63,7 +62,7 @@ export default function ServiceForm({ defaultServiceType = '' }) {
 
         <div className="rounded-2xl border border-[#FACC15]/20 bg-white/5 p-6">
           <h4 className="font-sinhala flex items-center justify-center gap-2 text-[#FACC15] text-lg mb-3">
-            <MessageCircle className="w-5 h-5" /> WhatsApp පණිවිඩය යැවීමට:
+            <MessageCircle className="w-5 h-5 shrink-0" /> WhatsApp පණිවිඩය යැවීමට:
           </h4>
           <p className="font-sinhala text-slate-soft mb-5">
             පහත බොත්තම ක්ලික් කර WhatsApp හරහා ස්වයංක්‍රීයව පණිවිඩය යවන්න.
@@ -72,12 +71,13 @@ export default function ServiceForm({ defaultServiceType = '' }) {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full inline-flex items-center justify-center gap-3 py-4 rounded-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-semibold shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all"
+            className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-semibold shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all"
           >
-            <MessageCircle className="w-5 h-5" /> WhatsApp පණිවිඩය යවන්න
+            <MessageCircle className="w-5 h-5 shrink-0" />
+            <span className="text-center">WhatsApp පණිවිඩය යවන්න</span>
           </a>
           <p className="font-sinhala text-xs text-slate-soft mt-4 flex items-center justify-center gap-1.5">
-            <Info className="w-3.5 h-3.5" /> WhatsApp විවෘත කිරීමට බොත්තම ක්ලික් කරන්න
+            <Info className="w-3.5 h-3.5 shrink-0" /> WhatsApp විවෘත කිරීමට බොත්තම ක්ලික් කරන්න
           </p>
         </div>
 
@@ -135,7 +135,7 @@ export default function ServiceForm({ defaultServiceType = '' }) {
         <textarea
           required
           rows={3}
-          placeholder={'උපන් දිනය,උපන් වේලාව,උපන් ස්ථානය,ස්ත්‍රී/පුරුෂ භාවය\nඋදා: 1990-05-15, 08:30 AM, කොළඹ'}
+          placeholder={'උපන් දිනය, උපන් වේලාව, උපන් ස්ථානය, ස්ත්‍රී/පුරුෂ භාවය\nඋදා: 1990-05-15, 08:30 AM, කොළඹ'}
           value={form.birthDetails}
           onChange={update('birthDetails')}
           className="font-sinhala w-full px-5 py-4 rounded-2xl bg-white/5 border-2 border-[#FACC15]/25 text-ivory placeholder:text-slate-soft/60 focus:border-[#FACC15] outline-none transition-colors resize-y"
@@ -155,21 +155,22 @@ export default function ServiceForm({ defaultServiceType = '' }) {
 
       <button
         type="submit"
-        className="font-sinhala w-full flex items-center justify-center gap-3 py-4 rounded-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-semibold tracking-wide shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all"
+        className="font-sinhala w-full flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-semibold tracking-wide shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all"
       >
-        <Send className="w-5 h-5" /> Submit &amp; WhatsApp පණිවිඩය යවන්න
+        <Send className="w-5 h-5 shrink-0" />
+        <span className="text-center">Submit &amp; WhatsApp පණිවිඩය යවන්න</span>
       </button>
 
       <div className="rounded-2xl bg-white/5 border-l-4 border-[#FACC15] p-5 text-sm">
         <h4 className="font-sinhala flex items-center gap-2 text-[#FACC15] mb-2">
-          <MessageCircle className="w-4 h-4" /> WhatsApp පණිවිඩය:
+          <MessageCircle className="w-4 h-4 shrink-0" /> WhatsApp පණිවිඩය:
         </h4>
         <p className="font-sinhala text-ivory/80 leading-relaxed">
           ඔබගේ තොරතුරු යොමු කිරීමෙන් පසු WhatsApp පණිවිඩයක් ස්වයංක්‍රීයව යවනු ලැබේ. පණිවිඩයේ ඔබගේ සියලු තොරතුරු ඇතුළත් වනු ඇත.
         </p>
-        <p className="font-sinhala text-ivory/80 mt-2">සැලකිය යුතුයි :</p>
-        <p className="font-sinhala text-ivory/80">
-          ජන්ම පත්‍ර පරීක්ෂාව ,පොරොන්දම් පරීක්ෂාව ,විවාහ මංගල නැකැත් ඇතුලු සියලුම සුබ නැකැත් සෑදීම සදහා ඔබගේ ජන්ම පත්‍ර Whats App හරහා යොමු කළ යුතුය.
+        <p className="font-sinhala text-ivory/80 mt-2 font-semibold">සැලකිය යුතුයි :</p>
+        <p className="font-sinhala text-ivory/80 leading-relaxed">
+          ජන්ම පත්‍ර පරීක්ෂාව, පොරොන්දම් පරීක්ෂාව, විවාහ මංගල නැකැත් ඇතුලු සියලුම සුබ නැකැත් සෑදීම සදහා ඔබගේ ජන්ම පත්‍ර WhatsApp හරහා යොමු කළ යුතුය.
         </p>
       </div>
     </form>
