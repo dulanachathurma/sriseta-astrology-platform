@@ -40,7 +40,7 @@ export default function ServiceForm({ defaultServiceType = '' }) {
 
 👩‍💼 අපගේ ජ්‍යොතිෂවේදිනී ශ්‍රියාණි සමරවීර මහත්මිය ඉදිරියේදී ඔබ හා සම්බන්ධ වනු ඇත.
 
-🙏 ස්තුතියි!`;
+🙏 ස්තුතියි !`;
 
     const url = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
     setWhatsappUrl(url);
