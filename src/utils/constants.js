@@ -31,7 +31,7 @@ export const services = [
     title: 'හඳහන් සෑදීම',
     description: 'උපන් වේලාව, දිනය, ස්ථානය අනුව හදහන් සකස් කිරීම',
     detail: 'උපන්(වේලාව, දිනය, ස්ථානය) අනුව පූර්ණ ජාතක හඳහන සකස් කිරීම.',
-    images: ['/images/service_handahan_01.jpg', '/images/service_handahan_02.jpg'],
+    images: ['/images/service_handahan_001.jpg', '/images/service_handahan_02.jpg'],
   },
   {
     id: 'palapala',
