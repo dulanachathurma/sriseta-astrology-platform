@@ -111,21 +111,21 @@ export default function Navbar({ onOpenBookingModal }) {
           ))}
         </div>
 
-        {/* 2. Rotating Bright Green Border/Glow Button (Desktop) */}
+        {/* 2. Rotating Border + Green Background & White Text Button (Desktop) */}
         <div className="hidden md:flex items-center">
           <button
             onClick={() => handleNavClick('contact')}
             className="relative group p-[2px] rounded-full overflow-hidden flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
           >
-            {/* Rotating Bright Neon Green Light Ring */}
+            {/* Rotating Light Ring */}
             <motion.div 
               animate={{ rotate: 360 }}
               transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
               className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#00FF66_0%,transparent_30%,#10B981_50%,transparent_80%,#00FF66_100%)]"
             />
 
-            {/* Inner Button Body with Glow */}
-            <span className="relative z-10 px-7 py-2.5 rounded-full bg-black text-[#00FF66] font-bold text-sm transition-colors duration-300 group-hover:bg-[#00FF66] group-hover:text-black shadow-[0_0_15px_rgba(0,255,102,0.4)]">
+            {/* Inner Button Body: Solid Green BG & White Text */}
+            <span className="relative z-10 px-7 py-2.5 rounded-full bg-[#00FF66] hover:bg-[#10B981] text-white font-bold text-sm transition-colors duration-300 shadow-[0_0_20px_rgba(0,255,102,0.6)]">
               සම්බන්ධ වන්න
             </span>
           </button>
@@ -157,7 +157,7 @@ export default function Navbar({ onOpenBookingModal }) {
                 </button>
               ))}
               
-              {/* Rotating Bright Green Glow Button (Mobile) */}
+              {/* Rotating Border + Green Background & White Text Button (Mobile) */}
               <button
                 onClick={() => handleNavClick('contact')}
                 className="relative p-[2px] rounded-full overflow-hidden flex items-center justify-center mt-2 w-full"
@@ -167,7 +167,7 @@ export default function Navbar({ onOpenBookingModal }) {
                   transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
                   className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#00FF66_0%,transparent_30%,#10B981_50%,transparent_80%,#00FF66_100%)]"
                 />
-                <span className="relative z-10 w-full py-3 rounded-full bg-black text-[#00FF66] font-bold text-center shadow-[0_0_15px_rgba(0,255,102,0.4)]">
+                <span className="relative z-10 w-full py-3 rounded-full bg-[#00FF66] text-white font-bold text-center shadow-[0_0_20px_rgba(0,255,102,0.6)]">
                   සම්බන්ධ වන්න
                 </span>
               </button>
