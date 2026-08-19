@@ -74,9 +74,9 @@ export default function Navbar({ onOpenBookingModal }) {
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 py-3 shadow-lg' : 'bg-transparent py-5'}`}>
       <nav className="max-w-7xl mx-auto px-5 flex items-center justify-between">
         
-        {/* Circle Logo */}
+        {/* Circle Logo with Intense Yellow Glow Effect */}
         <button onClick={() => handleNavClick('home')} className="flex items-center gap-2 group">
-          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#FACC15]/40 group-hover:border-[#FACC15] transition-all duration-300 p-0.5 bg-black/40 backdrop-blur-sm shadow-md flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#FACC15] group-hover:border-yellow-300 transition-all duration-300 p-0.5 bg-black/40 backdrop-blur-sm shadow-[0_0_25px_rgba(250,204,21,0.9)] hover:shadow-[0_0_35px_rgba(250,204,21,1)] flex items-center justify-center">
             <img 
               src="/logo.png" 
               alt="Logo" 
@@ -101,13 +101,13 @@ export default function Navbar({ onOpenBookingModal }) {
           ))}
         </div>
 
-        {/* Bright Green Button (Desktop) */}
+        {/* Green Button with Glow Effect (Desktop) */}
         <div className="hidden md:flex items-center">
           <button
             onClick={() => handleNavClick('contact')}
-            className="bg-gradient-to-r from-[#22c55e] to-[#10b981] hover:from-[#16a34a] hover:to-[#059669] text-white font-semibold px-7 py-2.5 rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_25px_rgba(34,197,94,0.7)] hover:scale-105 active:scale-95"
+            className="bg-[#22c55e] hover:bg-[#16a34a] text-white font-semibold px-7 py-2.5 rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.8)] hover:shadow-[0_0_35px_rgba(34,197,94,1)] hover:scale-105 active:scale-95"
           >
-           සම්බන්ධ වන්න
+          සම්බන්ධ වන්න
           </button>
         </div>
 
@@ -137,12 +137,12 @@ export default function Navbar({ onOpenBookingModal }) {
                 </button>
               ))}
               
-              {/* Bright Green Button (Mobile) */}
+              {/* Green Button with Glow Effect (Mobile) */}
               <button
                 onClick={() => handleNavClick('contact')}
-                className="w-full bg-gradient-to-r from-[#22c55e] to-[#10b981] text-white font-semibold py-3 rounded-full text-center mt-2 shadow-[0_0_15px_rgba(34,197,94,0.4)]"
+                className="w-full bg-[#22c55e] text-white font-semibold py-3 rounded-full text-center mt-2 shadow-[0_0_20px_rgba(34,197,94,0.8)]"
               >
-               සම්බන්ධ වන්න
+                සම්බන්ධ වන්න
               </button>
             </div>
           </motion.div>
