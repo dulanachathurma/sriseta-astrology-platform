@@ -89,7 +89,7 @@ export default function ServicesSection() {
   return (
     <section id="services" className="px-5 py-24 relative">
      {/* Header Section */}
-<div className="text-center mb-10">
+<div className="text-center mb-16">
   <motion.h2
     initial={{ opacity: 0, y: -20 }}
     whileInView={{ opacity: 1, y: 0 }}
