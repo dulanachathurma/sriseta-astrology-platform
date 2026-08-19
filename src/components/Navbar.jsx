@@ -111,20 +111,30 @@ export default function Navbar({ onOpenBookingModal }) {
           ))}
         </div>
 
-        {/* 2. Standard Green Background & White Text Button (Desktop) */}
+        {/* 2. Button with Concentric Animated Shapes/Ripples (Desktop) */}
         <div className="hidden md:flex items-center">
           <button
             onClick={() => handleNavClick('contact')}
-            className="relative group p-[2px] rounded-full overflow-hidden flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
+            className="relative group flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
           >
-            {/* Rotating Green Light Ring */}
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
-              className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#22c55e_0%,transparent_30%,#16a34a_50%,transparent_80%,#22c55e_100%)]"
+            {/* Animate Circle / Oval Rings Pulsing Outward */}
+            <motion.span
+              animate={{ scale: [1, 1.25, 1.4], opacity: [0.6, 0.3, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeOut' }}
+              className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
+            />
+            <motion.span
+              animate={{ scale: [1, 1.2, 1.35], opacity: [0.6, 0.3, 0] }}
+              transition={{ repeat: Infinity, duration: 2, delay: 0.6, ease: 'easeOut' }}
+              className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
+            />
+            <motion.span
+              animate={{ scale: [1, 1.15, 1.25], opacity: [0.6, 0.3, 0] }}
+              transition={{ repeat: Infinity, duration: 2, delay: 1.2, ease: 'easeOut' }}
+              className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
             />
 
-            {/* Inner Button Body: Normal Green BG & White Text */}
+            {/* Solid Normal Green Button Surface */}
             <span className="relative z-10 px-7 py-2.5 rounded-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold text-sm transition-colors duration-300 shadow-[0_0_15px_rgba(34,197,94,0.5)]">
               සම්බන්ධ වන්න
             </span>
@@ -157,15 +167,20 @@ export default function Navbar({ onOpenBookingModal }) {
                 </button>
               ))}
               
-              {/* Standard Green Button (Mobile) */}
+              {/* Button with Concentric Ripples (Mobile) */}
               <button
                 onClick={() => handleNavClick('contact')}
-                className="relative p-[2px] rounded-full overflow-hidden flex items-center justify-center mt-2 w-full"
+                className="relative flex items-center justify-center mt-2 w-full py-3"
               >
-                <motion.div 
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
-                  className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#22c55e_0%,transparent_30%,#16a34a_50%,transparent_80%,#22c55e_100%)]"
+                <motion.span
+                  animate={{ scale: [1, 1.15, 1.25], opacity: [0.6, 0.3, 0] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: 'easeOut' }}
+                  className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
+                />
+                <motion.span
+                  animate={{ scale: [1, 1.1, 1.2], opacity: [0.6, 0.3, 0] }}
+                  transition={{ repeat: Infinity, duration: 2, delay: 0.7, ease: 'easeOut' }}
+                  className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
                 />
                 <span className="relative z-10 w-full py-3 rounded-full bg-[#22c55e] text-white font-bold text-center shadow-[0_0_15px_rgba(34,197,94,0.5)]">
                   සම්බන්ධ වන්න
