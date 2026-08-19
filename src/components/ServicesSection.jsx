@@ -88,25 +88,25 @@ export default function ServicesSection() {
 
   return (
     <section id="services" className="px-5 py-24 relative">
-     {/* Header Section */}
-<div className="text-center mb-16 md:mb-20">
+{/* Header Section */}
+<div className="text-center mb-8">
   <motion.h2
     initial={{ opacity: 0, y: -20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.5 }}
-    className="font-sinhala text-4xl md:text-5xl font-bold text-[#FACC15] mb-2 inline-block"
+    className="font-sinhala text-4xl md:text-5xl font-bold text-[#FACC15] mb-4 inline-block"
   >
     <span className="text-[#FACC15]/60">☾&nbsp; </span>සේවා<span className="text-[#FACC15]/60"> &nbsp;☾</span>
   </motion.h2>
 
-  {/* Subtitle with fixed gap & tracking */}
+  {/* Subtitle with increased bottom margin (mb-16 / md:mb-20) */}
   <motion.p
     initial={{ opacity: 0, y: 10 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.5, delay: 0.2 }}
-    className="font-sinhala text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-normal tracking-normal"
+    className="font-sinhala text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-loose mb-16 md:mb-20"
   >
     පාරම්පරික සහ විද්‍යාත්මක ජ්‍යොතිෂ මූලධර්මයන්ට අනුකූලව ඔබ වෙත සැපයෙන විශ්වාසනීය සේවාවන්
   </motion.p>
