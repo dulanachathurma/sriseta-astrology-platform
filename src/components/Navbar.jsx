@@ -111,22 +111,22 @@ export default function Navbar({ onOpenBookingModal }) {
           ))}
         </div>
 
-        {/* 2. Rotating Green Border/Glow Button (Desktop) */}
+        {/* 2. Rotating Bright Green Border/Glow Button (Desktop) */}
         <div className="hidden md:flex items-center">
           <button
             onClick={() => handleNavClick('contact')}
             className="relative group p-[2px] rounded-full overflow-hidden flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
           >
-            {/* Rotating Green Light Ring */}
+            {/* Rotating Bright Neon Green Light Ring */}
             <motion.div 
               animate={{ rotate: 360 }}
               transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
-              className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#22c55e_0%,transparent_30%,#22c55e_50%,transparent_80%,#22c55e_100%)]"
+              className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#00FF66_0%,transparent_30%,#10B981_50%,transparent_80%,#00FF66_100%)]"
             />
 
-            {/* Inner Button Body */}
-            <span className="relative z-10 px-7 py-2.5 rounded-full bg-black text-white font-semibold text-sm transition-colors duration-300 group-hover:bg-[#16a34a]">
-             සම්බන්ධ වන්න
+            {/* Inner Button Body with Glow */}
+            <span className="relative z-10 px-7 py-2.5 rounded-full bg-black text-[#00FF66] font-bold text-sm transition-colors duration-300 group-hover:bg-[#00FF66] group-hover:text-black shadow-[0_0_15px_rgba(0,255,102,0.4)]">
+              සම්බන්ධ වන්න
             </span>
           </button>
         </div>
@@ -157,7 +157,7 @@ export default function Navbar({ onOpenBookingModal }) {
                 </button>
               ))}
               
-              {/* Rotating Green Glow Button (Mobile) */}
+              {/* Rotating Bright Green Glow Button (Mobile) */}
               <button
                 onClick={() => handleNavClick('contact')}
                 className="relative p-[2px] rounded-full overflow-hidden flex items-center justify-center mt-2 w-full"
@@ -165,9 +165,9 @@ export default function Navbar({ onOpenBookingModal }) {
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
-                  className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#22c55e_0%,transparent_30%,#22c55e_50%,transparent_80%,#22c55e_100%)]"
+                  className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#00FF66_0%,transparent_30%,#10B981_50%,transparent_80%,#00FF66_100%)]"
                 />
-                <span className="relative z-10 w-full py-3 rounded-full bg-black text-white font-semibold text-center">
+                <span className="relative z-10 w-full py-3 rounded-full bg-black text-[#00FF66] font-bold text-center shadow-[0_0_15px_rgba(0,255,102,0.4)]">
                   සම්බන්ධ වන්න
                 </span>
               </button>
