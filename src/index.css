@@ -11,8 +11,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
   height: 100%;
-  -webkit-overflow-scrolling: touch; /* iOS Momentum Scrolling */
-  overscroll-behavior-y: contain; /* Unwanted bounce/lag නැවැත්වීමට */
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -21,22 +20,11 @@ body {
   background-color: #000;
   overflow-x: hidden;
   min-height: 100vh;
-  /* Fast touch interactions */
-  touch-action: manipulation;
 }
 
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-}
-
-/* Mobile Scrolling Performance Booster */
-@media (max-width: 768px) {
-  * {
-    /* Mobile වල GPU Render Speed වැඩි කිරීමට */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-  }
 }
 
 /* 2. ස්ථාවර Background (GPU Accelerated) */
@@ -67,20 +55,11 @@ body {
   font-family: 'Noto Sans Sinhala', 'Inter', sans-serif;
 }
 
-/* Mobile Blur Fix: 20px වෙනුවට Mobile වලට අඩුවෙන් Blur දී Performance වැඩි කර ඇත */
 .glass-card {
   background: linear-gradient(135deg, rgba(16, 18, 59, 0.85) 0%, rgba(22, 26, 69, 0.75) 100%);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(212, 175, 55, 0.18);
-  will-change: transform, opacity;
-}
-
-@media (min-width: 768px) {
-  .glass-card {
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
 }
 
 .text-gradient-gold {
@@ -101,7 +80,7 @@ section {
 ::-webkit-scrollbar-track { background: #10123b; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(#d4af37, #10123b); border-radius: 5px; }
 
-/* 5. Responsive සැකසුම් */
+/* 5. Responsive සහ Mobile Optimizations */
 @media (max-width: 1024px) {
   ::-webkit-scrollbar { display: none; }
   html { scrollbar-width: none; }
@@ -114,7 +93,25 @@ section {
   .desktop-text { font-size: 1.25rem; line-height: 1.75rem; }
 }
 
-@media (max-width: 600px) {
+/* Mobile Specific Optimizations (Fast Scrolling & Zero Animations) */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto !important; /* Instant native scroll speed */
+  }
+
+  /* Disable card and element animations completely on mobile */
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Optimize glassmorphism heavy blur for fast render */
+  .glass-card {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(16, 18, 59, 0.95) !important;
+  }
+
   .text-container { padding: 0 20px; }
   .text-container h1, .text-container p { font-size: 1.2rem; word-wrap: break-word; }
 }
