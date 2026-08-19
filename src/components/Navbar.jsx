@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
-// 'contact' ලින්ක් එක අයින් කර ඇත (එය වෙනුවට දකුණු පස Button එකක් යොදා ඇති බැවින්)
 const NAV_LINKS = [
   { id: 'home', label: 'මුල් පිටුව' },
   { id: 'services', label: 'සේවා' },
@@ -21,7 +20,6 @@ export default function Navbar({ onOpenBookingModal }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // 1. Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -40,7 +38,6 @@ export default function Navbar({ onOpenBookingModal }) {
     return () => observer.disconnect();
   }, []);
 
-  // 2. Hash Change Listener
   useEffect(() => {
     const handleHashChange = () => {
       const id = window.location.hash.replace('#', '');
@@ -61,7 +58,6 @@ export default function Navbar({ onOpenBookingModal }) {
     setOpen(false);
     setActive(id);
 
-    // 'contact' click කළ විට Modal එක Open කරන්න
     if (id === 'contact') {
       window.location.hash = 'contact';
       if (onOpenBookingModal) {
@@ -70,31 +66,32 @@ export default function Navbar({ onOpenBookingModal }) {
       return;
     }
 
-    // වෙනත් link එකක් නම් scroll කරන්න
     window.location.hash = id;
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/70 backdrop-blur-xl border-b border-black/10 py-3 shadow-lg' : 'bg-transparent py-5'}`}>
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 py-3 shadow-lg' : 'bg-transparent py-5'}`}>
       <nav className="max-w-7xl mx-auto px-5 flex items-center justify-between">
         
-        {/* 1. වම් පස Logo Image එක */}
-        <button onClick={() => handleNavClick('home')} className="flex items-center gap-2">
-          <img 
-            src="/Logo 1.jpg" 
-            alt="Logo" 
-            className="h-12 w-auto object-contain" 
-          />
+        {/* Circle Logo */}
+        <button onClick={() => handleNavClick('home')} className="flex items-center gap-2 group">
+          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#FACC15]/40 group-hover:border-[#FACC15] transition-all duration-300 p-0.5 bg-black/40 backdrop-blur-sm shadow-md flex items-center justify-center">
+            <img 
+              src="/logo.png" 
+              alt="Logo" 
+              className="w-full h-full object-cover rounded-full" 
+            />
+          </div>
         </button>
 
-        {/* මැද Navigation Links */}
+        {/* Navigation Links */}
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
             <button 
               key={link.id} 
               onClick={() => handleNavClick(link.id)} 
-              className={`text-sm transition-all relative py-1 ${active === link.id ? 'text-[#FACC15] font-bold' : (scrolled ? 'text-gray-700' : 'text-white/80')}`}
+              className={`text-sm transition-all relative py-1 uppercase tracking-wider ${active === link.id ? 'text-[#FACC15] font-bold' : (scrolled ? 'text-gray-200' : 'text-white/80')}`}
             >
               {link.label}
               {active === link.id && (
@@ -104,18 +101,18 @@ export default function Navbar({ onOpenBookingModal }) {
           ))}
         </div>
 
-        {/* 2. දකුණු පස Green Button එක (Desktop) */}
+        {/* Bright Green Button (Desktop) */}
         <div className="hidden md:flex items-center">
           <button
             onClick={() => handleNavClick('contact')}
-            className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-2.5 rounded-full transition-all duration-300 shadow-lg hover:scale-105 active:scale-95"
+            className="bg-gradient-to-r from-[#22c55e] to-[#10b981] hover:from-[#16a34a] hover:to-[#059669] text-white font-semibold px-7 py-2.5 rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_25px_rgba(34,197,94,0.7)] hover:scale-105 active:scale-95"
           >
             හමුව වෙන්කරන්න
           </button>
         </div>
 
-        {/* Mobile Menu Toggle Button */}
-        <button onClick={() => setOpen(!open)} className={`md:hidden ${scrolled ? 'text-black' : 'text-[#FACC15]'}`}>
+        {/* Mobile Menu Icon */}
+        <button onClick={() => setOpen(!open)} className={`md:hidden ${scrolled ? 'text-white' : 'text-[#FACC15]'}`}>
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </nav>
@@ -127,25 +124,25 @@ export default function Navbar({ onOpenBookingModal }) {
             initial={{ height: 0, opacity: 0 }} 
             animate={{ height: 'auto', opacity: 1 }} 
             exit={{ height: 0, opacity: 0 }} 
-            className="md:hidden bg-white/95 border-b backdrop-blur-lg absolute top-full left-0 w-full"
+            className="md:hidden bg-black/95 border-b border-white/10 backdrop-blur-xl absolute top-full left-0 w-full"
           >
             <div className="flex flex-col px-5 py-6 gap-5">
               {NAV_LINKS.map((link) => (
                 <button 
                   key={link.id} 
                   onClick={() => handleNavClick(link.id)} 
-                  className={`text-left text-lg ${active === link.id ? 'text-[#FACC15] font-bold' : 'text-gray-800'}`}
+                  className={`text-left text-lg ${active === link.id ? 'text-[#FACC15] font-bold' : 'text-gray-200'}`}
                 >
                   {link.label}
                 </button>
               ))}
               
-              {/* 3. Mobile Green Button */}
+              {/* Bright Green Button (Mobile) */}
               <button
                 onClick={() => handleNavClick('contact')}
-                className="w-full bg-emerald-600 active:bg-emerald-700 text-white font-medium py-3 rounded-full text-center mt-2 shadow-md"
+                className="w-full bg-gradient-to-r from-[#22c55e] to-[#10b981] text-white font-semibold py-3 rounded-full text-center mt-2 shadow-[0_0_15px_rgba(34,197,94,0.4)]"
               >
-                හමුව වෙන්කරන්න
+               සම්බන්ධ වන්න
               </button>
             </div>
           </motion.div>
