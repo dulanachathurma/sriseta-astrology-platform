@@ -97,7 +97,16 @@ export default function ServicesSection() {
         >
           <span className="text-[#FACC15]/60">☾&nbsp; </span>සේවා<span className="text-[#FACC15]/60"> &nbsp;☾</span>
         </motion.h2>
-
+{/* Subtitle Added Here */}
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="font-sinhala text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
+          >
+            පාරම්පරික සහ විද්‍යාත්මක ජ්‍යොතිෂ මූලධර්මයන්ට අනුකූලව ඔබ වෙත සැපයෙන විශ්වාසනීය සේවාවන්
+          </motion.p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, i) => (
             <ServiceCard key={service.id} service={service} onView={setActiveService} index={i} />
