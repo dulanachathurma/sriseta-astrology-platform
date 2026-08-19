@@ -107,7 +107,7 @@ export default function Navbar({ onOpenBookingModal }) {
             onClick={() => handleNavClick('contact')}
             className="bg-gradient-to-r from-[#22c55e] to-[#10b981] hover:from-[#16a34a] hover:to-[#059669] text-white font-semibold px-7 py-2.5 rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_25px_rgba(34,197,94,0.7)] hover:scale-105 active:scale-95"
           >
-            හමුව වෙන්කරන්න
+           සම්බන්ධ වන්න
           </button>
         </div>
 
