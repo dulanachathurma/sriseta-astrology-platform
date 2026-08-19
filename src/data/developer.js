@@ -11,6 +11,7 @@ export const developer = {
     { label: 'Email', href: 'mailto:dulanachathurma99@gmail.com', icon: Mail, external: false },
     { label: 'Portfolio', href: 'https://dulanaportfolio.vercel.app/', icon: Globe, external: true },
     { label: 'LinkedIn', href: 'https://linkedin.com/in/dulana-chathurma', icon: Linkedin, external: true },
+    { label: 'X', href: 'https://x.com/DulanaChathurma', icon: Twitter, external: true },
     { label: 'GitHub', href: 'https://github.com/dulanachathurma', icon: Github, external: true },
     { label: 'Facebook', href: 'https://web.facebook.com/profile.php?id=61577216859902', icon: Facebook, external: true },
     { label: 'Instagram', href: 'https://www.instagram.com/dulana_chathurma/', icon: Instagram, external: true },
