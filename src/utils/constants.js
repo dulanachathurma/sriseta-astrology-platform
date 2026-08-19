@@ -23,7 +23,7 @@ export const services = [
     title: 'පොරොන්දම් බැලීම',
     description: 'මනාලයා සහ මනාලියගේ ගුණාත්මක බව අධ්‍යයනය',
     detail: 'මනාලයා සහ මනාලියගේ ජන්ම ලග්න, රාශි, නක්ෂත්‍ර ආදිය විශ්ලේෂණය කර ගුණාත්මක බව අධ්‍යයනය කිරීම.',
-    images: ['/images/service_porondam_01.jpg', '/images/service_porondam_02.jpg'],
+    images: ['/images/service_porondam_011.jpg', '/images/service_porondam_012.jpg'],
   },
   {
     id: 'handahan',
