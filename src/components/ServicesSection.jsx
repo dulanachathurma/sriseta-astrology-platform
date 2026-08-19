@@ -110,7 +110,7 @@ export default function ServicesSection() {
   >
     පාරම්පරික සහ විද්‍යාත්මක ජ්‍යොතිෂ මූලධර්මයන්ට අනුකූලව ඔබ වෙත සැපයෙන විශ්වාසනීය සේවාවන්
   </motion.p>
-</div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, i) => (
             <ServiceCard key={service.id} service={service} onView={setActiveService} index={i} />
