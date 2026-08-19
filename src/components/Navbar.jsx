@@ -74,14 +74,24 @@ export default function Navbar({ onOpenBookingModal }) {
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 py-3 shadow-lg' : 'bg-transparent py-5'}`}>
       <nav className="max-w-7xl mx-auto px-5 flex items-center justify-between">
         
-        {/* Circle Logo with Intense Yellow Glow Effect */}
-        <button onClick={() => handleNavClick('home')} className="flex items-center gap-2 group">
-          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#FACC15] group-hover:border-yellow-300 transition-all duration-300 p-0.5 bg-black/40 backdrop-blur-sm shadow-[0_0_25px_rgba(250,204,21,0.9)] hover:shadow-[0_0_35px_rgba(250,204,21,1)] flex items-center justify-center">
-            <img 
-              src="/logo.png" 
-              alt="Logo" 
-              className="w-full h-full object-cover rounded-full" 
+        {/* 1. Rotating Yellow Border/Glow Logo */}
+        <button onClick={() => handleNavClick('home')} className="flex items-center gap-2 group relative">
+          <div className="relative w-12 h-12 rounded-full p-[2px] overflow-hidden flex items-center justify-center">
+            {/* Rotating Yellow Light Ring */}
+            <motion.div 
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
+              className="absolute w-[180%] h-[180%] bg-[conic-gradient(from_0deg,#FACC15_0%,transparent_30%,#FACC15_50%,transparent_80%,#FACC15_100%)]"
             />
+            
+            {/* Logo Image Inside */}
+            <div className="relative w-full h-full rounded-full overflow-hidden bg-black p-0.5 z-10 flex items-center justify-center">
+              <img 
+                src="/logo.png" 
+                alt="Logo" 
+                className="w-full h-full object-cover rounded-full" 
+              />
+            </div>
           </div>
         </button>
 
@@ -101,13 +111,23 @@ export default function Navbar({ onOpenBookingModal }) {
           ))}
         </div>
 
-        {/* Green Button with Glow Effect (Desktop) */}
+        {/* 2. Rotating Green Border/Glow Button (Desktop) */}
         <div className="hidden md:flex items-center">
           <button
             onClick={() => handleNavClick('contact')}
-            className="bg-[#22c55e] hover:bg-[#16a34a] text-white font-semibold px-7 py-2.5 rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.8)] hover:shadow-[0_0_35px_rgba(34,197,94,1)] hover:scale-105 active:scale-95"
+            className="relative group p-[2px] rounded-full overflow-hidden flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
           >
-          සම්බන්ධ වන්න
+            {/* Rotating Green Light Ring */}
+            <motion.div 
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
+              className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#22c55e_0%,transparent_30%,#22c55e_50%,transparent_80%,#22c55e_100%)]"
+            />
+
+            {/* Inner Button Body */}
+            <span className="relative z-10 px-7 py-2.5 rounded-full bg-black text-white font-semibold text-sm transition-colors duration-300 group-hover:bg-[#16a34a]">
+             සම්බන්ධ වන්න
+            </span>
           </button>
         </div>
 
@@ -137,12 +157,19 @@ export default function Navbar({ onOpenBookingModal }) {
                 </button>
               ))}
               
-              {/* Green Button with Glow Effect (Mobile) */}
+              {/* Rotating Green Glow Button (Mobile) */}
               <button
                 onClick={() => handleNavClick('contact')}
-                className="w-full bg-[#22c55e] text-white font-semibold py-3 rounded-full text-center mt-2 shadow-[0_0_20px_rgba(34,197,94,0.8)]"
+                className="relative p-[2px] rounded-full overflow-hidden flex items-center justify-center mt-2 w-full"
               >
-                සම්බන්ධ වන්න
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
+                  className="absolute w-[200%] h-[300%] bg-[conic-gradient(from_0deg,#22c55e_0%,transparent_30%,#22c55e_50%,transparent_80%,#22c55e_100%)]"
+                />
+                <span className="relative z-10 w-full py-3 rounded-full bg-black text-white font-semibold text-center">
+                  සම්බන්ධ වන්න
+                </span>
               </button>
             </div>
           </motion.div>
