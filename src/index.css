@@ -75,12 +75,51 @@ section {
   display: block;
 }
 
-/* 4. Scrollbar සැකසුම් */
+/* =========================================================
+   4. PROFILE PHOTO ANIMATION (Home Page Only)
+   ========================================================= */
+.profile-avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, #d4af37, #f2cb57, #10123b, #d4af37);
+  background-size: 300% 300%;
+  animation: borderRotate 6s ease infinite, avatarGlow 3s ease-in-out infinite alternate;
+}
+
+.profile-avatar-img {
+  display: block;
+  width: 150px; /* කැමති ප්‍රමාණයකට වෙනස් කරගන්න */
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #000;
+}
+
+/* Keyframes for Rotating Border Effect */
+@keyframes borderRotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Keyframes for Gold Glow Effect */
+@keyframes avatarGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3), 0 0 20px rgba(212, 175, 55, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 35px rgba(242, 203, 87, 0.5);
+  }
+}
+
+/* 5. Scrollbar සැකසුම් */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: #10123b; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(#d4af37, #10123b); border-radius: 5px; }
 
-/* 5. Responsive සහ Mobile Optimizations */
+/* 6. Responsive සහ Mobile Optimizations */
 @media (max-width: 1024px) {
   ::-webkit-scrollbar { display: none; }
   html { scrollbar-width: none; }
@@ -93,19 +132,18 @@ section {
   .desktop-text { font-size: 1.25rem; line-height: 1.75rem; }
 }
 
-/* Mobile Specific Optimizations (Fast Scrolling & Zero Animations) */
+/* Mobile Specific Optimizations (Fast Scrolling & Cards animation off) */
 @media (max-width: 768px) {
   html {
-    scroll-behavior: auto !important; /* Instant native scroll speed */
+    scroll-behavior: auto !important;
   }
 
-  /* Disable card and element animations completely on mobile */
-  *, *::before, *::after {
-    animation: none !important;
+  /* Card animations disable කලද Profile Picture animation එක පමණක් activeව තබයි */
+  *:not(.profile-avatar-wrapper) {
     transition: none !important;
   }
 
-  /* Optimize glassmorphism heavy blur for fast render */
+  /* Optimize glassmorphism blur for fast mobile render */
   .glass-card {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
