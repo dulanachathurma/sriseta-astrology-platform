@@ -88,25 +88,29 @@ export default function ServicesSection() {
 
   return (
     <section id="services" className="px-5 py-24 relative">
-      <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="font-sinhala text-center text-4xl md:text-5xl font-bold text-[#FACC15] mb-16 relative inline-block left-1/2 -translate-x-1/2"
-        >
-          <span className="text-[#FACC15]/60">☾&nbsp; </span>සේවා<span className="text-[#FACC15]/60"> &nbsp;☾</span>
-        </motion.h2>
-{/* Subtitle Added Here */}
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="font-sinhala text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
-          >
-            පාරම්පරික සහ විද්‍යාත්මක ජ්‍යොතිෂ මූලධර්මයන්ට අනුකූලව ඔබ වෙත සැපයෙන විශ්වාසනීය සේවාවන්
-          </motion.p>
+     {/* Header Section */}
+<div className="text-center mb-10">
+  <motion.h2
+    initial={{ opacity: 0, y: -20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5 }}
+    className="font-sinhala text-4xl md:text-5xl font-bold text-[#FACC15] mb-2 inline-block"
+  >
+    <span className="text-[#FACC15]/60">☾&nbsp; </span>සේවා<span className="text-[#FACC15]/60"> &nbsp;☾</span>
+  </motion.h2>
+
+  {/* Subtitle with fixed gap & tracking */}
+  <motion.p
+    initial={{ opacity: 0, y: 10 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5, delay: 0.2 }}
+    className="font-sinhala text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-normal tracking-normal"
+  >
+    පාරම්පරික සහ විද්‍යාත්මක ජ්‍යොතිෂ මූලධර්මයන්ට අනුකූලව ඔබ වෙත සැපයෙන විශ්වාසනීය සේවාවන්
+  </motion.p>
+</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, i) => (
             <ServiceCard key={service.id} service={service} onView={setActiveService} index={i} />
