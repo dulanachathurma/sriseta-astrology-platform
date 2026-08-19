@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
+// 'contact' ලින්ක් එක අයින් කර ඇත (එය වෙනුවට දකුණු පස Button එකක් යොදා ඇති බැවින්)
 const NAV_LINKS = [
   { id: 'home', label: 'මුල් පිටුව' },
   { id: 'services', label: 'සේවා' },
   { id: 'weekly-horoscope', label: 'ග්‍රහ ලොව පෙර දැක්ම' },
   { id: 'developer', label: 'Developer' },
-  { id: 'contact', label: 'සම්බන්ධ වන්න' },
 ];
 
 export default function Navbar({ onOpenBookingModal }) {
@@ -61,7 +61,7 @@ export default function Navbar({ onOpenBookingModal }) {
     setOpen(false);
     setActive(id);
 
-    // 'contact' click කළ විට Modal එක Open කර hash එක වෙනස් කරන්න
+    // 'contact' click කළ විට Modal එක Open කරන්න
     if (id === 'contact') {
       window.location.hash = 'contact';
       if (onOpenBookingModal) {
@@ -78,34 +78,75 @@ export default function Navbar({ onOpenBookingModal }) {
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/70 backdrop-blur-xl border-b border-black/10 py-3 shadow-lg' : 'bg-transparent py-5'}`}>
       <nav className="max-w-7xl mx-auto px-5 flex items-center justify-between">
+        
+        {/* 1. වම් පස Logo Image එක */}
         <button onClick={() => handleNavClick('home')} className="flex items-center gap-2">
-          <Sparkles className={`w-6 h-6 ${scrolled ? 'text-black' : 'text-[#FACC15]'}`} />
-          <span className={`font-semibold text-lg ${scrolled ? 'text-black' : 'text-[#FACC15]'}`}>ශ්‍රී සෙත</span>
+          <img 
+            src="/Logo 1.jpg" 
+            alt="Logo" 
+            className="h-12 w-auto object-contain" 
+          />
         </button>
 
+        {/* මැද Navigation Links */}
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
-            <button key={link.id} onClick={() => handleNavClick(link.id)} className={`text-sm transition-all relative py-1 ${active === link.id ? 'text-[#FACC15] font-bold' : (scrolled ? 'text-gray-700' : 'text-white/80')}`}>
+            <button 
+              key={link.id} 
+              onClick={() => handleNavClick(link.id)} 
+              className={`text-sm transition-all relative py-1 ${active === link.id ? 'text-[#FACC15] font-bold' : (scrolled ? 'text-gray-700' : 'text-white/80')}`}
+            >
               {link.label}
-              {active === link.id && <motion.span layoutId="nav-underline" className="absolute left-0 -bottom-1 w-full h-[2px] bg-[#FACC15]" />}
+              {active === link.id && (
+                <motion.span layoutId="nav-underline" className="absolute left-0 -bottom-1 w-full h-[2px] bg-[#FACC15]" />
+              )}
             </button>
           ))}
         </div>
 
+        {/* 2. දකුණු පස Green Button එක (Desktop) */}
+        <div className="hidden md:flex items-center">
+          <button
+            onClick={() => handleNavClick('contact')}
+            className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-2.5 rounded-full transition-all duration-300 shadow-lg hover:scale-105 active:scale-95"
+          >
+            හමුව වෙන්කරන්න
+          </button>
+        </div>
+
+        {/* Mobile Menu Toggle Button */}
         <button onClick={() => setOpen(!open)} className={`md:hidden ${scrolled ? 'text-black' : 'text-[#FACC15]'}`}>
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </nav>
 
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="md:hidden bg-white/95 border-b backdrop-blur-lg absolute top-full left-0 w-full">
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }} 
+            animate={{ height: 'auto', opacity: 1 }} 
+            exit={{ height: 0, opacity: 0 }} 
+            className="md:hidden bg-white/95 border-b backdrop-blur-lg absolute top-full left-0 w-full"
+          >
             <div className="flex flex-col px-5 py-6 gap-5">
               {NAV_LINKS.map((link) => (
-                <button key={link.id} onClick={() => handleNavClick(link.id)} className={`text-left text-lg ${active === link.id ? 'text-[#FACC15] font-bold' : 'text-gray-800'}`}>
+                <button 
+                  key={link.id} 
+                  onClick={() => handleNavClick(link.id)} 
+                  className={`text-left text-lg ${active === link.id ? 'text-[#FACC15] font-bold' : 'text-gray-800'}`}
+                >
                   {link.label}
                 </button>
               ))}
+              
+              {/* 3. Mobile Green Button */}
+              <button
+                onClick={() => handleNavClick('contact')}
+                className="w-full bg-emerald-600 active:bg-emerald-700 text-white font-medium py-3 rounded-full text-center mt-2 shadow-md"
+              >
+                හමුව වෙන්කරන්න
+              </button>
             </div>
           </motion.div>
         )}
