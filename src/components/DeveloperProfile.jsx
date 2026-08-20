@@ -7,7 +7,7 @@ export default function DeveloperProfile() {
     <div className="w-full text-center">
       
       {/* Profile Photo */}
-      <div className="relative w-24 h-24 mx-auto mb-3">
+      <div className="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-3">
         <div className="w-full h-full rounded-full p-[2px] bg-gradient-to-br from-[#FACC15] to-white/30 shadow-md">
           <img
             src={developer.photo}
@@ -20,28 +20,28 @@ export default function DeveloperProfile() {
         </div>
       </div>
 
-      {/* Name & Role */}
-      <h3 className="text-xl font-bold text-white tracking-wide">
+      {/* Name & Role (Text Size පොඩ්ඩක් වැඩි කළා) */}
+      <h3 className="text-2xl font-bold text-white tracking-wide">
         {developer.name}
       </h3>
-      <p className="text-[#FACC15] text-[11px] font-medium my-1 max-w-xs mx-auto leading-tight">
+      <p className="text-[#FACC15] text-xs sm:text-sm font-medium my-1.5 max-w-xs mx-auto leading-tight">
         {developer.role}
       </p>
 
-      {/* Contact Box (Email Single Line Fix) */}
-      <div className="my-3 bg-white/5 border border-white/10 rounded-xl p-2.5 space-y-1.5 text-white/90">
+      {/* Contact Box (Email & Phone Text Size වැඩි කර single line එකේම තැබුවා) */}
+      <div className="my-3 bg-white/5 border border-white/10 rounded-xl p-3 space-y-2 text-white/90">
         <a 
           href={`mailto:${developer.email}`} 
-          className="flex items-center justify-center gap-1.5 hover:text-[#FACC15] transition-colors text-[11px] sm:text-xs tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"
+          className="flex items-center justify-center gap-2 hover:text-[#FACC15] transition-colors text-xs sm:text-sm font-medium tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"
         >
-          <Mail className="w-3.5 h-3.5 text-[#FACC15] shrink-0" /> 
+          <Mail className="w-4 h-4 text-[#FACC15] shrink-0" /> 
           <span className="truncate">{developer.email}</span>
         </a>
         <a 
           href={`tel:${developer.phone.replace(/\s+/g, '')}`} 
-          className="flex items-center justify-center gap-1.5 hover:text-[#FACC15] transition-colors text-xs"
+          className="flex items-center justify-center gap-2 hover:text-[#FACC15] transition-colors text-xs sm:text-sm font-medium"
         >
-          <Phone className="w-3.5 h-3.5 text-[#FACC15] shrink-0" /> 
+          <Phone className="w-4 h-4 text-[#FACC15] shrink-0" /> 
           <span>{developer.phone}</span>
         </a>
       </div>
