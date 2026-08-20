@@ -79,21 +79,22 @@ export default function App() {
 
         {/* Developer Popup Modal */}
         {isDevModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-hidden">
             {/* Background එක Click කළ විට Close වීමට */}
             <div 
               className="absolute inset-0" 
               onClick={handleCloseDeveloperModal} 
             />
 
-            <div className="relative z-10 w-full max-w-2xl bg-[#121216] border border-[#FACC15]/30 rounded-3xl p-6 md:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+            {/* Modal Box Fix: max-w-md, p-5, සහ overflow-hidden මගින් පිටත scrollbar එක සම්පූර්ණයෙන්ම ඉවත් කර ඇත */}
+            <div className="relative z-10 w-full max-w-md bg-[#121216] border border-[#FACC15]/30 rounded-3xl p-5 shadow-2xl overflow-hidden">
               
               {/* Close (X) Button */}
               <button 
                 onClick={handleCloseDeveloperModal}
-                className="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 z-20"
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-1.5 rounded-full bg-white/5 hover:bg-white/10 z-20"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
 
               <DeveloperProfile />
