@@ -96,7 +96,7 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
           ))}
         </div>
 
-        {/* Button Contact */}
+        {/* Desktop Button Contact */}
         <div className="hidden md:flex items-center">
           <button
             onClick={() => handleNavClick('contact')}
@@ -138,14 +138,22 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
                 </button>
               ))}
               
-              <button
-                onClick={() => handleNavClick('contact')}
-                className="relative flex items-center justify-center mt-2 w-full py-3"
-              >
-                <span className="relative z-10 w-full py-3 rounded-full bg-[#22c55e] text-white font-bold text-center shadow-[0_0_15px_rgba(34,197,94,0.5)]">
-                  සම්බන්ධ වන්න
-                </span>
-              </button>
+              {/* Mobile Contact Button (Animated Rings Added) */}
+              <div className="pt-2 px-2">
+                <button
+                  onClick={() => handleNavClick('contact')}
+                  className="relative flex items-center justify-center w-full py-3 group transition-all duration-300 active:scale-95"
+                >
+                  {/* Animated Expanding Rings for Mobile Button */}
+                  <motion.span animate={{ scale: [1, 1.15, 1.3], opacity: [0.6, 0.3, 0] }} transition={{ repeat: Infinity, duration: 2, ease: 'easeOut' }} className="absolute inset-0 rounded-full border-2 border-[#22c55e]" />
+                  <motion.span animate={{ scale: [1, 1.1, 1.2], opacity: [0.6, 0.3, 0] }} transition={{ repeat: Infinity, duration: 2, delay: 0.6, ease: 'easeOut' }} className="absolute inset-0 rounded-full border-2 border-[#22c55e]" />
+
+                  <span className="relative z-10 w-full py-3 rounded-full bg-[#22c55e] text-white font-bold text-center shadow-[0_0_15px_rgba(34,197,94,0.5)]">
+                    සම්බන්ධ වන්න
+                  </span>
+                </button>
+              </div>
+
             </div>
           </motion.div>
         )}
