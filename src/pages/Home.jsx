@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import HeroProfile from '../components/HeroProfile';
 import ServicesSection from '../components/ServicesSection';
 import WeeklyHoroscope from '../components/WeeklyHoroscope';
-import DeveloperProfile from '../components/DeveloperProfile';
 import Footer from '../components/Footer';
 import ServiceForm from '../components/ServiceForm';
 
@@ -35,7 +34,9 @@ export default function Home({ isBookingOpen, setIsBookingOpen }) {
       <HeroProfile />
       <ServicesSection />
       <WeeklyHoroscope />
-      <DeveloperProfile />
+      
+      {/* <DeveloperProfile /> කොටස සාමාන්‍ය Flow එකෙන් අයින් කරන ලදී */}
+      
       <Footer />
 
       {/* Service Form Popup Modal */}
