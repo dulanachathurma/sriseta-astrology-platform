@@ -1,18 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { X } from 'lucide-react'; // 1. X Icon එක Import කරගන්න
+import { X } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 import Navbar from './components/Navbar';
 import BackToTop from './components/BackToTop';
 import Home from './pages/Home';
-import DeveloperProfile from './components/DeveloperProfile'; // 2. DeveloperProfile Component එක Import කරගන්න
+import DeveloperProfile from './components/DeveloperProfile';
 
 export default function App() {
   const [ready, setReady] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  
-  // 3. Developer Modal එක Open/Close පාලනය කරන්න අලුත් State එකක්
   const [isDevModalOpen, setIsDevModalOpen] = useState(false);
+
+  // 1. Developer Modal එක Open කරන Function එක (URL Hash එක එකතු කරයි)
+  const handleOpenDeveloperModal = () => {
+    setIsDevModalOpen(true);
+    window.history.pushState({ modalOpen: true }, '', '#developer');
+  };
+
+  // 2. Modal එක Close කරන Function එක (URL Hash එක අයින් කරයි)
+  const handleCloseDeveloperModal = () => {
+    setIsDevModalOpen(false);
+    if (window.location.hash === '#developer') {
+      window.history.pushState('', document.title, window.location.pathname + window.location.search);
+    }
+  };
+
+  // 3. Mobile / Browser Back Button එක Click කළ විට Modal එක පමණක් Close කිරීමට
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isDevModalOpen) {
+        setIsDevModalOpen(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isDevModalOpen]);
 
   return (
     <>
@@ -25,10 +49,9 @@ export default function App() {
           ready ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        {/* 4. Navbar එකට Developer Modal Open වෙන Function එක pass කරන්න */}
         <Navbar 
           onOpenBookingModal={() => setIsBookingOpen(true)} 
-          onOpenDeveloperModal={() => setIsDevModalOpen(true)}
+          onOpenDeveloperModal={handleOpenDeveloperModal}
         />
 
         <Routes>
@@ -54,26 +77,25 @@ export default function App() {
         
         <BackToTop />
 
-        {/* 5. Developer Popup Modal එක (Navbar එකෙන් Click කළාම විතරක් මෙතනින් Pop-up වේ) */}
+        {/* Developer Popup Modal */}
         {isDevModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-            {/* Background එක Click කළාම Close වීමට */}
+            {/* Background එක Click කළ විට Close වීමට */}
             <div 
               className="absolute inset-0" 
-              onClick={() => setIsDevModalOpen(false)} 
+              onClick={handleCloseDeveloperModal} 
             />
 
             <div className="relative z-10 w-full max-w-2xl bg-[#121216] border border-[#FACC15]/30 rounded-3xl p-6 md:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
               
               {/* Close (X) Button */}
               <button 
-                onClick={() => setIsDevModalOpen(false)}
+                onClick={handleCloseDeveloperModal}
                 className="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 z-20"
               >
                 <X className="w-6 h-6" />
               </button>
 
-              {/* Developer UI Component එක */}
               <DeveloperProfile />
 
             </div>
