@@ -41,6 +41,14 @@ export const services = [
     detail: 'ලග්නය අනුව වාර්ෂික, මාසික, සතිමය, දෛනික පලාපල විස්තර.',
     images: ['/images/palapala_01.jpg', '/images/palapala_02.jpg'],
   },
+  {
+    id: 'nakath', // අලුතින් එකතු කළ සේවාව
+    icon: 'Star', 
+    title: 'විවාහ මංගල නැකැත් ඇතුලු සියලුම සුබ නැකැත් සෑදීම',
+    description: 'සියලුම ශුභ කටයුතු සඳහා පාරම්පරික ක්‍රමවේදයන්ට අනුව නිවැරදිම සුබ නැකැත් සෑදීම',
+    detail: 'ඔබගේ උපන් වේලාවට සහ ජන්ම පත්‍රයට ගැළපෙන පරිදි විවාහ මංගල්‍යය, නිවාස සෑදීම, ගෙවදීම, ව්‍යාපාර ආරම්භය ඇතුළු සෑම විශේෂ අවස්ථාවකටම අදාළ සියලුම සුබ නැකැත් නිවැරදිව සාදා දෙනු ලැබේ.',
+    images: ['/images/nakath_01.jpg', '/images/nakath_02.jpg'], // ඔබට අවශ්‍ය පරිදි පින්තූර වල නම් වෙනස් කරගන්න
+  }
 ];
 
 export const serviceTypeOptions = [
@@ -48,7 +56,7 @@ export const serviceTypeOptions = [
   { value: 'porondam', label: 'පොරොන්දම් බැලීම' },
   { value: 'handahan', label: 'හඳහන් සෑදීම' },
   { value: 'palapala', label: 'පලාපල විස්තර' },
-  { value: 'all', label: 'මංගල නැකැත් ඇතුළු සියලුම සුබ නැකැත් සෑදීම' },
+  { value: 'nakath', label: 'විවාහ මංගල නැකැත් ඇතුළු සියලුම සුබ නැකැත් සෑදීම' }, 
 ];
 
 export function serviceName(value) {
