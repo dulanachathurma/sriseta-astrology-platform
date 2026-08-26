@@ -32,15 +32,7 @@ export default function ServiceForm({ defaultServiceType = '' }) {
 📝 අමතර තොරතුරු: ${form.additionalInfo || 'නැත'}
 
 📅 යොමු කළ දිනය: ${timestamp}
-
------------------------------
-✅ ඔබගේ අයදුම්පත සාර්ථකව ලැබුණි.
-
-📜 කරුණාකර ඔබගේ ජන්මපත්‍රයේ පැහැදිලි ඡායාරූපයක් (Photos) මේ සමඟ යොමු කරන්න.
-
-👩‍💼 අපගේ ජ්‍යොතිෂවේදිනී ශ්‍රියාණි සමරවීර මහත්මිය ඉදිරියේදී ඔබ හා සම්බන්ධ වනු ඇත.
-
-🙏 ස්තුතියි !`;
+`;
 
     const url = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
     setWhatsappUrl(url);
