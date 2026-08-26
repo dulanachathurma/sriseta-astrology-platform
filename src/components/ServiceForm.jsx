@@ -26,12 +26,12 @@ export default function ServiceForm({ defaultServiceType = '' }) {
 
 📌 සේවා වර්ගය: ${serviceName(form.serviceType)}
 
-👤 නම: ${form.fullName}
-📞 දුරකථන: ${form.phoneNumber}
-🗓️ උපන් විස්තර: ${form.birthDetails}
-📝 අමතර තොරතුරු: ${form.additionalInfo || 'නැත'}
+👤 නම : ${form.fullName}
+📞 දුරකථන : ${form.phoneNumber}
+🗓️ උපන් විස්තර : ${form.birthDetails}
+📝 අමතර තොරතුරු : ${form.additionalInfo || 'නැත'}
 
-📅 යොමු කළ දිනය: ${timestamp}
+📅 යොමු කළ දිනය : ${timestamp}
 `;
 
     const url = `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
