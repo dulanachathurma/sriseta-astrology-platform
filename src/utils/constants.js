@@ -1,7 +1,7 @@
 export const SITE = {
   titleSi: 'ශ්‍රී සෙත ජ්‍යොතිෂ සේවය',
   subtitleSi: 'ඔබ සැම සාදරයෙන් පිළිගනිමු',
-  whatsappNumber: '94711010484',
+  whatsappNumber: '94718865119',
   facebookUrl: 'https://www.facebook.com/profile.php?id=61584368804841',
   hours: 'සේවා කාලය: උදේ 9.00 - හවස 4.00',
   everyDay: 'සෑම දිනකම',
