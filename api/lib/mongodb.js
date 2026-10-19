@@ -3,10 +3,13 @@ import mongoose from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI;
 
 export function isMongoConfigured() {
+  const uri = process.env.MONGODB_URI || '';
   return (
-    !!MONGODB_URI &&
-    !MONGODB_URI.includes('your_mongodb_atlas') &&
-    MONGODB_URI.startsWith('mongodb')
+    !!uri &&
+    !uri.includes('your_mongodb_atlas') &&
+    !uri.includes('ඔබගේPassword') &&
+    !uri.includes('<password>') &&
+    uri.startsWith('mongodb')
   );
 }
 
