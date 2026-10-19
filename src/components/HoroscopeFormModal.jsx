@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Star, Sparkles, Calendar, ChevronDown, CheckSquare, Square,
   Loader2, ScrollText, AlertCircle, LogOut, FileText, User, Lock, LogIn, UserPlus,
-  RotateCcw, Trash2
+  RotateCcw, Trash2, MessageCircle
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { SITE } from '../utils/constants';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
@@ -216,6 +217,46 @@ export default function HoroscopeFormModal({ open, onClose, onOpenAuth }) {
     setTimeout(() => {
       setClearedNotice(false);
     }, 3500);
+  };
+
+  const getWhatsAppUrl = () => {
+    const zodiacMap = {
+      mesha: 'මේෂ', vrushabha: 'වෘෂභ', mithuna: 'මිථුන', kataka: 'කටක',
+      simha: 'සිංහ', kanya: 'කන්‍යා', thula: 'තුලා', vrushchika: 'වෘශ්චික',
+      dhanu: 'ධනු', makara: 'මකර', kumbha: 'කුම්භ', meena: 'මීන'
+    };
+
+    const topicsMap = {
+      education: 'අධ්‍යාපනය',
+      marriage: 'විවාහය',
+      vehicle: 'යානවාහන',
+      children: 'දරුපල',
+      career: 'රැකියාව',
+      foreign: 'විදේශගතවීම',
+    };
+
+    const lagnaName = zodiacMap[form.lagna] || form.lagna || 'නොදන්වා ඇත';
+    const navaName = zodiacMap[form.navamshaka] || form.navamshaka || 'සාමාන්‍ය';
+    const topicsList = form.selectedTopics.map((t) => topicsMap[t] || t).join(', ') || 'සාමාන්‍ය පලාපල';
+
+    const planetSummary = PLANETS
+      .filter((p) => form.planetaryPositions[p.key])
+      .map((p) => `${p.label}: ${form.planetaryPositions[p.key]} වන භාවය`)
+      .join(', ');
+
+    const message = `✨ ශ්‍රී සෙත ජ්‍යොතිෂ සේවය - පලාපල විස්තර විමසීම ✨
+
+👤 නම: ${user?.name || 'නොදන්වා ඇත'}
+📞 ඊමේල්: ${user?.email || 'නොදන්වා ඇත'}
+🗓️ උපන් දිනය: ${form.birthDate || 'නොදන්වා ඇත'}
+⭐ ජන්ම ලග්නය: ${lagnaName} ලග්නය
+🌟 නවාංශකය: ${navaName} නවාංශකය
+🎯 විමසූ කරුණු: ${topicsList}${planetSummary ? `\n🪐 ග්‍රහ පිහිටීම්: ${planetSummary}` : ''}
+
+ගෞරවනීය ජ්‍යොතිෂවේදිනී ශ්‍රියාණි සමරවීර මහත්මියනි,
+මා විසින් වෙබ් අඩවියෙන් ජන්ම පලාපල වාර්තාව ලබාගත් අතර, ඒ පිළිබඳ වැඩිදුර විස්තර සහ පෞද්ගලික උපදෙස් ලබාගැනීමට කැමැත්තෙමි.`;
+
+    return `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
   };
 
   // Sync state when user changes or modal opens
@@ -709,6 +750,61 @@ export default function HoroscopeFormModal({ open, onClose, onOpenAuth }) {
                     {/* Report Body */}
                     <div className="px-6 py-6 max-h-[60vh] overflow-y-auto" style={{ background: 'rgba(10,11,30,0.6)' }}>
                       <ReportRenderer text={report} />
+                    </div>
+
+                    {/* Report Footer / WhatsApp Contact Card */}
+                    <div
+                      className="p-6 md:p-8 text-center flex flex-col items-center justify-center gap-4"
+                      style={{
+                        background: 'linear-gradient(180deg, rgba(10,11,30,0.92) 0%, rgba(15,18,55,0.98) 100%)',
+                        borderTop: '1px solid rgba(250,204,21,0.2)',
+                      }}
+                    >
+                      <div className="max-w-md mx-auto">
+                        <h4 className="font-sinhala text-base md:text-lg font-bold text-[#FACC15] mb-1.5 flex items-center justify-center gap-2">
+                          <Sparkles className="w-4 h-4 text-[#FACC15]" />
+                          වැඩිදුර ජ්‍යොතිෂ උපදෙස් අවශ්‍යද?
+                        </h4>
+                        <p className="font-sinhala text-white/70 text-xs md:text-sm leading-relaxed">
+                          ඔබගේ කේන්ද්‍රයේ සියුම් ග්‍රහ පිහිටීම්, ඉදිරි කාලය සහ අපල දුරු කිරීමේ ශාන්තිකර්ම පිළිබඳ ජ්‍යොතිෂවේදිනී ශ්‍රියාණි සමරවීර මහත්මියගෙන් පෞද්ගලිකව විමසා ගැනීමට පහත බොත්තම ඔබන්න.
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md">
+                        <motion.a
+                          href={getWhatsAppUrl()}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.03, boxShadow: '0 0 30px rgba(37,211,102,0.45)' }}
+                          whileTap={{ scale: 0.97 }}
+                          className="flex-1 w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl font-sinhala font-bold text-sm md:text-base text-white shadow-xl transition-all cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                            boxShadow: '0 4px 20px rgba(37,211,102,0.3)',
+                          }}
+                        >
+                          <MessageCircle className="w-5 h-5 fill-white/20 shrink-0" />
+                          <span>වැඩිදුර විස්තර සදහා අප හා සම්බන්ධවන්න</span>
+                        </motion.a>
+                      </div>
+
+                      <div className="flex items-center justify-center gap-3 text-xs text-white/50 font-sinhala flex-wrap">
+                        <span className="flex items-center gap-1.5 text-emerald-400">
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                          WhatsApp හරහා සියලු විස්තර සහිතව සෘජුව සම්බන්ධ විය හැක
+                        </span>
+                        <span>•</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onClose();
+                            window.dispatchEvent(new CustomEvent('open-booking-modal'));
+                          }}
+                          className="text-white/60 hover:text-[#FACC15] underline underline-offset-4 transition-colors cursor-pointer"
+                        >
+                          සේවා අයදුම්පත (Form) පුරවන්න
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 )}

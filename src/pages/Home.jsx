@@ -22,6 +22,28 @@ export default function Home({ isBookingOpen, setIsBookingOpen }) {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [isBookingOpen, setIsBookingOpen]);
 
+  // Listen for open-booking-modal event and hash change
+  useEffect(() => {
+    const handleOpenBooking = () => {
+      setIsBookingOpen(true);
+      window.history.pushState({ modal: 'contact' }, '', '#contact');
+    };
+
+    const handleHash = () => {
+      if (window.location.hash === '#contact') {
+        setIsBookingOpen(true);
+      }
+    };
+
+    window.addEventListener('open-booking-modal', handleOpenBooking);
+    window.addEventListener('hashchange', handleHash);
+
+    return () => {
+      window.removeEventListener('open-booking-modal', handleOpenBooking);
+      window.removeEventListener('hashchange', handleHash);
+    };
+  }, [setIsBookingOpen]);
+
   // Modal එක Close (X) කළ විට URL එක සාමාන්‍ය තත්වයට පත් කිරීමට
   const handleCloseModal = () => {
     setIsBookingOpen(false);
