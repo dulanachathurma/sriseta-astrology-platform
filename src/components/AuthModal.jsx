@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, Lock, User, Eye, EyeOff, Sparkles, LogIn, UserPlus } from 'lucide-react';
+import { X, Mail, Lock, User, Eye, EyeOff, Sparkles, LogIn, UserPlus, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
@@ -14,6 +14,13 @@ export default function AuthModal({ open, onClose, defaultMode = 'login' }) {
   const [success, setSuccess] = useState('');
 
   const [form, setForm] = useState({ name: '', email: '', password: '' });
+
+  useEffect(() => {
+    setMode(defaultMode);
+    setError('');
+    setSuccess('');
+    setForm({ name: '', email: '', password: '' });
+  }, [defaultMode, open]);
 
   const update = (key) => (e) => {
     setError('');
@@ -31,16 +38,36 @@ export default function AuthModal({ open, onClose, defaultMode = 'login' }) {
     e.preventDefault();
     setError('');
     setSuccess('');
-    setLoading(true);
 
     const cleanEmail = (form.email || '').toLowerCase().trim();
-    const endpoint = mode === 'register' ? '/api/auth/register' : '/api/auth/login';
-    const body = mode === 'register'
-      ? { name: form.name, email: cleanEmail, password: form.password }
-      : { email: cleanEmail, password: form.password };
+    if (!cleanEmail) {
+      setError('කරුණාකර ඔබගේ ඊමේල් ලිපිනය (Gmail) ඇතුළත් කරන්න.');
+      return;
+    }
 
-    // 1. Try Backend API first
-    let apiSuccess = false;
+    if (!form.password) {
+      setError('කරුණාකර මුරපදය (Password) ඇතුළත් කරන්න.');
+      return;
+    }
+
+    if (form.password.length < 6) {
+      setError('මුරපදය අවම වශයෙන් අක්ෂර 6ක් විය යුතුය.');
+      return;
+    }
+
+    if (mode === 'register' && !form.name.trim()) {
+      setError('කරුණාකර ඔබගේ සම්පූර්ණ නම ඇතුළත් කරන්න.');
+      return;
+    }
+
+    setLoading(true);
+
+    const endpoint = mode === 'register' ? '/api/auth/register' : '/api/auth/login';
+    const body =
+      mode === 'register'
+        ? { name: form.name.trim(), email: cleanEmail, password: form.password }
+        : { email: cleanEmail, password: form.password };
+
     try {
       const res = await fetch(`${API_BASE}${endpoint}`, {
         method: 'POST',
@@ -50,103 +77,34 @@ export default function AuthModal({ open, onClose, defaultMode = 'login' }) {
 
       const data = await res.json().catch(() => null);
 
-      if (res.ok && data?.success) {
-        apiSuccess = true;
-        try {
-          const storedUsers = JSON.parse(localStorage.getItem('sriseta_registered_users') || '[]');
-          const idx = storedUsers.findIndex((u) => u.email === cleanEmail);
-          const userRecord = {
-            id: data.user?.id || 'usr_' + Date.now(),
-            email: cleanEmail,
-            password: form.password,
-            name: data.user?.name || form.name || '',
-          };
-          if (idx >= 0) {
-            storedUsers[idx] = userRecord;
-          } else {
-            storedUsers.push(userRecord);
-          }
-          localStorage.setItem('sriseta_registered_users', JSON.stringify(storedUsers));
-        } catch {}
-
+      if (res.ok && data?.success && data?.token) {
         login(data.token, data.user);
-        setSuccess(data.message || (mode === 'register' ? 'ගිණුම සාර්ථකව නිර්මාණය කරන ලදී!' : 'සාර්ථකව ප්‍රවේශ වූහ!'));
-        setTimeout(() => {
-          onClose('success');
-        }, 800);
-        return;
-      } else if (data?.message) {
-        // Specific API validation or duplicate message
-        setError(data.message);
-        setLoading(false);
-        return;
-      }
-    } catch {
-      // API unreachable or network drop -> proceed to seamless client-side persistence
-    }
-
-    if (apiSuccess) return;
-
-    // 2. Client-Side Persistent Storage Fallback (guarantees registration always works)
-    try {
-      const storedUsers = JSON.parse(localStorage.getItem('sriseta_registered_users') || '[]');
-
-      if (mode === 'register') {
-        if (!cleanEmail || !form.password) {
-          setError('ඊමේල් සහ මුරපදය අවශ්‍යයි.');
-          setLoading(false);
-          return;
-        }
-        if (form.password.length < 6) {
-          setError('මුරපදය අක්ෂර 6කට වඩා දිගු විය යුතුය.');
-          setLoading(false);
-          return;
-        }
-
-        const exists = storedUsers.find((u) => u.email === cleanEmail);
-        if (exists) {
-          setError('මෙම ඊමේල් ලිපිනය දැනටමත් ලියාපදිංචි කර ඇත.');
-          setLoading(false);
-          return;
-        }
-
-        const newUser = {
-          id: 'usr_' + Date.now(),
-          email: cleanEmail,
-          password: form.password,
-          name: form.name?.trim() || '',
-          createdAt: new Date().toISOString(),
-        };
-
-        storedUsers.push(newUser);
-        localStorage.setItem('sriseta_registered_users', JSON.stringify(storedUsers));
-
-        const token = 'token_' + btoa(JSON.stringify({ userId: newUser.id, email: newUser.email }));
-        login(token, { id: newUser.id, email: newUser.email, name: newUser.name });
-
-        setSuccess('ගිණුම සාර්ථකව නිර්මාණය කරන ලදී!');
-        setTimeout(() => {
-          onClose('success');
-        }, 800);
-      } else {
-        // mode === 'login'
-        const matched = storedUsers.find(
-          (u) => u.email === cleanEmail && u.password === form.password
+        setSuccess(
+          data.message ||
+            (mode === 'register'
+              ? 'ගිණුම සාර්ථකව නිර්මාණය කරන ලදී!'
+              : 'සාර්ථකව ප්‍රවේශ විය!')
         );
 
-        if (matched) {
-          const token = 'token_' + btoa(JSON.stringify({ userId: matched.id, email: matched.email }));
-          login(token, { id: matched.id, email: matched.email, name: matched.name });
-          setSuccess('සාර්ථකව ප්‍රවේශ වූහ!');
-          setTimeout(() => {
-            onClose('success');
-          }, 800);
-        } else {
-          setError('ඊමේල් හෝ මුරපදය වැරදිය.');
-        }
+        setTimeout(() => {
+          onClose('success');
+        }, 600);
+        return;
       }
-    } catch {
-      setError('ගිණුම සුරැකීමේදී දෝෂයක් ඇති විය.');
+
+      // Display specific API error message
+      if (data?.message) {
+        setError(data.message);
+      } else {
+        setError(
+          mode === 'register'
+            ? 'ලියාපදිංචි වීමේදී දෝෂයක් ඇති විය. කරුණාකර නැවත උත්සාහ කරන්න.'
+            : 'ඊමේල් හෝ මුරපදය වැරදිය. නැවත උත්සාහ කරන්න.'
+        );
+      }
+    } catch (err) {
+      console.error('Auth request failed:', err);
+      setError('සම්බන්ධතා දෝෂයක්. කරුණාකර ඔබගේ අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කරන්න.');
     } finally {
       setLoading(false);
     }
@@ -156,217 +114,218 @@ export default function AuthModal({ open, onClose, defaultMode = 'login' }) {
 
   return (
     <AnimatePresence>
-      {open && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/85 backdrop-blur-md"
-            onClick={() => onClose()}
-          />
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto"
+        onClick={() => onClose('cancelled')}
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          transition={{ duration: 0.25 }}
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-md my-8 rounded-3xl overflow-hidden shadow-2xl bg-[#0D0F24]/95 border border-white/20 p-6 md:p-8 text-white"
+        >
+          {/* Subtle top glow */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FACC15] via-[#F59E0B] to-[#06B6D4]" />
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48 bg-[#FACC15]/15 blur-[60px] pointer-events-none rounded-full" />
 
-          {/* Modal Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.88, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.88, y: 30 }}
-            transition={{ type: 'spring', damping: 20, stiffness: 260 }}
-            className="relative z-10 w-full max-w-md"
+          {/* Close Button */}
+          <button
+            onClick={() => onClose('cancelled')}
+            className="absolute top-5 right-5 p-2 rounded-full text-white/60 hover:text-white bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+            aria-label="Close"
           >
-            <div className="relative rounded-[2rem] p-7 md:p-9 shadow-2xl overflow-hidden bg-[#0c0e2a]/95 backdrop-blur-2xl border border-white/20">
-              {/* Decorative glow */}
-              <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-[#FACC15]/5 blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
+            <X className="w-5 h-5" />
+          </button>
 
-              {/* Close Button */}
-              <button
-                onClick={() => onClose()}
-                className="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 z-20"
-              >
-                <X className="w-5 h-5" />
-              </button>
+          {/* Header */}
+          <div className="text-center mb-6 pt-2">
+            <div className="inline-flex p-3 rounded-2xl bg-white/5 border border-white/15 mb-3 shadow-inner">
+              <Sparkles className="w-6 h-6 text-[#FACC15]" />
+            </div>
+            <h3 className="font-sinhala text-2xl font-bold text-white mb-1">
+              {mode === 'login' ? 'ගිණුමට පිවිසෙන්න' : 'නව ගිණුමක් අරඹන්න'}
+            </h3>
+            <p className="font-sinhala text-xs text-white/60">
+              {mode === 'login'
+                ? 'ඔබගේ පුද්ගලික හඳහන් පලාපල වාර්තාව බැලීමට ලොගින් වන්න'
+                : 'ආරක්ෂිතව ඔබගේ කේන්ද්‍ර විස්තර තැන්පත් කරගැනීමට ලියාපදිංචි වන්න'}
+            </p>
+          </div>
 
-              {/* Header */}
-              <div className="text-center mb-7">
-                <div className="w-14 h-14 rounded-2xl bg-[#FACC15]/10 border border-[#FACC15]/30 flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="w-7 h-7 text-[#FACC15]" />
+          {/* Mode Switcher Tabs */}
+          <div className="flex p-1 rounded-2xl bg-white/5 border border-white/10 mb-6">
+            <button
+              type="button"
+              onClick={() => switchMode('login')}
+              className={`flex-1 py-2.5 rounded-xl text-xs md:text-sm font-semibold font-sinhala transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                mode === 'login'
+                  ? 'bg-gradient-to-r from-[#FACC15] to-[#F59E0B] text-[#0A0B1E] font-bold shadow-md'
+                  : 'text-white/70 hover:text-white'
+              }`}
+            >
+              <LogIn className="w-4 h-4" />
+              ලොගින් (Login)
+            </button>
+            <button
+              type="button"
+              onClick={() => switchMode('register')}
+              className={`flex-1 py-2.5 rounded-xl text-xs md:text-sm font-semibold font-sinhala transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                mode === 'register'
+                  ? 'bg-gradient-to-r from-[#FACC15] to-[#F59E0B] text-[#0A0B1E] font-bold shadow-md'
+                  : 'text-white/70 hover:text-white'
+              }`}
+            >
+              <UserPlus className="w-4 h-4" />
+              ලියාපදිංචිය (Register)
+            </button>
+          </div>
+
+          {/* Alerts */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-200 text-xs font-sinhala mb-4"
+            >
+              <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </motion.div>
+          )}
+
+          {success && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2.5 p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-200 text-xs font-sinhala mb-4"
+            >
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>{success}</span>
+            </motion.div>
+          )}
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {mode === 'register' && (
+              <div>
+                <label className="block text-xs font-sinhala text-white/70 mb-1.5">
+                  සම්පූර්ණ නම (Full Name)
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                  <input
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={update('name')}
+                    placeholder="සුනිල් පෙරේරා"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/15 focus:border-[#FACC15]/60 focus:bg-white/10 outline-none text-sm text-white placeholder:text-white/30 font-sinhala transition-all"
+                  />
                 </div>
-                <h2 className="font-sinhala text-2xl font-bold text-[#FACC15] mb-1">
-                  {mode === 'login' ? 'ප්‍රවේශ වන්න' : 'ලියාපදිංචි වන්න'}
-                </h2>
-                <p className="font-sinhala text-white/60 text-sm">
-                  {mode === 'login'
-                    ? 'පුද්ගලික පලාපල සේවාව භාවිතා කිරීමට ලොගින් වන්න'
-                    : 'නව ගිණුමක් නිර්මාණය කරන්න'}
-                </p>
               </div>
+            )}
 
-              {/* Tab Toggle */}
-              <div className="flex rounded-2xl bg-white/5 border border-white/10 p-1 mb-7">
-                <button
-                  type="button"
-                  onClick={() => switchMode('login')}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold font-sinhala transition-all ${
-                    mode === 'login'
-                      ? 'bg-[#FACC15] text-black shadow-md'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                >
-                  <LogIn className="w-4 h-4" />
-                  ලොගින්
-                </button>
-                <button
-                  type="button"
-                  onClick={() => switchMode('register')}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold font-sinhala transition-all ${
-                    mode === 'register'
-                      ? 'bg-[#FACC15] text-black shadow-md'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                >
-                  <UserPlus className="w-4 h-4" />
-                  ලියාපදිංචිය
-                </button>
-              </div>
-
-              {/* Status alerts */}
-              {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-5 px-4 py-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs font-sinhala text-center"
-                >
-                  {error}
-                </motion.div>
-              )}
-
-              {success && (
-                <motion.div
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-5 px-4 py-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-sinhala text-center flex items-center justify-center gap-2"
-                >
-                  <Sparkles className="w-4 h-4 text-emerald-400" />
-                  {success}
-                </motion.div>
-              )}
-
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Name (register only) */}
-                {mode === 'register' && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                  >
-                    <label className="block font-sinhala text-xs text-white/70 mb-1.5 font-medium">
-                      ඔබේ නම (අවශ්‍ය නම්)
-                    </label>
-                    <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                      <input
-                        type="text"
-                        value={form.name}
-                        onChange={update('name')}
-                        placeholder="සුනිල් පෙරේරා"
-                        className="font-sinhala w-full pl-11 pr-4 py-3 rounded-2xl bg-white/5 border border-white/15 text-white placeholder:text-white/25 focus:border-[#FACC15]/60 focus:bg-white/8 outline-none transition-all text-sm"
-                      />
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Email */}
-                <div>
-                  <label className="block font-sinhala text-xs text-white/70 mb-1.5 font-medium">
-                    ඊමේල් ලිපිනය <span className="text-[#FACC15]">*</span>
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                    <input
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={update('email')}
-                      placeholder="yourname@gmail.com"
-                      className="font-sinhala w-full pl-11 pr-4 py-3 rounded-2xl bg-white/5 border border-white/15 text-white placeholder:text-white/25 focus:border-[#FACC15]/60 focus:bg-white/8 outline-none transition-all text-sm"
-                    />
-                  </div>
-                </div>
-
-                {/* Password */}
-                <div>
-                  <label className="block font-sinhala text-xs text-white/70 mb-1.5 font-medium">
-                    මුරපදය <span className="text-[#FACC15]">* (අවම අක්ෂර 6ක්)</span>
-                  </label>
-                  <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      required
-                      minLength={6}
-                      value={form.password}
-                      onChange={update('password')}
-                      placeholder="••••••••"
-                      className="w-full pl-11 pr-11 py-3 rounded-2xl bg-white/5 border border-white/15 text-white placeholder:text-white/25 focus:border-[#FACC15]/60 focus:bg-white/8 outline-none transition-all text-sm"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
-                    >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Submit button */}
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  disabled={loading}
-                  type="submit"
-                  className="w-full mt-6 py-3.5 rounded-2xl font-bold text-sm font-sinhala flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-                  style={{
-                    background: 'linear-gradient(135deg, #FACC15 0%, #F59E0B 100%)',
-                    color: '#0A0B1E',
-                    boxShadow: '0 4px 20px rgba(250,204,21,0.25)',
-                  }}
-                >
-                  {loading ? (
-                    <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                  ) : mode === 'login' ? (
-                    <>
-                      <LogIn className="w-4 h-4" />
-                      ප්‍රවේශ වන්න
-                    </>
-                  ) : (
-                    <>
-                      <UserPlus className="w-4 h-4" />
-                      ලියාපදිංචි වන්න
-                    </>
-                  )}
-                </motion.button>
-              </form>
-
-              {/* Footer switch prompt */}
-              <div className="mt-6 text-center">
-                <button
-                  type="button"
-                  onClick={() => switchMode(mode === 'login' ? 'register' : 'login')}
-                  className="font-sinhala text-xs text-white/50 hover:text-[#FACC15] transition-colors"
-                >
-                  {mode === 'login'
-                    ? 'ගිණුමක් නැද්ද? ලියාපදිංචි වන්න'
-                    : 'දැනටමත් ගිණුමක් තිබේද? ලොගින් වන්න'}
-                </button>
+            <div>
+              <label className="block text-xs font-sinhala text-white/70 mb-1.5">
+                ඊමේල් ලිපිනය (Gmail / Email)
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                <input
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={update('email')}
+                  placeholder="example@gmail.com"
+                  autoComplete="email"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/15 focus:border-[#FACC15]/60 focus:bg-white/10 outline-none text-sm text-white placeholder:text-white/30 transition-all"
+                />
               </div>
             </div>
-          </motion.div>
-        </div>
-      )}
+
+            <div>
+              <label className="block text-xs font-sinhala text-white/70 mb-1.5">
+                මුරපදය (Password)
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  minLength={6}
+                  value={form.password}
+                  onChange={update('password')}
+                  placeholder="••••••••"
+                  autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
+                  className="w-full pl-10 pr-11 py-3 rounded-xl bg-white/5 border border-white/15 focus:border-[#FACC15]/60 focus:bg-white/10 outline-none text-sm text-white placeholder:text-white/30 transition-all tracking-wider"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors cursor-pointer"
+                  tabIndex={-1}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              {mode === 'register' && (
+                <p className="font-sinhala text-[11px] text-white/40 mt-1">
+                  අවම වශයෙන් අක්ෂර 6ක් ඇතුළත් කරන්න
+                </p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3.5 rounded-xl font-sinhala font-bold text-sm bg-gradient-to-r from-[#FACC15] via-[#F59E0B] to-[#06B6D4] text-[#0A0B1E] shadow-lg hover:opacity-95 active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2 mt-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-[#0A0B1E] border-t-transparent rounded-full animate-spin" />
+                  <span>සකසමින් පවතී...</span>
+                </>
+              ) : (
+                <>
+                  {mode === 'login' ? <LogIn className="w-4 h-4" /> : <UserPlus className="w-4 h-4" />}
+                  <span>{mode === 'login' ? 'ප්‍රවේශ වන්න (Login)' : 'ලියාපදිංචි වන්න (Register)'}</span>
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Quick Notice */}
+          <div className="mt-5 pt-4 border-t border-white/10 text-center">
+            <p className="font-sinhala text-xs text-white/50">
+              {mode === 'login' ? (
+                <>
+                  ගිණුමක් නොමැතිද?{' '}
+                  <button
+                    type="button"
+                    onClick={() => switchMode('register')}
+                    className="text-[#FACC15] hover:underline font-bold ml-1 cursor-pointer"
+                  >
+                    මෙහි ලියාපදිංචි වන්න
+                  </button>
+                </>
+              ) : (
+                <>
+                  දැනටමත් ගිණුමක් තිබේද?{' '}
+                  <button
+                    type="button"
+                    onClick={() => switchMode('login')}
+                    className="text-[#FACC15] hover:underline font-bold ml-1 cursor-pointer"
+                  >
+                    මෙහි ලොගින් වන්න
+                  </button>
+                </>
+              )}
+            </p>
+          </div>
+        </motion.div>
+      </div>
     </AnimatePresence>
   );
 }

@@ -289,6 +289,7 @@ export default function AIHoroscopeSection() {
       <HoroscopeFormModal
         open={formOpen}
         onClose={handleFormClose}
+        onOpenAuth={openAuth}
       />
     </>
   );

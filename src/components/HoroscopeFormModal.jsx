@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Star, Sparkles, Calendar, ChevronDown, CheckSquare, Square,
-  Loader2, ScrollText, AlertCircle, LogOut, FileText, User
+  Loader2, ScrollText, AlertCircle, LogOut, FileText, User, Lock, LogIn, UserPlus
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -105,32 +105,80 @@ function ReportRenderer({ text }) {
   );
 }
 
-export default function HoroscopeFormModal({ open, onClose }) {
+export default function HoroscopeFormModal({ open, onClose, onOpenAuth }) {
   const { token, user, logout } = useAuth();
 
-  const [form, setForm] = useState(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem('sriseta_user_horoscope') || 'null');
-      if (saved?.form) return saved.form;
-    } catch {}
-    return {
-      birthDate: '',
-      lagna: '',
-      navamshaka: '',
-      planetaryPositions: { ...initialPlanets },
-      selectedTopics: [],
-    };
-  });
+  const getInitialState = () => {
+    if (!user) {
+      return {
+        form: {
+          birthDate: '',
+          lagna: '',
+          navamshaka: '',
+          planetaryPositions: { ...initialPlanets },
+          selectedTopics: [],
+        },
+        report: '',
+      };
+    }
 
+    // 1. Try from user profile fetched from DB
+    if (user.horoscopeProfile && (user.horoscopeProfile.lagna || user.horoscopeProfile.report)) {
+      return {
+        form: {
+          birthDate: user.horoscopeProfile.birthDate || '',
+          lagna: user.horoscopeProfile.lagna || '',
+          navamshaka: user.horoscopeProfile.navamshaka || '',
+          planetaryPositions: user.horoscopeProfile.planetaryPositions || { ...initialPlanets },
+          selectedTopics: user.horoscopeProfile.selectedTopics || [],
+        },
+        report: user.horoscopeProfile.report || '',
+      };
+    }
+
+    // 2. Try from user-specific local cache
+    try {
+      const userKey = `sriseta_horoscope_${user.id || user.email}`;
+      const saved = JSON.parse(localStorage.getItem(userKey) || 'null');
+      if (saved) {
+        return {
+          form: saved.form || {
+            birthDate: '',
+            lagna: '',
+            navamshaka: '',
+            planetaryPositions: { ...initialPlanets },
+            selectedTopics: [],
+          },
+          report: saved.report || '',
+        };
+      }
+    } catch {}
+
+    return {
+      form: {
+        birthDate: '',
+        lagna: '',
+        navamshaka: '',
+        planetaryPositions: { ...initialPlanets },
+        selectedTopics: [],
+      },
+      report: '',
+    };
+  };
+
+  const [form, setForm] = useState(() => getInitialState().form);
+  const [report, setReport] = useState(() => getInitialState().report);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [report, setReport] = useState(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem('sriseta_user_horoscope') || 'null');
-      if (saved?.report) return saved.report;
-    } catch {}
-    return '';
-  });
+
+  // Sync state when user changes or modal opens
+  useEffect(() => {
+    if (!open) return;
+    const initial = getInitialState();
+    setForm(initial.form);
+    setReport(initial.report);
+    setError('');
+  }, [open, user?.id, user?.horoscopeProfile]);
 
   const updateField = (key) => (e) => {
     setError('');
@@ -161,13 +209,18 @@ export default function HoroscopeFormModal({ open, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!user || !token) {
+      setError('වාර්තාව ලබා ගැනීමට කරුණාකර පළමුව ලොගින් වන්න.');
+      return;
+    }
+
     if (!form.lagna) return setError('ලග්නය තෝරාගත යුතුය.');
     if (form.selectedTopics.length === 0) return setError('අවම වශයෙන් මාතෘකාවක් තෝරාගත යුතුය.');
 
     setLoading(true);
     setReport('');
 
-    // 1. Try backend API first
     let generatedReport = '';
     try {
       const res = await fetch(`${API_BASE}/api/horoscope/generate`, {
@@ -191,10 +244,9 @@ export default function HoroscopeFormModal({ open, onClose }) {
         generatedReport = data.report;
       }
     } catch {
-      // API call failed or offline -> fall back to client-side astrologer reading
+      // API call failed or offline -> fallback to astrologer reading
     }
 
-    // 2. If API was unavailable or offline, generate authentic reading client-side
     if (!generatedReport) {
       const zodiacMap = {
         mesha: 'මේෂ', vrushabha: 'වෘෂභ', mithuna: 'මිථුන', kataka: 'කටක',
@@ -230,9 +282,13 @@ export default function HoroscopeFormModal({ open, onClose }) {
     setReport(generatedReport);
     setLoading(false);
 
-    try {
-      localStorage.setItem('sriseta_user_horoscope', JSON.stringify({ form, report: generatedReport }));
-    } catch {}
+    // Save only under user's isolated key
+    if (user) {
+      try {
+        const userKey = `sriseta_horoscope_${user.id || user.email}`;
+        localStorage.setItem(userKey, JSON.stringify({ form, report: generatedReport }));
+      } catch {}
+    }
 
     setTimeout(() => {
       document.getElementById('horoscope-report-section')?.scrollIntoView({ behavior: 'smooth' });
@@ -300,38 +356,73 @@ export default function HoroscopeFormModal({ open, onClose }) {
                 </p>
               </div>
 
-              {/* Logged-in User Display Banner — Right Above The Form */}
-              {user && (
-                <div className="mx-6 md:mx-8 mt-6 p-4 rounded-2xl bg-white/5 border border-[#FACC15]/30 flex flex-wrap items-center justify-between gap-4 backdrop-blur-md shadow-md">
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-11 h-11 rounded-full bg-[#FACC15]/20 border border-[#FACC15]/50 flex items-center justify-center text-[#FACC15] font-bold text-base shadow-sm">
-                      {user.name ? user.name.charAt(0).toUpperCase() : <User className="w-5 h-5" />}
+              {!user ? (
+                <div className="p-8 md:p-12 text-center">
+                  <div className="w-16 h-16 rounded-3xl bg-[#FACC15]/10 border border-[#FACC15]/30 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <Lock className="w-8 h-8 text-[#FACC15]" />
+                  </div>
+                  <h3 className="font-sinhala text-2xl font-bold text-white mb-3">
+                    පුද්ගලික පලාපල විස්තරය සඳහා ලොගින් වන්න
+                  </h3>
+                  <p className="font-sinhala text-sm text-white/70 max-w-md mx-auto mb-8 leading-relaxed">
+                    ඔබගේ කේන්ද්‍ර විස්තර සහ පලාපල වාර්තාව පුද්ගලිකව සහ ආරක්ෂිතව තබාගැනීම සඳහා ඔබගේ Gmail සහ මුරපදය මඟින් ලොගින් විය යුතුය. වෙනත් කිසිදු පරිශීලකයෙකුට ඔබගේ දත්ත දැකගත නොහැක.
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-4">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onClose();
+                        onOpenAuth?.('login');
+                      }}
+                      className="flex items-center gap-2 px-8 py-3.5 rounded-2xl font-sinhala font-bold text-sm bg-gradient-to-r from-[#FACC15] via-[#F59E0B] to-[#06B6D4] text-[#0A0B1E] shadow-xl hover:opacity-95 transition-all cursor-pointer"
+                    >
+                      <LogIn className="w-4 h-4" />
+                      ලොගින් වන්න (Login)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onClose();
+                        onOpenAuth?.('register');
+                      }}
+                      className="flex items-center gap-2 px-8 py-3.5 rounded-2xl font-sinhala font-semibold text-sm bg-white/10 hover:bg-white/15 border border-white/20 text-[#FACC15] transition-all cursor-pointer"
+                    >
+                      <UserPlus className="w-4 h-4" />
+                      නව ලියාපදිංචිය (Register)
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="mx-6 md:mx-8 mt-6 p-4 rounded-2xl bg-white/5 border border-[#FACC15]/30 flex flex-wrap items-center justify-between gap-4 backdrop-blur-md shadow-md">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-11 h-11 rounded-full bg-[#FACC15]/20 border border-[#FACC15]/50 flex items-center justify-center text-[#FACC15] font-bold text-base shadow-sm">
+                        {user.name ? user.name.charAt(0).toUpperCase() : <User className="w-5 h-5" />}
+                      </div>
+                      <div>
+                        <p className="font-sinhala text-[11px] text-white/50 tracking-wide">ලියාපදිංචි ගිණුම</p>
+                        <h4 className="font-sinhala text-base md:text-lg font-bold text-[#FACC15]">
+                          ආයුබෝවන්, {user.name || user.email?.split('@')[0]}!
+                        </h4>
+                        <p className="text-white/40 text-xs">{user.email}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-sinhala text-[11px] text-white/50 tracking-wide">ලියාපදිංචි ගිණුම</p>
-                      <h4 className="font-sinhala text-base md:text-lg font-bold text-[#FACC15]">
-                        ආයුබෝවන්, {user.name || user.email?.split('@')[0]}!
-                      </h4>
-                      <p className="text-white/40 text-xs">{user.email}</p>
-                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        logout();
+                        onClose();
+                      }}
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-sinhala text-xs font-semibold bg-red-500/15 hover:bg-red-500/25 text-red-300 border border-red-500/30 transition-all cursor-pointer shadow-sm"
+                      title="ගිණුමෙන් ඉවත් වන්න"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>ඉවත් වන්න (Logout)</span>
+                    </button>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      logout();
-                      onClose();
-                    }}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-sinhala text-xs font-semibold bg-red-500/15 hover:bg-red-500/25 text-red-300 border border-red-500/30 transition-all cursor-pointer shadow-sm"
-                    title="ගිණුමෙන් ඉවත් වන්න"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span>ඉවත් වන්න (Logout)</span>
-                  </button>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-8">
+                  <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-8">
 
                 {/* Section 1: Birth Details */}
                 <div className="space-y-4">
@@ -532,8 +623,10 @@ export default function HoroscopeFormModal({ open, onClose }) {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
-          </motion.div>
+            </>
+          )}
+        </div>
+      </motion.div>
         </div>
       )}
     </AnimatePresence>

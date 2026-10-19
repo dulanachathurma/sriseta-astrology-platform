@@ -33,6 +33,15 @@ export function apiDevPlugin() {
     }
   });
 
+  app.all('/api/user/profile', async (req, res, next) => {
+    try {
+      const { default: handler } = await import('./api/user/profile.js');
+      await handler(req, res);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   return {
     name: 'api-dev-server',
     configureServer(server) {

@@ -1,8 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import jwt from 'jsonwebtoken';
+import { verifyAuthToken, saveUserHoroscopeProfile } from '../lib/userStore.js';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const JWT_SECRET = process.env.JWT_SECRET || 'sriseta_super_secret_jwt_key_2026';
 
 const ZODIAC_SI = {
   mesha: 'මේෂ', vrushabha: 'වෘෂභ', mithuna: 'මිථුන', kataka: 'කටක',
@@ -107,19 +106,14 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ success: false, message: 'Method not allowed' });
 
   // JWT Auth Guard
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ success: false, message: 'ප්‍රවේශ ටෝකනය නොමැත. කරුණාකර ප්‍රවේශ වන්න.' });
-  }
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+  const decoded = verifyAuthToken(authHeader);
 
-  const token = authHeader.split(' ')[1];
-  try {
-    // Check if standard JWT or local token
-    if (!token.startsWith('local_token_')) {
-      jwt.verify(token, JWT_SECRET);
-    }
-  } catch {
-    return res.status(401).json({ success: false, message: 'ප්‍රවේශ ටෝකනය වලංගු නොවේ. නැවත ප්‍රවේශ වන්න.' });
+  if (!decoded || !decoded.userId) {
+    return res.status(401).json({
+      success: false,
+      message: 'ප්‍රවේශ ටෝකනය වලංගු නොවේ. කරුණාකර නැවත ලොගින් වන්න.',
+    });
   }
 
   const { birthDate, lagna, navamshaka, planetaryPositions, selectedTopics } = req.body || {};
@@ -127,6 +121,9 @@ export default async function handler(req, res) {
   if (!lagna || !selectedTopics || selectedTopics.length === 0) {
     return res.status(400).json({ success: false, message: 'ලග්නය සහ අවම වශයෙන් මාතෘකාවක් තෝරාගත යුතුය.' });
   }
+
+  let finalReport = '';
+  let finalSummary = '';
 
   // If Gemini API Key is configured and valid, use Gemini AI
   const hasRealKey =
@@ -145,29 +142,41 @@ export default async function handler(req, res) {
       const text = response.text();
 
       const summaryMatch = text.match(/##\s*📋\s*සංක්ෂිප්ත[\s\S]*?(?=---|$)/i);
-      const summary = summaryMatch ? summaryMatch[0].trim() : '';
-
-      return res.status(200).json({
-        success: true,
-        report: text,
-        summary,
-      });
+      finalSummary = summaryMatch ? summaryMatch[0].trim() : '';
+      finalReport = text;
     } catch (err) {
       console.warn('AI call encountered an issue, falling back to traditional reading:', err.message);
     }
   }
 
   // Graceful fallback: Authentic Sri Lankan astrological reading
-  const generatedReport = generateAstrologicalReading({
-    birthDate,
-    lagna,
-    navamshaka,
-    selectedTopics,
-  });
+  if (!finalReport) {
+    finalReport = generateAstrologicalReading({
+      birthDate,
+      lagna,
+      navamshaka,
+      selectedTopics,
+    });
+    finalSummary = 'ඔබගේ කේන්ද්‍ර සටහන අනුව ජීවිතය ජයගත හැකි උතුම් ග්‍රහ පිහිටීමක් පවතී.';
+  }
+
+  // Automatically save to the user's isolated account in database
+  try {
+    await saveUserHoroscopeProfile(decoded.userId, {
+      birthDate,
+      lagna,
+      navamshaka,
+      planetaryPositions,
+      selectedTopics,
+      report: finalReport,
+    });
+  } catch (err) {
+    console.warn('Failed to auto-save profile in DB:', err.message);
+  }
 
   return res.status(200).json({
     success: true,
-    report: generatedReport,
-    summary: 'ඔබගේ කේන්ද්‍ර සටහන අනුව ජීවිතය ජයගත හැකි උතුම් ග්‍රහ පිහිටීමක් පවතී.',
+    report: finalReport,
+    summary: finalSummary,
   });
 }
