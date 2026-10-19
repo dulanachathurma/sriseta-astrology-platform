@@ -15,7 +15,6 @@ import cors from 'cors';
 import registerHandler from './api/auth/register.js';
 import loginHandler from './api/auth/login.js';
 import generateHandler from './api/horoscope/generate.js';
-import weeklyHoroscopeHandler from './api/weekly-horoscope.js';
 import profileHandler from './api/user/profile.js';
 
 const app = express();
@@ -44,9 +43,6 @@ app.post('/api/user/profile', wrap(profileHandler));
 // Horoscope routes
 app.options('/api/horoscope/generate', (_, res) => res.status(200).end());
 app.post('/api/horoscope/generate', wrap(generateHandler));
-
-// Weekly horoscope
-app.get('/api/weekly-horoscope', wrap(weeklyHoroscopeHandler));
 
 app.listen(PORT, () => {
   console.log(`\n✅ Local API server running at http://localhost:${PORT}`);

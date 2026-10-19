@@ -1,6 +1,6 @@
 # Sri Seta Astrology Platform (ශ්‍රී සෙත ජ්‍යොතිෂ සේවය)
 
-> An advanced, full-stack, AI-driven astrology and consultation web platform that modernizes traditional Sri Lankan astrological services. It combines Generative AI, cloud database persistence, automated web scraping, and a luxury glassmorphic design to provide personalized horoscope insights in authentic Sinhala.
+> An advanced, full-stack, AI-driven astrology and consultation web platform that modernizes traditional Sri Lankan astrological services. It combines Generative AI, cloud database persistence, authentic proprietary astrological insights, and a luxury glassmorphic design to provide personalized horoscope readings in authentic Sinhala.
 
 ---
 
@@ -8,7 +8,7 @@
 
 **Sri Seta Astrology Platform** is a complete digital solution tailored for traditional astrological consultations (led by senior astrologer Shriani Samaraweera). The platform bridges centuries-old Vedic and Sri Lankan astrological methods with cutting-edge software engineering. 
 
-Users can register, log in to an isolated personal account, enter their birth details (Birth Date, Janma Lagna, Navamshaka, and 9 planetary house positions), and receive an instant, in-depth astrological analysis generated via **Google Gemini AI**. All user data and generated reports are stored securely in **MongoDB Atlas** with user-level isolation. In addition, the platform automatically scrapes and displays live weekly national horoscopes, provides an interactive consultation booking workflow, and offers direct WhatsApp consultation linking.
+Users can register, log in to an isolated personal account, enter their birth details (Birth Date, Janma Lagna, Navamshaka, and 9 planetary house positions), and receive an instant, in-depth astrological analysis generated via **Google Gemini AI**. All user data and generated reports are stored securely in **MongoDB Atlas** with user-level isolation. In addition, the platform features a comprehensive Zodiac & Planetary Overview carousel (ග්‍රහ ලොව පෙර දැක්ම), an interactive consultation booking workflow, and direct WhatsApp consultation linking.
 
 ---
 
@@ -24,9 +24,9 @@ Users can register, log in to an isolated personal account, enter their birth de
   - Private user profiles where each user's horoscope charts and reports are strictly separated and stored in **MongoDB Atlas**.
   - One-click clear feature allowing users to safely reset their form inputs, cached readings, and cloud records.
 
-* **📰 Automated Real-Time Web Scraping**:
-  - Serverless scraper built with **Axios** and **Cheerio** that extracts the latest weekly horoscopes directly from *Divaina Nakatha*.
-  - In-memory edge caching with fallback preservation, eliminating manual administrative maintenance.
+* **🪐 Original Zodiac & Planetary Insights (ග්‍රහ ලොව පෙර දැක්ම)**:
+  - Specially curated traditional Sri Lankan astrological descriptions for all 12 Rashi/Lagna signs.
+  - Interactive, auto-sliding carousel displaying authentic astrological characteristics, governing planets (අධිපති ග්‍රහයින්), and traits.
 
 * **🎨 Luxury Glassmorphic UI/UX**:
   - Bespoke dark-gold celestial theme with smooth Framer Motion micro-interactions, responsive mobile-first navigation, and tailored Sinhala typography.
@@ -50,7 +50,6 @@ Users can register, log in to an isolated personal account, enter their birth de
 | **Database** | MongoDB Atlas (Cloud NoSQL), Mongoose ODM |
 | **Artificial Intelligence** | Google Gemini 1.5 Flash (`@google/generative-ai`) |
 | **Authentication & Security** | JWT (JSON Web Tokens), `bcryptjs` (Salt & Hash) |
-| **Web Scraping & HTTP** | Axios, Cheerio |
 | **Hosting & Deployment** | Vercel Serverless Platform |
 
 ---
@@ -127,8 +126,7 @@ For demonstration, evaluation, and grading purposes, you can use the following p
 │   ├── horoscope/                 # AI Horoscope generator handler
 │   ├── user/                      # User profile & horoscope storage endpoints
 │   ├── models/                    # Mongoose database models (User.js)
-│   ├── lib/                       # MongoDB connection & user store helpers
-│   └── weekly-horoscope.js        # Live web scraper for Divaina Nakatha
+│   └── lib/                       # MongoDB connection & user store helpers
 ├── public/                        # Static assets, branding & images
 ├── src/
 │   ├── components/                # Modular UI components (HoroscopeModal, ServiceForm, etc.)
