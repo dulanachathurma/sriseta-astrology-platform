@@ -34,6 +34,15 @@ npm run dev
 
 Open http://localhost:5173.
 
+## 👥 Registered Users (ලියාපදිංචි පරිශීලක ගිණුම්)
+
+පද්ධතිය පරීක්ෂා කිරීම (Testing & Evaluation) සඳහා පහත ලියාපදිංචි කර ඇති පරිශීලක ගිණුම් (Credentials) භාවිතා කළ හැක:
+
+| Name (නම) | Email (ඊමේල්) | Password (මුරපදය) |
+| :--- | :--- | :--- |
+| **Dulana** | `dulanachathurma99@gmail.com` | `123456` |
+| **Samaraweera** | `s@gmail.com` | `123456` |
+
 ## Project structure
 
 ```
