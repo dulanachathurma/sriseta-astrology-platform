@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Star, Sparkles, Calendar, ChevronDown, CheckSquare, Square,
-  Loader2, ScrollText, AlertCircle, LogOut, FileText, User, Lock, LogIn, UserPlus
+  Loader2, ScrollText, AlertCircle, LogOut, FileText, User, Lock, LogIn, UserPlus,
+  RotateCcw, Trash2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -106,7 +107,7 @@ function ReportRenderer({ text }) {
 }
 
 export default function HoroscopeFormModal({ open, onClose, onOpenAuth }) {
-  const { token, user, logout } = useAuth();
+  const { token, user, logout, updateUser } = useAuth();
 
   const getInitialState = () => {
     if (!user) {
@@ -170,6 +171,52 @@ export default function HoroscopeFormModal({ open, onClose, onOpenAuth }) {
   const [report, setReport] = useState(() => getInitialState().report);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [clearedNotice, setClearedNotice] = useState(false);
+
+  const handleClear = async () => {
+    // 1. Reset form fields to initial state
+    setForm({
+      birthDate: '',
+      lagna: '',
+      navamshaka: '',
+      planetaryPositions: { ...initialPlanets },
+      selectedTopics: [],
+    });
+    setReport('');
+    setError('');
+
+    // 2. Clear local storage cache
+    if (user) {
+      try {
+        const userKey = `sriseta_horoscope_${user.id || user.email}`;
+        localStorage.removeItem(userKey);
+      } catch {}
+    }
+
+    // 3. Clear from Auth Context
+    if (updateUser) {
+      updateUser({ horoscopeProfile: null });
+    }
+
+    // 4. Clear from MongoDB/server
+    if (token) {
+      try {
+        await fetch(`${API_BASE}/api/user/profile`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (err) {
+        console.warn('Failed to clear profile on server:', err);
+      }
+    }
+
+    setClearedNotice(true);
+    setTimeout(() => {
+      setClearedNotice(false);
+    }, 3500);
+  };
 
   // Sync state when user changes or modal opens
   useEffect(() => {
@@ -563,31 +610,61 @@ export default function HoroscopeFormModal({ open, onClose, onOpenAuth }) {
                   )}
                 </AnimatePresence>
 
-                {/* Submit */}
-                <motion.button
-                  whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(250,204,21,0.35)' }}
-                  whileTap={{ scale: 0.97 }}
-                  type="submit"
-                  disabled={loading}
-                  className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-bold text-base transition-all disabled:opacity-60"
-                  style={{
-                    background: 'linear-gradient(135deg, #FACC15 0%, #F59E0B 50%, #06B6D4 100%)',
-                    color: '#0A0B1E',
-                    boxShadow: '0 4px 20px rgba(250,204,21,0.2)',
-                  }}
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span className="font-sinhala">කේන්ද්‍ර විශ්ලේෂණය සිදු කෙරෙමින්...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-5 h-5" />
-                      <span className="font-sinhala">පලාපල විස්තර ලබාගන්න</span>
-                    </>
+                {/* Submit & Clear Action Buttons */}
+                <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                  <motion.button
+                    whileHover={{ scale: 1.01, boxShadow: '0 0 30px rgba(250,204,21,0.35)' }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    disabled={loading}
+                    className="flex-1 w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-bold text-base transition-all disabled:opacity-60 cursor-pointer shadow-xl"
+                    style={{
+                      background: 'linear-gradient(135deg, #FACC15 0%, #F59E0B 50%, #06B6D4 100%)',
+                      color: '#0A0B1E',
+                      boxShadow: '0 4px 20px rgba(250,204,21,0.2)',
+                    }}
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span className="font-sinhala">කේන්ද්‍ර විශ්ලේෂණය සිදු කෙරෙමින්...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-5 h-5" />
+                        <span className="font-sinhala">පලාපල විස්තර ලබාගන්න</span>
+                      </>
+                    )}
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="button"
+                    onClick={handleClear}
+                    disabled={loading}
+                    className="w-full sm:w-auto px-5 py-4 rounded-2xl font-sinhala font-semibold text-sm bg-white/5 hover:bg-red-500/15 border border-white/15 hover:border-red-500/30 text-white/70 hover:text-red-300 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                    title="ඇතුළත් කළ සියලු තොරතුරු සහ වාර්තාව ඉවත් කරන්න"
+                  >
+                    <RotateCcw className="w-4 h-4 text-red-400/90" />
+                    <span>විස්තර මකන්න (Clear)</span>
+                  </motion.button>
+                </div>
+
+                {/* Cleared Notice */}
+                <AnimatePresence>
+                  {clearedNotice && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      className="font-sinhala flex items-center justify-center gap-2 text-xs text-green-300 bg-green-500/10 border border-green-500/25 rounded-2xl px-4 py-3 text-center"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5 text-green-400" />
+                      <span>සියලු විස්තර සහ පලාපල වාර්තාව සාර්ථකව ඉවත් කරන ලදී (Details Cleared).</span>
+                    </motion.div>
                   )}
-                </motion.button>
+                </AnimatePresence>
               </form>
 
               {/* Horoscope Report Output */}
@@ -603,17 +680,30 @@ export default function HoroscopeFormModal({ open, onClose, onOpenAuth }) {
                   >
                     {/* Report Header */}
                     <div
-                      className="flex items-center gap-3 px-6 py-4"
+                      className="flex items-center justify-between gap-3 px-6 py-4 flex-wrap"
                       style={{
                         background: 'linear-gradient(90deg, rgba(250,204,21,0.12) 0%, rgba(6,182,212,0.08) 100%)',
                         borderBottom: '1px solid rgba(250,204,21,0.1)',
                       }}
                     >
-                      <FileText className="w-5 h-5 text-[#FACC15]" />
-                      <h3 className="font-sinhala font-bold text-[#FACC15] text-base">
-                        පුද්ගලික ජ්‍යොතිෂ පලාපල වාර්තාව
-                      </h3>
-                      <span className="ml-auto text-xs text-white/50 font-sinhala">පූර්ණ වාර්තාව</span>
+                      <div className="flex items-center gap-3">
+                        <FileText className="w-5 h-5 text-[#FACC15]" />
+                        <h3 className="font-sinhala font-bold text-[#FACC15] text-base">
+                          පුද්ගලික ජ්‍යොතිෂ පලාපල වාර්තාව
+                        </h3>
+                      </div>
+                      <div className="flex items-center gap-3 ml-auto">
+                        <span className="text-xs text-white/50 font-sinhala hidden sm:inline">පූර්ණ වාර්තාව</span>
+                        <button
+                          type="button"
+                          onClick={handleClear}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-sinhala text-xs bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-500/25 transition-all cursor-pointer shadow-sm"
+                          title="වාර්තාව සහ තොරතුරු ඉවත් කරන්න"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>වාර්තාව මකන්න (Clear)</span>
+                        </button>
+                      </div>
                     </div>
 
                     {/* Report Body */}

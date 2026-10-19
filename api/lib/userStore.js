@@ -282,6 +282,18 @@ export async function getUserProfile(userId) {
 export async function saveUserHoroscopeProfile(userId, horoscopeData) {
   if (!userId) return null;
 
+  const profileToSave = horoscopeData
+    ? {
+        birthDate: horoscopeData.birthDate || '',
+        lagna: horoscopeData.lagna || '',
+        navamshaka: horoscopeData.navamshaka || '',
+        planetaryPositions: horoscopeData.planetaryPositions || {},
+        selectedTopics: horoscopeData.selectedTopics || [],
+        report: horoscopeData.report || '',
+        updatedAt: new Date(),
+      }
+    : null;
+
   if (isMongoConfigured()) {
     try {
       const db = await connectToDatabase();
@@ -290,15 +302,7 @@ export async function saveUserHoroscopeProfile(userId, horoscopeData) {
           userId,
           {
             $set: {
-              horoscopeProfile: {
-                birthDate: horoscopeData.birthDate || '',
-                lagna: horoscopeData.lagna || '',
-                navamshaka: horoscopeData.navamshaka || '',
-                planetaryPositions: horoscopeData.planetaryPositions || {},
-                selectedTopics: horoscopeData.selectedTopics || [],
-                report: horoscopeData.report || '',
-                updatedAt: new Date(),
-              },
+              horoscopeProfile: profileToSave,
             },
           },
           { new: true }
@@ -322,15 +326,12 @@ export async function saveUserHoroscopeProfile(userId, horoscopeData) {
     const users = getLocalUsers();
     const idx = users.findIndex((u) => u.id === userId);
     if (idx >= 0) {
-      users[idx].horoscopeProfile = {
-        birthDate: horoscopeData.birthDate || '',
-        lagna: horoscopeData.lagna || '',
-        navamshaka: horoscopeData.navamshaka || '',
-        planetaryPositions: horoscopeData.planetaryPositions || {},
-        selectedTopics: horoscopeData.selectedTopics || [],
-        report: horoscopeData.report || '',
-        updatedAt: new Date().toISOString(),
-      };
+      users[idx].horoscopeProfile = profileToSave
+        ? {
+            ...profileToSave,
+            updatedAt: new Date().toISOString(),
+          }
+        : null;
       saveLocalUsers(users);
       return {
         id: users[idx].id,
