@@ -61,6 +61,12 @@ Users can register, log in to an isolated personal account, enter their birth de
 
 <img width="1422" height="750" alt="Personalized AI Horoscope Modal" src="https://github.com/user-attachments/assets/3f11a4dd-7a99-4384-ab24-7bcb159b7f68" />
 
+<img width="1424" height="775" alt="Screenshot 2026-10-19 at 17 35 58" src="https://github.com/user-attachments/assets/3bc9b047-a249-4120-8a8d-d1a883ab4b0f" />
+
+<img width="1424" height="775" alt="Screenshot 2026-10-19 at 17 36 20" src="https://github.com/user-attachments/assets/d36c46c2-f488-45db-a825-e5ad7e6792fe" />
+
+<img width="1424" height="775" alt="Screenshot 2026-10-19 at 17 37 12" src="https://github.com/user-attachments/assets/d104dc9a-a73d-46f5-99b5-95ee250abdc4" />
+
 <img width="1414" height="760" alt="Services & Consultation Details" src="https://github.com/user-attachments/assets/3f45a074-bab3-488a-b06e-a96ee63b8c77" />
 
 <img width="1422" height="794" alt="Weekly Horoscope Live Feed" src="https://github.com/user-attachments/assets/38375849-3cd5-4234-8dd2-20b70414aa06" />
