@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { apiDevPlugin } from './apiDevPlugin.js';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), apiDevPlugin()],
   build: {
     outDir: 'dist',
     sourcemap: false,
