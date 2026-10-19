@@ -13,6 +13,19 @@ export default function Footer() {
         // සුදු පැහැති Glassmorphism ශෛලිය සහිත container එක
         className="max-w-5xl mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-[2rem] p-8 md:p-14 text-center shadow-2xl"
       >
+        {/* Centered Circular Logo */}
+        <div className="flex justify-center mb-6">
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full p-[3px] bg-gradient-to-br from-[#FACC15] via-[#F59E0B] to-[#06B6D4] shadow-[0_0_30px_rgba(250,204,21,0.35)] flex items-center justify-center">
+            <div className="w-full h-full rounded-full overflow-hidden bg-black/90 p-1 flex items-center justify-center">
+              <img
+                src="/logo.png"
+                alt="ශ්‍රී සෙත Logo"
+                className="w-full h-full object-cover rounded-full transition-transform duration-500 hover:scale-105"
+              />
+            </div>
+          </div>
+        </div>
+
         <h3 className="font-sinhala text-3xl md:text-4xl text-[#FACC15] font-bold mb-2">
           {SITE.titleSi}
         </h3>
