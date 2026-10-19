@@ -76,10 +76,14 @@ export default function AuthModal({ open, onClose, defaultMode = 'login' }) {
         }, 800);
         return;
       } else if (data?.message) {
-        // Specific API validation or duplicate message
-        setError(data.message);
-        setLoading(false);
-        return;
+        // For register mode, API errors (duplicate email) are authoritative - return early
+        // For login mode, the server may have lost data (Vercel ephemeral /tmp), so fall through to localStorage
+        if (mode === 'register') {
+          setError(data.message);
+          setLoading(false);
+          return;
+        }
+        // login mode: don't return, fall through to localStorage fallback below
       }
     } catch {
       // API unreachable or network drop -> proceed to seamless client-side persistence
