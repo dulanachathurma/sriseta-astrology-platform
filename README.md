@@ -8,7 +8,9 @@
 
 **Sri Seta Astrology Platform** is a complete digital solution tailored for traditional astrological consultations (led by senior astrologer Shriani Samaraweera). The platform bridges centuries-old Vedic and Sri Lankan astrological methods with cutting-edge software engineering. 
 
-Users can register, log in to an isolated personal account, enter their birth details (Birth Date, Janma Lagna, Navamshaka, and 9 planetary house positions), and receive an instant, in-depth astrological analysis generated via **Google Gemini AI**. All user data and generated reports are stored securely in **MongoDB Atlas** with user-level isolation. In addition, the platform features a comprehensive Zodiac & Planetary Overview carousel (ග්‍රහ ලොව පෙර දැක්ම), an interactive consultation booking workflow, and direct WhatsApp consultation linking.
+Users can register, log in to an isolated personal account, enter their birth details (Birth Date, Janma Lagna, Navamshaka, and 9 planetary house positions), and receive an instant, in-depth astrological analysis generated via **Google Gemini AI**. All user data and generated reports are stored securely in **MongoDB Atlas** with user-level isolation. In addition, the platform features a comprehensive Zodiac & Planetary Overview carousel (ග්‍රහ ලොව පෙර දැක්ම), an interactive consultation booking workflow and direct WhatsApp consultation linking.
+
+<img width="1024" height="572" alt="9a10bb28-b41d-44f7-a176-ee1f6c3d4764" src="https://github.com/user-attachments/assets/683248e2-a4a1-424e-9783-9939254e5e50" />
 
 ---
 
