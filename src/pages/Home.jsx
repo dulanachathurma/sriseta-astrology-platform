@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import HeroProfile from '../components/HeroProfile';
@@ -9,6 +9,7 @@ import Footer from '../components/Footer';
 import ServiceForm from '../components/ServiceForm';
 
 export default function Home({ isBookingOpen, setIsBookingOpen }) {
+  const [bookingServiceType, setBookingServiceType] = useState('palapala');
   
   // Browser හෝ Mobile Back Button එක ක්ලික් කළ විට Modal එක පමණක් Close වීමට
   useEffect(() => {
@@ -24,7 +25,10 @@ export default function Home({ isBookingOpen, setIsBookingOpen }) {
 
   // Listen for open-booking-modal event and hash change
   useEffect(() => {
-    const handleOpenBooking = () => {
+    const handleOpenBooking = (e) => {
+      if (e?.detail?.serviceType) {
+        setBookingServiceType(e.detail.serviceType);
+      }
       setIsBookingOpen(true);
       window.history.pushState({ modal: 'contact' }, '', '#contact');
     };
@@ -90,7 +94,10 @@ export default function Home({ isBookingOpen, setIsBookingOpen }) {
                 සේවා අයදුම්පත
               </h2>
 
-              <ServiceForm />
+              <ServiceForm 
+                defaultServiceType={bookingServiceType} 
+                key={bookingServiceType + (isBookingOpen ? '-open' : '-closed')} 
+              />
             </motion.div>
           </div>
         )}

@@ -771,10 +771,16 @@ export default function HoroscopeFormModal({ open, onClose, onOpenAuth }) {
                       </div>
 
                       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md">
-                        <motion.a
-                          href={getWhatsAppUrl()}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <motion.button
+                          type="button"
+                          onClick={() => {
+                            onClose();
+                            window.dispatchEvent(
+                              new CustomEvent('open-booking-modal', {
+                                detail: { serviceType: 'palapala' },
+                              })
+                            );
+                          }}
                           whileHover={{ scale: 1.03, boxShadow: '0 0 30px rgba(37,211,102,0.45)' }}
                           whileTap={{ scale: 0.97 }}
                           className="flex-1 w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl font-sinhala font-bold text-sm md:text-base text-white shadow-xl transition-all cursor-pointer"
@@ -785,25 +791,7 @@ export default function HoroscopeFormModal({ open, onClose, onOpenAuth }) {
                         >
                           <MessageCircle className="w-5 h-5 fill-white/20 shrink-0" />
                           <span>වැඩිදුර විස්තර සදහා අප හා සම්බන්ධවන්න</span>
-                        </motion.a>
-                      </div>
-
-                      <div className="flex items-center justify-center gap-3 text-xs text-white/50 font-sinhala flex-wrap">
-                        <span className="flex items-center gap-1.5 text-emerald-400">
-                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                          WhatsApp හරහා සියලු විස්තර සහිතව සෘජුව සම්බන්ධ විය හැක
-                        </span>
-                        <span>•</span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            onClose();
-                            window.dispatchEvent(new CustomEvent('open-booking-modal'));
-                          }}
-                          className="text-white/60 hover:text-[#FACC15] underline underline-offset-4 transition-colors cursor-pointer"
-                        >
-                          සේවා අයදුම්පත (Form) පුරවන්න
-                        </button>
+                        </motion.button>
                       </div>
                     </div>
                   </motion.div>
