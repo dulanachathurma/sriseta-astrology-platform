@@ -6,6 +6,7 @@ const NAV_LINKS = [
   { id: 'home', label: 'මුල් පිටුව' },
   { id: 'services', label: 'සේවා' },
   { id: 'weekly-horoscope', label: 'ග්‍රහ ලොව පෙර දැක්ම' },
+  { id: 'palapala', label: 'පලාපල විස්තර' },
   { id: 'developer', label: 'Developer' },
 ];
 
@@ -19,6 +20,25 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Mobile Back Button එකෙන් Mobile Navigation Menu එක Close වීමට
+  useEffect(() => {
+    if (!open) return;
+
+    window.history.pushState({ navMenu: true }, '', '#nav');
+
+    const handlePopState = () => {
+      setOpen(false);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      if (window.location.hash === '#nav') {
+        window.history.pushState('', document.title, window.location.pathname + window.location.search);
+      }
+    };
+  }, [open]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
