@@ -21,12 +21,12 @@ git push -u origin main
    - **Install Command:** `npm install`
 3. The `api/` folder is automatically deployed as Vercel Serverless
    Functions — no separate backend hosting is needed.
-4. (Optional) Add environment variables under **Project Settings → Environment
-   Variables** if you want to override defaults:
-   - `HOROSCOPE_SOURCE_URL`
-   - `HOROSCOPE_CACHE_SECONDS`
-   - `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GEMINI_API_KEY` (for the AI
-     Assistant, once you wire a provider in `api/assistant.js`)
+4. Add environment variables under **Project Settings → Environment Variables** in Vercel:
+   - `MONGODB_URI` — Your MongoDB Atlas connection string (e.g. `mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/sriseta?retryWrites=true&w=majority`) for cross-device authentication and user data storage.
+   - `JWT_SECRET` — A secure secret key (e.g. `sriseta_super_secret_jwt_key_2026`) for signing user session tokens.
+   - `GEMINI_API_KEY` — (Optional) Google Gemini API key for AI horoscope generation.
+   - `HOROSCOPE_SOURCE_URL` — https://www.divaina.lk/nakatha/84589
+   - `HOROSCOPE_CACHE_SECONDS` — 3600
 5. Click **Deploy**.
 
 Every subsequent push to `main` redeploys automatically.

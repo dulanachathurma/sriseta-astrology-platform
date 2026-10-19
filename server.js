@@ -16,6 +16,7 @@ import registerHandler from './api/auth/register.js';
 import loginHandler from './api/auth/login.js';
 import generateHandler from './api/horoscope/generate.js';
 import weeklyHoroscopeHandler from './api/weekly-horoscope.js';
+import profileHandler from './api/user/profile.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,6 +35,11 @@ app.post('/api/auth/register', wrap(registerHandler));
 
 app.options('/api/auth/login', (_, res) => res.status(200).end());
 app.post('/api/auth/login', wrap(loginHandler));
+
+// Profile routes
+app.options('/api/user/profile', (_, res) => res.status(200).end());
+app.get('/api/user/profile', wrap(profileHandler));
+app.post('/api/user/profile', wrap(profileHandler));
 
 // Horoscope routes
 app.options('/api/horoscope/generate', (_, res) => res.status(200).end());

@@ -37,6 +37,9 @@ const UserSchema = new mongoose.Schema(
         sandu: { type: Number, default: null },  // Moon
         ketu: { type: Number, default: null },   // Ketu
       },
+      selectedTopics: [{ type: String }],
+      report: { type: String, default: '' },
+      updatedAt: { type: Date, default: Date.now },
     },
   },
   {
