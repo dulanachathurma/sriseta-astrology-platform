@@ -87,7 +87,7 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
       <div className="max-w-7xl mx-auto pointer-events-auto">
         {/* Floating Capsule Navbar (SESA Style) */}
         <nav
-          className={`bg-white/95 backdrop-blur-md rounded-full px-4 sm:px-6 py-2.5 md:py-3 border border-slate-100 flex items-center justify-between transition-all duration-300 ${
+          className={`bg-white/95 backdrop-blur-md rounded-full px-4 sm:px-6 py-2 md:py-2.5 border border-slate-100 flex items-center justify-between transition-all duration-300 ${
             scrolled
               ? 'shadow-[0_12px_35px_rgba(0,0,0,0.18)]'
               : 'shadow-[0_8px_30px_rgba(0,0,0,0.12)]'
@@ -97,13 +97,13 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
               DESKTOP VIEW (md:flex)
              ========================================= */}
 
-          {/* 1. Desktop Logo & Branding (Left side) */}
+          {/* 1. Desktop Logo & Branding (Left side - Enlarged logo for better visibility) */}
           <div className="hidden md:flex items-center">
             <button
               onClick={() => handleNavClick('home')}
               className="flex items-center gap-3 group focus:outline-none"
             >
-              <div className="relative w-10 h-10 rounded-full p-[2px] overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+              <div className="relative w-12 h-12 lg:w-14 lg:h-14 rounded-full p-[2.5px] overflow-hidden flex items-center justify-center shrink-0 shadow-md">
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 4, ease: 'linear' }}
@@ -113,13 +113,13 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
                   <img src="/logo.png" alt="sriseta.lk logo" className="w-full h-full object-cover rounded-full" />
                 </div>
               </div>
-              <span className="font-extrabold text-lg lg:text-xl text-slate-900 tracking-tight transition-colors group-hover:text-amber-600">
+              <span className="font-extrabold text-xl lg:text-2xl text-slate-900 tracking-tight transition-colors group-hover:text-blue-600">
                 sriseta.lk
               </span>
             </button>
           </div>
 
-          {/* 2. Desktop Navigation Links (Center) */}
+          {/* 2. Desktop Navigation Links (Center - Blue highlight when clicked/active) */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {NAV_LINKS.map((link) => {
               const isActive = active === link.id && link.id !== 'developer';
@@ -129,15 +129,15 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
                   onClick={() => handleNavClick(link.id)}
                   className={`text-sm lg:text-[15px] font-semibold transition-colors relative py-1 tracking-wide focus:outline-none ${
                     isActive
-                      ? 'text-amber-600 font-bold'
-                      : 'text-slate-700 hover:text-slate-950'
+                      ? 'text-blue-600 font-bold'
+                      : 'text-slate-700 hover:text-blue-600'
                   }`}
                 >
                   {link.label}
                   {isActive && (
                     <motion.span
                       layoutId="nav-underline"
-                      className="absolute left-0 -bottom-1 w-full h-[2.5px] bg-amber-500 rounded-full"
+                      className="absolute left-0 -bottom-1 w-full h-[2.5px] bg-blue-600 rounded-full"
                     />
                   )}
                 </button>
@@ -188,13 +188,13 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
             </button>
           </div>
 
-          {/* 2. Mobile Logo & Branding (Center - SESA style) */}
+          {/* 2. Mobile Logo & Branding (Center - Enlarged logo for mobile) */}
           <div className="flex md:hidden items-center justify-center flex-1">
             <button
               onClick={() => handleNavClick('home')}
-              className="flex items-center gap-2 group focus:outline-none"
+              className="flex items-center gap-2.5 group focus:outline-none"
             >
-              <div className="relative w-8 h-8 rounded-full p-[1.5px] overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+              <div className="relative w-10 h-10 rounded-full p-[2px] overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 4, ease: 'linear' }}
@@ -204,7 +204,7 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
                   <img src="/logo.png" alt="sriseta.lk logo" className="w-full h-full object-cover rounded-full" />
                 </div>
               </div>
-              <span className="font-extrabold text-lg text-slate-900 tracking-tight">
+              <span className="font-extrabold text-lg sm:text-xl text-slate-900 tracking-tight">
                 sriseta.lk
               </span>
             </button>
@@ -240,8 +240,8 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
                         onClick={() => handleNavClick(link.id)}
                         className={`text-left text-base font-semibold py-2.5 px-4 rounded-xl transition-all ${
                           isActive
-                            ? 'bg-amber-50 text-amber-600 font-bold border-l-4 border-amber-500'
-                            : 'text-slate-700 hover:text-slate-950 hover:bg-slate-50'
+                            ? 'bg-blue-50 text-blue-600 font-bold border-l-4 border-blue-600'
+                            : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50'
                         }`}
                       >
                         {link.label}
