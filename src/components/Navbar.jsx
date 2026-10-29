@@ -83,11 +83,11 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-3 sm:px-6 md:px-8 pt-3 sm:pt-4 pointer-events-none transition-all duration-300">
+    <header className="fixed top-0 left-0 w-full z-50 px-3 sm:px-6 md:px-8 pt-2 sm:pt-3 pointer-events-none transition-all duration-300">
       <div className="max-w-7xl mx-auto pointer-events-auto">
-        {/* Floating Capsule Navbar (SESA Style) */}
+        {/* Floating Capsule Navbar (py-1 ලෙස vertical padding එක විතරක් අඩු කර ඇත) */}
         <nav
-          className={`bg-white/95 backdrop-blur-md rounded-full px-4 sm:px-6 py-2 md:py-2.5 border border-slate-100 flex items-center justify-between transition-all duration-300 ${
+          className={`bg-white/95 backdrop-blur-md rounded-full px-4 sm:px-6 py-1 border border-slate-100 flex items-center justify-between transition-all duration-300 ${
             scrolled
               ? 'shadow-[0_12px_35px_rgba(0,0,0,0.18)]'
               : 'shadow-[0_8px_30px_rgba(0,0,0,0.12)]'
@@ -97,7 +97,7 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
               DESKTOP VIEW (md:flex)
              ========================================= */}
 
-          {/* 1. Desktop Logo & Branding (Left side - Enlarged logo for better visibility) */}
+          {/* 1. Desktop Logo & Branding */}
           <div className="hidden md:flex items-center">
             <button
               onClick={() => handleNavClick('home')}
@@ -119,7 +119,7 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
             </button>
           </div>
 
-          {/* 2. Desktop Navigation Links (Center - Blue highlight when clicked/active) */}
+          {/* 2. Desktop Navigation Links */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {NAV_LINKS.map((link) => {
               const isActive = active === link.id && link.id !== 'developer';
@@ -145,7 +145,7 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
             })}
           </div>
 
-          {/* 3. Desktop Button Contact (Right side with animated rings) */}
+          {/* 3. Desktop Button Contact */}
           <div className="hidden md:flex items-center">
             <button
               onClick={() => handleNavClick('contact')}
@@ -174,10 +174,10 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
           </div>
 
           {/* =========================================
-              MOBILE VIEW (md:hidden - SESA Style)
+              MOBILE VIEW (md:hidden)
              ========================================= */}
 
-          {/* 1. Mobile Hamburger Button (Left side - Circular SESA style) */}
+          {/* 1. Mobile Hamburger Button */}
           <div className="flex md:hidden items-center justify-start w-10">
             <button
               onClick={() => setOpen(!open)}
@@ -188,7 +188,7 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
             </button>
           </div>
 
-          {/* 2. Mobile Logo & Branding (Center - Enlarged logo for mobile) */}
+          {/* 2. Mobile Logo & Branding */}
           <div className="flex md:hidden items-center justify-center flex-1">
             <button
               onClick={() => handleNavClick('home')}
@@ -210,11 +210,11 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
             </button>
           </div>
 
-          {/* 3. Mobile Right Spacer (Balances left hamburger button to keep center dead-center) */}
+          {/* 3. Mobile Right Spacer */}
           <div className="flex md:hidden items-center justify-end w-10" />
         </nav>
 
-        {/* Mobile Dropdown Menu Card (Smooth slide & fade) */}
+        {/* Mobile Dropdown Menu Card */}
         <AnimatePresence>
           {open && (
             <>
@@ -249,13 +249,12 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
                     );
                   })}
 
-                  {/* Mobile Contact Button (With Animated Rings Preserved) */}
+                  {/* Mobile Contact Button */}
                   <div className="pt-3 px-1">
                     <button
                       onClick={() => handleNavClick('contact')}
                       className="relative flex items-center justify-center w-full py-3 group transition-all duration-300 active:scale-95 focus:outline-none"
                     >
-                      {/* Animated Expanding Rings for Mobile Button */}
                       <motion.span
                         animate={{ scale: [1, 1.15, 1.3], opacity: [0.6, 0.3, 0] }}
                         transition={{ repeat: Infinity, duration: 2, ease: 'easeOut' }}
