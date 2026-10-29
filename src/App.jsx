@@ -61,6 +61,7 @@ export default function App() {
               <Home 
                 isBookingOpen={isBookingOpen} 
                 setIsBookingOpen={setIsBookingOpen} 
+                onOpenDeveloperModal={handleOpenDeveloperModal}
               />
             } 
           />
@@ -70,6 +71,7 @@ export default function App() {
               <Home 
                 isBookingOpen={isBookingOpen} 
                 setIsBookingOpen={setIsBookingOpen} 
+                onOpenDeveloperModal={handleOpenDeveloperModal}
               />
             } 
           />
@@ -77,24 +79,25 @@ export default function App() {
         
         <BackToTop />
 
-        {/* Developer Popup Modal */}
+        {/* Developer Popup Modal (Enlarged on Desktop) */}
         {isDevModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-hidden">
-            {/* Background එක Click කළ විට Close වීමට */}
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+            {/* Background click to close */}
             <div 
-              className="absolute inset-0" 
+              className="fixed inset-0" 
               onClick={handleCloseDeveloperModal} 
             />
 
-            {/* Modal Box Fix: max-w-md, p-5, සහ overflow-hidden මගින් පිටත scrollbar එක සම්පූර්ණයෙන්ම ඉවත් කර ඇත */}
-            <div className="relative z-10 w-full max-w-md bg-[#121216] border border-[#FACC15]/30 rounded-3xl p-5 shadow-2xl overflow-hidden">
+            {/* Modal Box: Desktop එකේදී තවත් විශාලව පෙනෙන පරිදි max-w-md md:max-w-xl lg:max-w-2xl ලෙස සකසා ඇත */}
+            <div className="relative z-10 w-full max-w-md md:max-w-xl lg:max-w-2xl bg-[#121216] border border-[#FACC15]/40 rounded-3xl p-6 sm:p-8 md:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden my-auto">
               
               {/* Close (X) Button */}
               <button 
                 onClick={handleCloseDeveloperModal}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-1.5 rounded-full bg-white/5 hover:bg-white/10 z-20"
+                className="absolute top-4 right-4 md:top-6 md:right-6 text-gray-400 hover:text-white transition-colors p-2 rounded-full bg-white/5 hover:bg-white/10 z-20"
+                aria-label="Close Developer Modal"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5 md:w-6 md:h-6" />
               </button>
 
               <DeveloperProfile />

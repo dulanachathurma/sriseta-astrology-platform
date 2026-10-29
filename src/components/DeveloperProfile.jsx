@@ -6,9 +6,9 @@ export default function DeveloperProfile() {
   return (
     <div className="w-full text-center">
       
-      {/* Profile Photo */}
-      <div className="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-3">
-        <div className="w-full h-full rounded-full p-[2px] bg-gradient-to-br from-[#FACC15] to-white/30 shadow-md">
+      {/* Profile Photo (Desktop එකේදී තවත් විශාලව පෙනෙන පරිදි w-32 h-32 md:w-36 md:h-36) */}
+      <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 mx-auto mb-4">
+        <div className="w-full h-full rounded-full p-[3px] bg-gradient-to-br from-[#FACC15] via-amber-400 to-white/40 shadow-xl">
           <img
             src={developer.photo}
             alt={developer.name}
@@ -20,34 +20,34 @@ export default function DeveloperProfile() {
         </div>
       </div>
 
-      {/* Name & Role (Text Size පොඩ්ඩක් වැඩි කළා) */}
-      <h3 className="text-2xl font-bold text-white tracking-wide">
+      {/* Name & Role */}
+      <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-wide">
         {developer.name}
       </h3>
-      <p className="text-[#FACC15] text-xs sm:text-sm font-medium my-1.5 max-w-xs mx-auto leading-tight">
+      <p className="text-[#FACC15] text-xs sm:text-sm md:text-base font-medium my-2 max-w-md mx-auto leading-relaxed">
         {developer.role}
       </p>
 
-      {/* Contact Box (Email & Phone Text Size වැඩි කර single line එකේම තැබුවා) */}
-      <div className="my-3 bg-white/5 border border-white/10 rounded-xl p-3 space-y-2 text-white/90">
+      {/* Contact Box (Email & Phone) */}
+      <div className="my-4 md:my-6 bg-white/5 border border-white/10 rounded-2xl p-3.5 sm:p-4 md:p-5 space-y-2.5 text-white/90">
         <a 
           href={`mailto:${developer.email}`} 
-          className="flex items-center justify-center gap-2 hover:text-[#FACC15] transition-colors text-xs sm:text-sm font-medium tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"
+          className="flex items-center justify-center gap-2.5 hover:text-[#FACC15] transition-colors text-xs sm:text-sm md:text-base font-medium tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"
         >
-          <Mail className="w-4 h-4 text-[#FACC15] shrink-0" /> 
+          <Mail className="w-4 h-4 md:w-5 md:h-5 text-[#FACC15] shrink-0" /> 
           <span className="truncate">{developer.email}</span>
         </a>
         <a 
           href={`tel:${developer.phone.replace(/\s+/g, '')}`} 
-          className="flex items-center justify-center gap-2 hover:text-[#FACC15] transition-colors text-xs sm:text-sm font-medium"
+          className="flex items-center justify-center gap-2.5 hover:text-[#FACC15] transition-colors text-xs sm:text-sm md:text-base font-medium"
         >
-          <Phone className="w-4 h-4 text-[#FACC15] shrink-0" /> 
+          <Phone className="w-4 h-4 md:w-5 md:h-5 text-[#FACC15] shrink-0" /> 
           <span>{developer.phone}</span>
         </a>
       </div>
 
       {/* Social Icons Grid */}
-      <div className="grid grid-cols-4 gap-2 pt-1">
+      <div className="grid grid-cols-4 gap-2.5 sm:gap-3 md:gap-4 pt-1">
         {developer.links.map(({ label, href, icon: Icon, external }) => (
           <a
             key={label}
@@ -55,11 +55,22 @@ export default function DeveloperProfile() {
             target={external ? '_blank' : undefined}
             rel={external ? 'noopener noreferrer' : undefined}
             aria-label={label}
-            className="flex items-center justify-center h-10 rounded-lg bg-white/5 border border-white/10 text-white hover:bg-[#FACC15] hover:text-black hover:border-[#FACC15] transition-all"
+            className="flex items-center justify-center h-10 sm:h-11 md:h-12 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-[#FACC15] hover:text-black hover:border-[#FACC15] transition-all hover:scale-105"
           >
-            <Icon className="w-4 h-4" />
+            <Icon className="w-4 h-4 md:w-5 md:h-5" />
           </a>
         ))}
+      </div>
+
+      {/* Developer Brand Logo Banner inside card */}
+      <div className="pt-5 md:pt-6 flex justify-center">
+        <div className="p-1 sm:p-1.5 rounded-xl bg-black/60 border border-white/15 shadow-inner">
+          <img
+            src="/images/developer_logo.jpg"
+            alt="Dulana Chathurma"
+            className="h-9 sm:h-11 md:h-12 w-auto object-contain rounded-lg"
+          />
+        </div>
       </div>
 
     </div>
