@@ -16,7 +16,7 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
   const [active, setActive] = useState('home');
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -83,101 +83,201 @@ export default function Navbar({ onOpenBookingModal, onOpenDeveloperModal }) {
   };
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 py-3 shadow-lg' : 'bg-transparent py-5'}`}>
-      <nav className="max-w-7xl mx-auto px-5 flex items-center justify-between">
-        
-        {/* Logo */}
-        <button onClick={() => handleNavClick('home')} className="flex items-center gap-2 group relative">
-          <div className="relative w-12 h-12 rounded-full p-[2px] overflow-hidden flex items-center justify-center">
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
-              className="absolute w-[180%] h-[180%] bg-[conic-gradient(from_0deg,#FACC15_0%,transparent_30%,#FACC15_50%,transparent_80%,#FACC15_100%)]"
-            />
-            <div className="relative w-full h-full rounded-full overflow-hidden bg-black p-0.5 z-10 flex items-center justify-center">
-              <img src="/logo.png" alt="Logo" className="w-full h-full object-cover rounded-full" />
-            </div>
-          </div>
-        </button>
+    <header className="fixed top-0 left-0 w-full z-50 px-3 sm:px-6 md:px-8 pt-3 sm:pt-4 pointer-events-none transition-all duration-300">
+      <div className="max-w-7xl mx-auto pointer-events-auto">
+        {/* Floating Capsule Navbar (SESA Style) */}
+        <nav
+          className={`bg-white/95 backdrop-blur-md rounded-full px-4 sm:px-6 py-2.5 md:py-3 border border-slate-100 flex items-center justify-between transition-all duration-300 ${
+            scrolled
+              ? 'shadow-[0_12px_35px_rgba(0,0,0,0.18)]'
+              : 'shadow-[0_8px_30px_rgba(0,0,0,0.12)]'
+          }`}
+        >
+          {/* =========================================
+              DESKTOP VIEW (md:flex)
+             ========================================= */}
 
-        {/* Navigation Links */}
-        <div className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <button 
-              key={link.id} 
-              onClick={() => handleNavClick(link.id)} 
-              className={`text-sm transition-all relative py-1 uppercase tracking-wider ${active === link.id && link.id !== 'developer' ? 'text-[#FACC15] font-bold' : (scrolled ? 'text-gray-200' : 'text-white/80')}`}
+          {/* 1. Desktop Logo & Branding (Left side) */}
+          <div className="hidden md:flex items-center">
+            <button
+              onClick={() => handleNavClick('home')}
+              className="flex items-center gap-3 group focus:outline-none"
             >
-              {link.label}
-              {active === link.id && link.id !== 'developer' && (
-                <motion.span layoutId="nav-underline" className="absolute left-0 -bottom-1 w-full h-[2px] bg-[#FACC15]" />
-              )}
+              <div className="relative w-10 h-10 rounded-full p-[2px] overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 4, ease: 'linear' }}
+                  className="absolute w-[180%] h-[180%] bg-[conic-gradient(from_0deg,#FACC15_0%,transparent_30%,#FACC15_50%,transparent_80%,#FACC15_100%)]"
+                />
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-black p-0.5 z-10 flex items-center justify-center">
+                  <img src="/logo.png" alt="sriseta.lk logo" className="w-full h-full object-cover rounded-full" />
+                </div>
+              </div>
+              <span className="font-extrabold text-lg lg:text-xl text-slate-900 tracking-tight transition-colors group-hover:text-amber-600">
+                sriseta.lk
+              </span>
             </button>
-          ))}
-        </div>
+          </div>
 
-        {/* Desktop Button Contact */}
-        <div className="hidden md:flex items-center">
-          <button
-            onClick={() => handleNavClick('contact')}
-            className="relative group flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
-          >
-            <motion.span animate={{ scale: [1, 1.25, 1.4], opacity: [0.6, 0.3, 0] }} transition={{ repeat: Infinity, duration: 2, ease: 'easeOut' }} className="absolute inset-0 rounded-full border-2 border-[#22c55e]" />
-            <motion.span animate={{ scale: [1, 1.2, 1.35], opacity: [0.6, 0.3, 0] }} transition={{ repeat: Infinity, duration: 2, delay: 0.6, ease: 'easeOut' }} className="absolute inset-0 rounded-full border-2 border-[#22c55e]" />
-            <motion.span animate={{ scale: [1, 1.15, 1.25], opacity: [0.6, 0.3, 0] }} transition={{ repeat: Infinity, duration: 2, delay: 1.2, ease: 'easeOut' }} className="absolute inset-0 rounded-full border-2 border-[#22c55e]" />
-
-            <span className="relative z-10 px-7 py-2.5 rounded-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold text-sm transition-colors duration-300 shadow-[0_0_15px_rgba(34,197,94,0.5)]">
-              සම්බන්ධ වන්න
-            </span>
-          </button>
-        </div>
-
-        {/* Mobile Menu Icon */}
-        <button onClick={() => setOpen(!open)} className={`md:hidden ${scrolled ? 'text-white' : 'text-[#FACC15]'}`}>
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {open && (
-          <motion.div 
-            initial={{ height: 0, opacity: 0 }} 
-            animate={{ height: 'auto', opacity: 1 }} 
-            exit={{ height: 0, opacity: 0 }} 
-            className="md:hidden bg-black/95 border-b border-white/10 backdrop-blur-xl absolute top-full left-0 w-full"
-          >
-            <div className="flex flex-col px-5 py-6 gap-5">
-              {NAV_LINKS.map((link) => (
-                <button 
-                  key={link.id} 
-                  onClick={() => handleNavClick(link.id)} 
-                  className={`text-left text-lg ${active === link.id && link.id !== 'developer' ? 'text-[#FACC15] font-bold' : 'text-gray-200'}`}
+          {/* 2. Desktop Navigation Links (Center) */}
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+            {NAV_LINKS.map((link) => {
+              const isActive = active === link.id && link.id !== 'developer';
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => handleNavClick(link.id)}
+                  className={`text-sm lg:text-[15px] font-semibold transition-colors relative py-1 tracking-wide focus:outline-none ${
+                    isActive
+                      ? 'text-amber-600 font-bold'
+                      : 'text-slate-700 hover:text-slate-950'
+                  }`}
                 >
                   {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute left-0 -bottom-1 w-full h-[2.5px] bg-amber-500 rounded-full"
+                    />
+                  )}
                 </button>
-              ))}
-              
-              {/* Mobile Contact Button (Animated Rings Added) */}
-              <div className="pt-2 px-2">
-                <button
-                  onClick={() => handleNavClick('contact')}
-                  className="relative flex items-center justify-center w-full py-3 group transition-all duration-300 active:scale-95"
-                >
-                  {/* Animated Expanding Rings for Mobile Button */}
-                  <motion.span animate={{ scale: [1, 1.15, 1.3], opacity: [0.6, 0.3, 0] }} transition={{ repeat: Infinity, duration: 2, ease: 'easeOut' }} className="absolute inset-0 rounded-full border-2 border-[#22c55e]" />
-                  <motion.span animate={{ scale: [1, 1.1, 1.2], opacity: [0.6, 0.3, 0] }} transition={{ repeat: Infinity, duration: 2, delay: 0.6, ease: 'easeOut' }} className="absolute inset-0 rounded-full border-2 border-[#22c55e]" />
+              );
+            })}
+          </div>
 
-                  <span className="relative z-10 w-full py-3 rounded-full bg-[#22c55e] text-white font-bold text-center shadow-[0_0_15px_rgba(34,197,94,0.5)]">
-                    සම්බන්ධ වන්න
-                  </span>
-                </button>
+          {/* 3. Desktop Button Contact (Right side with animated rings) */}
+          <div className="hidden md:flex items-center">
+            <button
+              onClick={() => handleNavClick('contact')}
+              className="relative group flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none"
+            >
+              <motion.span
+                animate={{ scale: [1, 1.25, 1.4], opacity: [0.6, 0.3, 0] }}
+                transition={{ repeat: Infinity, duration: 2, ease: 'easeOut' }}
+                className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
+              />
+              <motion.span
+                animate={{ scale: [1, 1.2, 1.35], opacity: [0.6, 0.3, 0] }}
+                transition={{ repeat: Infinity, duration: 2, delay: 0.6, ease: 'easeOut' }}
+                className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
+              />
+              <motion.span
+                animate={{ scale: [1, 1.15, 1.25], opacity: [0.6, 0.3, 0] }}
+                transition={{ repeat: Infinity, duration: 2, delay: 1.2, ease: 'easeOut' }}
+                className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
+              />
+
+              <span className="relative z-10 px-6 py-2 lg:px-7 lg:py-2.5 rounded-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold text-sm transition-colors duration-300 shadow-[0_0_15px_rgba(34,197,94,0.45)]">
+                සම්බන්ධ වන්න
+              </span>
+            </button>
+          </div>
+
+          {/* =========================================
+              MOBILE VIEW (md:hidden - SESA Style)
+             ========================================= */}
+
+          {/* 1. Mobile Hamburger Button (Left side - Circular SESA style) */}
+          <div className="flex md:hidden items-center justify-start w-10">
+            <button
+              onClick={() => setOpen(!open)}
+              aria-label="Toggle Navigation Menu"
+              className="w-10 h-10 rounded-full border border-gray-200/90 bg-gray-50/70 hover:bg-gray-100 flex items-center justify-center text-slate-800 transition-all duration-200 active:scale-90 shadow-sm focus:outline-none"
+            >
+              {open ? <X className="w-5 h-5 text-slate-900" /> : <Menu className="w-5 h-5 text-slate-900" />}
+            </button>
+          </div>
+
+          {/* 2. Mobile Logo & Branding (Center - SESA style) */}
+          <div className="flex md:hidden items-center justify-center flex-1">
+            <button
+              onClick={() => handleNavClick('home')}
+              className="flex items-center gap-2 group focus:outline-none"
+            >
+              <div className="relative w-8 h-8 rounded-full p-[1.5px] overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 4, ease: 'linear' }}
+                  className="absolute w-[180%] h-[180%] bg-[conic-gradient(from_0deg,#FACC15_0%,transparent_30%,#FACC15_50%,transparent_80%,#FACC15_100%)]"
+                />
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-black p-0.5 z-10 flex items-center justify-center">
+                  <img src="/logo.png" alt="sriseta.lk logo" className="w-full h-full object-cover rounded-full" />
+                </div>
               </div>
+              <span className="font-extrabold text-lg text-slate-900 tracking-tight">
+                sriseta.lk
+              </span>
+            </button>
+          </div>
 
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {/* 3. Mobile Right Spacer (Balances left hamburger button to keep center dead-center) */}
+          <div className="flex md:hidden items-center justify-end w-10" />
+        </nav>
+
+        {/* Mobile Dropdown Menu Card (Smooth slide & fade) */}
+        <AnimatePresence>
+          {open && (
+            <>
+              {/* Tap-outside Backdrop */}
+              <div
+                className="fixed inset-0 z-[-1] bg-black/30 backdrop-blur-[2px] md:hidden"
+                onClick={() => setOpen(false)}
+              />
+
+              <motion.div
+                initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                className="md:hidden mt-2 bg-white/95 backdrop-blur-xl rounded-3xl border border-gray-100 shadow-[0_15px_35px_rgba(0,0,0,0.18)] overflow-hidden pointer-events-auto"
+              >
+                <div className="flex flex-col p-5 gap-2.5">
+                  {NAV_LINKS.map((link) => {
+                    const isActive = active === link.id && link.id !== 'developer';
+                    return (
+                      <button
+                        key={link.id}
+                        onClick={() => handleNavClick(link.id)}
+                        className={`text-left text-base font-semibold py-2.5 px-4 rounded-xl transition-all ${
+                          isActive
+                            ? 'bg-amber-50 text-amber-600 font-bold border-l-4 border-amber-500'
+                            : 'text-slate-700 hover:text-slate-950 hover:bg-slate-50'
+                        }`}
+                      >
+                        {link.label}
+                      </button>
+                    );
+                  })}
+
+                  {/* Mobile Contact Button (With Animated Rings Preserved) */}
+                  <div className="pt-3 px-1">
+                    <button
+                      onClick={() => handleNavClick('contact')}
+                      className="relative flex items-center justify-center w-full py-3 group transition-all duration-300 active:scale-95 focus:outline-none"
+                    >
+                      {/* Animated Expanding Rings for Mobile Button */}
+                      <motion.span
+                        animate={{ scale: [1, 1.15, 1.3], opacity: [0.6, 0.3, 0] }}
+                        transition={{ repeat: Infinity, duration: 2, ease: 'easeOut' }}
+                        className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
+                      />
+                      <motion.span
+                        animate={{ scale: [1, 1.1, 1.2], opacity: [0.6, 0.3, 0] }}
+                        transition={{ repeat: Infinity, duration: 2, delay: 0.6, ease: 'easeOut' }}
+                        className="absolute inset-0 rounded-full border-2 border-[#22c55e]"
+                      />
+
+                      <span className="relative z-10 w-full py-3 rounded-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold text-center text-sm shadow-[0_0_15px_rgba(34,197,94,0.45)]">
+                        සම්බන්ධ වන්න
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </div>
     </header>
   );
 }
