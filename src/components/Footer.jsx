@@ -2,7 +2,15 @@ import { motion } from 'framer-motion';
 import { Clock, CalendarCheck, Facebook, ExternalLink } from 'lucide-react';
 import { SITE } from '../utils/constants';
 
-export default function Footer() {
+export default function Footer({ onOpenDeveloperModal }) {
+  const handleDeveloperClick = () => {
+    if (onOpenDeveloperModal) {
+      onOpenDeveloperModal();
+    } else {
+      window.location.hash = '#developer';
+    }
+  };
+
   return (
     <footer id="contact" className="px-5 pt-20 pb-10">
       <motion.div
@@ -56,9 +64,37 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="mt-10 pt-8 border-t border-white/10 text-white/60 text-sm font-sinhala space-y-1">
+        {/* Footer Bottom / Developer Attribution */}
+        <div className="mt-10 pt-8 border-t border-white/10 text-white/60 text-sm font-sinhala space-y-4">
           <p>{SITE.copyright}</p>
-          <p className="text-[#FACC15]/70">Developed by Dulana Chathurma</p>
+
+          {/* Professional Developer Branding with Logo */}
+          <div className="flex flex-col items-center justify-center gap-2 pt-2">
+            <button
+              onClick={handleDeveloperClick}
+              className="group inline-flex items-center gap-2 text-sm sm:text-base font-sans font-medium transition-all focus:outline-none"
+            >
+              <span className="text-white/60 text-xs sm:text-sm tracking-widest uppercase">
+                Developed by
+              </span>
+              <span className="font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-200 group-hover:from-white group-hover:to-white transition-all duration-300">
+                Dulana Chathurma
+              </span>
+            </button>
+
+            {/* Developer Logo Banner */}
+            <button
+              onClick={handleDeveloperClick}
+              aria-label="Dulana Chathurma Developer Profile"
+              className="relative group inline-block rounded-xl overflow-hidden border border-white/20 bg-black/80 p-1 sm:p-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.6)] transition-all duration-300 hover:scale-105 hover:border-amber-400/80 hover:shadow-[0_0_25px_rgba(250,204,21,0.35)] focus:outline-none"
+            >
+              <img
+                src="/images/developer_logo.jpg"
+                alt="Dulana Chathurma"
+                className="h-10 sm:h-12 md:h-14 w-auto object-contain rounded-lg"
+              />
+            </button>
+          </div>
         </div>
       </motion.div>
     </footer>

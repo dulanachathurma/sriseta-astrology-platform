@@ -8,7 +8,7 @@ import WeeklyHoroscope from '../components/WeeklyHoroscope';
 import Footer from '../components/Footer';
 import ServiceForm from '../components/ServiceForm';
 
-export default function Home({ isBookingOpen, setIsBookingOpen }) {
+export default function Home({ isBookingOpen, setIsBookingOpen, onOpenDeveloperModal }) {
   const [bookingServiceType, setBookingServiceType] = useState('palapala');
   
   // Browser හෝ Mobile Back Button එක ක්ලික් කළ විට Modal එක පමණක් Close වීමට
@@ -65,7 +65,7 @@ export default function Home({ isBookingOpen, setIsBookingOpen }) {
       
       {/* <DeveloperProfile /> කොටස සාමාන්‍ය Flow එකෙන් අයින් කරන ලදී */}
       
-      <Footer />
+      <Footer onOpenDeveloperModal={onOpenDeveloperModal} />
 
       {/* Service Form Popup Modal */}
       <AnimatePresence>
